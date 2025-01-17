@@ -25,6 +25,10 @@ public class OpenTag extends HtmlTagValue {
 
     @Override
     public String toString(){
-        return "tagName: " + tagName + " attributes: " + attributes.toString();
+        return "\n OpenTag{" +
+                "\n tagName: " + this.tagName + "," +
+                "\n attributes: " + this.attributes.toString() +
+                "\n }"
+                ;
     }
 }

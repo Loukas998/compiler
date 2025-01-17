@@ -15,6 +15,10 @@ public class NgFor extends Attribute{
 
     @Override
     public String toString(){
-        return "single: " + singular + " plural: " + plural;
+        return "\n NgFor{" +
+                "\n variableName: " + this.singular + "," +
+                "\n loopedList: " + this.plural +
+                "\n }"
+                ;
     }
 }

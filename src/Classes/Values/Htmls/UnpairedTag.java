@@ -25,6 +25,9 @@ public class UnpairedTag extends HtmlTagValue {
 
     @Override
     public String toString(){
-        return "tagName: " + tagName + " attributes: " + attributes.toString();
+        return "\n UnpairedTag {" +
+                "\n tagName: " + this.tagName + "," +
+                "\n attributes: " + this.attributes.toString() +
+                "\n }";
     }
 }

@@ -23,7 +23,7 @@ public class Class extends Expression{
         if(genericStatements != null){
             return "\n Class {"+
                     "\n GenericStatementList" + genericStatements.toString() +
-                    "\n }";
+                    "\n}";
         }
         return "";
     }

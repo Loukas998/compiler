@@ -18,7 +18,7 @@ public class VariableDecl extends VariableAssignment{
     public String toString(){
         return "\n VariableDecl {" +
                 "\n varName: " + this.variableNaming.toString() +
-                "\n, varValue: " + this.value.toString() +
+                "\n , varValue: " + this.value.toString() +
                 "\n }";
     }
 }

@@ -10,6 +10,6 @@ public class CloseTag extends HtmlTagValue {
     }
     @Override
     public String toString(){
-        return tagName;
+        return "CloseTag: " + tagName;
     }
 }

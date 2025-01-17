@@ -21,7 +21,7 @@ public class InterfaceDecl extends Expression {
     public String toString(){
         return "\n InterfaceDeclaration {" +
                 "\n InterfaceName: " + this.name +
-                "\n InterfaceVariables: " + this.variableNamingList.toString() +
-                "\n }";
+                "\n , InterfaceVariables: " + this.variableNamingList.toString() +
+                "\n}";
     }
 }

@@ -16,6 +16,22 @@ public class NgIf extends Attribute{
 
     @Override
     public String toString(){
-        return this.conditionalVariable;
+        if(this.conditionalVariable != null && this.logicalStatement == null){
+            return "\n NgIf{" +
+                   "\n ConditionalVariable: " + this.conditionalVariable +
+                   "\n }";
+        }
+        else if(this.logicalStatement != null && this.conditionalVariable == null){
+            return "\n NgIf{" +
+                    "\n LogicalStatement: " + this.logicalStatement.toString() +
+                    "\n }";
+        }
+        else if(this.logicalStatement != null && this.conditionalVariable != null){
+            return "\n NgIf{" +
+                    "\n LogicalStatement: " + this.logicalStatement.toString() + "," +
+                    "\n ConditionalVariable: " + this.conditionalVariable +
+                    "\n }";
+        }
+        return " ";
     }
 }

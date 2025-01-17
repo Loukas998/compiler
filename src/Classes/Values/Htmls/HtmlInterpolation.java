@@ -17,6 +17,8 @@ public class HtmlInterpolation extends HtmlTagValue{
 
     @Override
     public String toString(){
-        return valueTypes.toString();
+        return "\n HtmlInterpolations {"+
+                "\n interpolationValues: " + this.valueTypes.toString() +
+                "\n }";
     }
 }

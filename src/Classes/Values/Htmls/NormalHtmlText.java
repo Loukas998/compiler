@@ -9,6 +9,8 @@ public class NormalHtmlText extends HtmlTagValue {
 
     @Override
     public String toString(){
-        return htmlNormalText;
+        return "\n NormalHtmlText {"+
+                "\n text: " + this.htmlNormalText +
+                "\n }";
     }
 }

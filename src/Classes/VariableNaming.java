@@ -14,13 +14,13 @@ public class VariableNaming {
     @Override
     public String toString() {
         if(this.type!=null){
-            return "\n VariableNaming {" +
+            return " VariableNaming {" +
                     "\n VariableName: " + this.name +
-                    "\n, VariableType: " + this.type.toString() +
-                    "\n }";
+                    "\n , VariableType: " + this.type.toString() +
+                    "\n}";
         }
         return "\n VariableNaming {" +
                 "\n VariableName: " + this.name +
-                "\n }";
+                "\n}";
     }
 }

@@ -18,6 +18,6 @@ public class ComponentDeclaration extends Expression {
     public String toString(){
         return "\n ComponentInfo {"
               +"\n ComponentInfoList: " + componentInfoList.toString()
-              + "\n }";
+              + "\n}";
     }
 }

@@ -17,12 +17,12 @@ public class Return extends GenericStatement{
         if(this.id == null){
             return "\n Return {" +
                     "\n valueReturned: " + this.valueType +
-                    "\n }";
+                    "\n}";
         }
 
         return "\n Return {" +
                 "\n thisOrId: " + this.id +
-                "\n valueReturned: " + this.valueType +
-                "\n }";
+                "\n , valueReturned: " + this.valueType +
+                "\n}";
     }
 }

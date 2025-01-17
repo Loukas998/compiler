@@ -23,6 +23,10 @@ public class PairedTag extends HtmlTagValue{
 
     @Override
     public String toString(){
-        return "open: " + openTag.toString() + " tagBody: " + htmlTags.toString() + " close: " + closeTag.toString();
+        return "\n PairedTag {"+
+                "\n openTag: " + this.openTag.toString() + ","+
+                "\n innerTags: " + this.htmlTags.toString() + ","+
+                "\n closeTag: " + this.closeTag.toString() +
+                "\n }";
     }
 }

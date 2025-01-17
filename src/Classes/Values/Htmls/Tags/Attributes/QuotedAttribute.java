@@ -12,6 +12,9 @@ public class QuotedAttribute extends Attribute{
 
     @Override
     public String toString(){
-        return "attributeName: " + attributeName + " attributeValue: " + attributeValue;
+        return "\n QuotedAttribute{" +
+                "\n attributeName: " + this.attributeName + "," +
+                "\n attributeValue: " + this.attributeValue +
+                "\n }";
     }
 }

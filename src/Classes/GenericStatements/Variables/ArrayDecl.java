@@ -25,7 +25,7 @@ public class ArrayDecl extends VariableAssignment{
     public String toString(){
         return "\n ArrayDecl {" +
                 "\n arrayName: " + this.variableNaming.toString() +
-                "\n, arrayValues: " + this.arrayInfoValues.toString() +
+                "\n , arrayValues: " + this.arrayInfoValues.toString() +
                 "\n }";
     }
 }

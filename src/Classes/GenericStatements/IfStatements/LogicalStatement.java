@@ -17,6 +17,9 @@ public class LogicalStatement {
 
     @Override
     public String toString(){
-        return "left: " + leftValue.toString() + " operator: " + logicalOp.toString() + " right: " + rightValue.toString();
+        return "leftValue: " + this.leftValue.toString() +
+                "\n logicalOp: " + this.logicalOp.toString() +
+                "\n rightValue: " + this.rightValue.toString() +
+                "\n }";
     }
 }
