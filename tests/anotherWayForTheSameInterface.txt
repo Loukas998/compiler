@@ -1,0 +1,40 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
+
+@Component({
+selector: 'app-root',
+ standalone: true,
+  templateUrl: './app.component.html',
+ imports: [CommonModule,NgIf,NgFor]
+})
+export class AppComponent {
+ selectedProduct: any = null;
+ images = [
+  { name: 'Product 1', src: 'assets/Image/1.jpg', details: 'Details of Product 1.' },
+   ];
+ selectProduct(product: any) {
+ return product;
+ }
+}
+//html
+ <div style="display: flex;">
+
+ <div style="margin-right: 20px;">
+
+<div *ngFor=let image of images (click)="selectProduct(image)" style="cursor: pointer; margin-bottom: 10px;">
+<p>{{ image.name }}</p>
+ <img [src]="image.src" [alt]="image.name" style="width: 100px; display: block;"/>
+ </div>
+ </div>
+
+
+ <div *ngIf=selectedProduct>
+ <h2>{{ selectedProduct.name }}</h2>
+ <img [src]="selectedProduct.src" [alt]="selectedProduct.name" style="width: 200px; display: block; margin-bottom: 10px;">
+ <p>{{ selectedProduct.details }}</p>
+ </div>
+ </div>
+</div>
+
