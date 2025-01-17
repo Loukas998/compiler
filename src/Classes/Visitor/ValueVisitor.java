@@ -171,7 +171,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     @Override
     public FunctionSummoning visitFunctionCall(AngularParser.FunctionCallContext ctx) {
         FunctionSummoning funCall=new FunctionSummoning();
-
+        funCall.functionName = ctx.ID().getText();
         for(int i=0;i<ctx.value().size();i++){
             funCall.addArgument(this.visitValue(ctx.value(i)));
         }

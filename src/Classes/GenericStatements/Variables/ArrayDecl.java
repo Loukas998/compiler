@@ -23,6 +23,9 @@ public class ArrayDecl extends VariableAssignment{
     }
     @Override
     public String toString(){
-        return "array: " + variableNaming.toString() + "values: " + arrayInfoValues.toString();
+        return "\n ArrayDecl {" +
+                "\n arrayName: " + this.variableNaming.toString() +
+                "\n, arrayValues: " + this.arrayInfoValues.toString() +
+                "\n }";
     }
 }

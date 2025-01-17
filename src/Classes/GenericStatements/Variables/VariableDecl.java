@@ -16,6 +16,9 @@ public class VariableDecl extends VariableAssignment{
 
     @Override
     public String toString(){
-        return "Variable: " + variableNaming.name + ", Value: " + value.toString();
+        return "\n VariableDecl {" +
+                "\n varName: " + this.variableNaming.toString() +
+                "\n, varValue: " + this.value.toString() +
+                "\n }";
     }
 }

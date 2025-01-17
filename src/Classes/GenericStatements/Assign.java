@@ -8,7 +8,7 @@ public class Assign extends GenericStatement{
     public ValueType valueType;
     public Assign(){}
 
-    public Assign(String firstId,String secondId, ValueType valueType) {
+    public Assign(String firstId, String secondId, ValueType valueType) {
         this.firstId=firstId;
         this.secondId = secondId;
         this.valueType = valueType;
@@ -16,6 +16,17 @@ public class Assign extends GenericStatement{
 
     @Override
     public String toString(){
-        return "id: " + secondId + " value: " + valueType.toString();
+        if(firstId != null){
+            return "\n Assign {" +
+                    "\n, thisOrId: " + this.firstId +
+                    "\n, variableName: " + this.secondId +
+                    "\n, newValue: " + this.valueType.toString() +
+                    "\n }";
+        }
+
+        return "\n Assign {" +
+                "\n variableName: " + this.secondId +
+                "\n, newValue: " + this.valueType.toString() +
+                "\n }";
     }
 }

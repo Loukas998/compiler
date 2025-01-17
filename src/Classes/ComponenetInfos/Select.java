@@ -11,6 +11,8 @@ public String name;
         this.name = name;
     }
     public String toString(){
-        return this.name;
+        return "\n Select {" +
+                "\n selector: " + this.name +
+                "\n }";
     }
 }

@@ -19,6 +19,8 @@ public class Styles extends ComponentInfo {
 
     @Override
     public String toString() {
-        return this.paths.toString();
+        return "\n Styles {" +
+                "\n cssPaths: " + this.paths.toString() +
+                "\n }";
     }
 }

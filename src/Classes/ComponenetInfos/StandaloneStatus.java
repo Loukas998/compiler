@@ -13,6 +13,8 @@ public class StandaloneStatus extends ComponentInfo {
 
     @Override
     public String toString() {
-        return status;
+        return "\n StandaloneStatus {" +
+                "\n status: " + this.status +
+                "\n }";
     }
 }

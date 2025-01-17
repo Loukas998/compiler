@@ -11,6 +11,8 @@ public class TempUrl extends ComponentInfo {
         this.path = path;
     }
     public String toString(){
-        return this.path;
+        return "\n TempUrl {" +
+                "\n htmlPath: " + this.path +
+                "\n }";
     }
 }

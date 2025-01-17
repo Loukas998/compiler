@@ -18,6 +18,8 @@ public class Importss extends ComponentInfo {
     }
     @Override
     public String toString() {
-        return this.imported.toString();
+        return "\n Importss {" +
+                "\n imported: " + this.imported.toString() +
+                "\n }";
     }
 }

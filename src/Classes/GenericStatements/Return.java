@@ -14,6 +14,15 @@ public class Return extends GenericStatement{
 
     @Override
     public String toString(){
-        return "id: " + id + " value: " + valueType.toString();
+        if(this.id == null){
+            return "\n Return {" +
+                    "\n valueReturned: " + this.valueType +
+                    "\n }";
+        }
+
+        return "\n Return {" +
+                "\n thisOrId: " + this.id +
+                "\n valueReturned: " + this.valueType +
+                "\n }";
     }
 }

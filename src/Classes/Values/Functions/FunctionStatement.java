@@ -28,6 +28,10 @@ public class FunctionStatement extends FunctionValue {
 
     @Override
     public String toString(){
-        return "function attributes: " + variableNamings.toString() + ", body: " + genericStatements.toString();
+        return "\n FunctionStatement {" +
+                "\n arguments: " + this.variableNamings.toString() +
+                "\n, genericStatements: " + this.genericStatements.toString() +
+                "\n }";
+
     }
 }
