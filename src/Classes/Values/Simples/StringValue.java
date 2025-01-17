@@ -10,6 +10,6 @@ public class StringValue extends ValueType {
     }
     @Override
     public String toString(){
-        return this.stringValue;
+        return "StringValue: " + stringValue;
     }
 }

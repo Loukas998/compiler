@@ -8,4 +8,5 @@ public class InterfaceBody {
     public InterfaceBody(){
         this.variableNames=new ArrayList<>();
     }
+
 }

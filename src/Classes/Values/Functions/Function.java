@@ -11,6 +11,9 @@ public class Function extends FunctionValue {
 
     @Override
     public String toString(){
-        return "functionName: " + functionName + " functionBody: " + functionStatement.toString();
+        return "\n Function {" +
+                "\n functionName: " + this.functionName +
+                "\n functionStatement: " + this.functionStatement+
+                "\n }";
     }
 }

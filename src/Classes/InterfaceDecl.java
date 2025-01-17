@@ -19,6 +19,9 @@ public class InterfaceDecl extends Expression {
     }
     @Override
     public String toString(){
-        return this.name + " " + this.variableNamingList.toString();
+        return "\n InterfaceDeclaration {" +
+                "\n InterfaceName: " + this.name +
+                "\n InterfaceVariables: " + this.variableNamingList.toString() +
+                "\n }";
     }
 }

@@ -20,6 +20,11 @@ public class Class extends Expression{
 
     @Override
     public String toString(){
-        return genericStatements.toString();
+        if(genericStatements != null){
+            return "\n Class {"+
+                    "\n GenericStatementList" + genericStatements.toString() +
+                    "\n }";
+        }
+        return "";
     }
 }

@@ -16,6 +16,8 @@ public class JsonObjectValue extends ValueType{
     }
     @Override
     public String toString(){
-        return jsons.toString();
+        return "\n JsonObjectValue{" +
+                "\n " + jsons.toString() +
+                "\n }";
     }
 }

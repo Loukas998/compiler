@@ -17,6 +17,8 @@ public class ArrayInfoValue extends ValueType{
 
     @Override
     public String toString(){
-        return arrayValues.toString();
+        return "\n ArrayInfoValue {" +
+                "\n arrayValues: " + arrayValues.toString() +
+                "\n }";
     }
 }

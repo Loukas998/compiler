@@ -10,9 +10,6 @@ public class VarType {
     }
     @Override
     public String toString(){
-        if(this.type!=null){
-            return this.type;
-        }
-        return " ";
+        return this.type;
     }
 }

@@ -12,6 +12,6 @@ public class DecimalNumberValue extends ValueType {
 
     @Override
     public String toString(){
-        return Double.toString(this.decimalNumberValue);
+        return "NumberValue: " + this.decimalNumberValue;
     }
 }

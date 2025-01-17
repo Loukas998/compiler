@@ -8,4 +8,8 @@ public class NullValue extends ValueType {
     public NullValue() {
         
     }
+    @Override
+    public String toString(){
+        return isNull;
+    }
 }

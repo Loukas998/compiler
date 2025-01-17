@@ -10,6 +10,9 @@ public class Import extends Expression{
     }
     @Override
     public String toString(){
-        return this.type;
+        if(this.type.equals("NgIf")) return "NgIfImport: " + this.type;
+        else if(this.type.equals("NgFor")) return "NgForImport: " + this.type;
+        else if(this.type.equals("Component")) return "ComponentImport: " + this.type;
+        return "IDImport: " + this.type;
     }
 }

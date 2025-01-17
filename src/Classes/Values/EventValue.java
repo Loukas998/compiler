@@ -10,6 +10,8 @@ public class EventValue extends ValueType{
 
     @Override
     public String toString(){
-        return "event: " + event.toString();
+        return "\n EventValue{ " +
+                "\n event: "+ event.toString() +
+                "\n }";
     }
 }

@@ -16,6 +16,8 @@ public class ComponentDeclaration extends Expression {
     }
     @Override
     public String toString(){
-        return " Info " + componentInfoList.toString() ;
+        return "\n ComponentInfo {"
+              +"\n ComponentInfoList: " + componentInfoList.toString()
+              + "\n }";
     }
 }
