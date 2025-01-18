@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.SymbolTable.SymbolTable;
 import Classes.Values.ArrayInfoValue;
 import Classes.Values.Dots.NullableDotValue;
 import Classes.Values.Dots.ValueDotValue;
@@ -18,6 +19,7 @@ import Classes.Values.ValueType;
 
 public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 {
+    public SymbolTable symbolTable = new SymbolTable();
     public ValueType visitValue(AngularParser.ValueContext ctx){
        if(ctx instanceof AngularParser.StringValueContext){
 

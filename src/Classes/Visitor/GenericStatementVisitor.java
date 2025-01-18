@@ -6,10 +6,13 @@ import Classes.GenericStatements.Assign;
 import Classes.GenericStatements.GenericStatement;
 import Classes.GenericStatements.Variables.ArrayDecl;
 import Classes.GenericStatements.Variables.VariableDecl;
+import Classes.SymbolTable.SymbolTable;
 import Classes.Values.ArrayInfoValue;
 import Classes.Values.ValueType;
 
 public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericStatement> {
+
+    public SymbolTable symbolTable = new SymbolTable();
 
     public GenericStatement visitGenericStatement(AngularParser.GenericStatementContext ctx){
         if(ctx instanceof AngularParser.VariableDeclContext){
@@ -47,10 +50,12 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
 
     @Override
     public VariableDecl visitVariableDeclaration(AngularParser.VariableDeclarationContext ctx) {
-        VariableDecl variableDecl=new VariableDecl();
+        VariableDecl variableDecl = new VariableDecl();
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
+        variableNamingVisitor.symbolTable = this.symbolTable;
         ValueVisitor valueVisitor=new ValueVisitor();
         variableDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
+        this.symbolTable = variableNamingVisitor.symbolTable;
         if(ctx.value()!=null){
             variableDecl.value=valueVisitor.visit(ctx.value());
         }
@@ -60,12 +65,17 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     @Override
     public ArrayDecl visitArrayDeclaration(AngularParser.ArrayDeclarationContext ctx) {
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
-        ArrayDecl arrayDecl=new ArrayDecl();
-        ArrayInfoVisitor arrayInfoVisitor=new ArrayInfoVisitor();
-        arrayDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
+        variableNamingVisitor.symbolTable = this.symbolTable;
+        ArrayDecl arrayDecl = new ArrayDecl();
+        ArrayInfoVisitor arrayInfoVisitor = new ArrayInfoVisitor();
+        arrayInfoVisitor.symbolTable = this.symbolTable;
+        arrayDecl.variableNaming = variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
+        this.symbolTable = variableNamingVisitor.symbolTable;
         for(int i=0;i<ctx.arrayInfo().size();i++){
             arrayDecl.addArrayInfo(arrayInfoVisitor.visitArrayInfo(ctx.arrayInfo(i)));
+            this.symbolTable = arrayInfoVisitor.symbolTable;
         }
+
         return arrayDecl;
     }
 

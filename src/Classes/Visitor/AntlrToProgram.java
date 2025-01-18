@@ -3,9 +3,15 @@ package Classes.Visitor;
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.Program;
+import Classes.SymbolTable.SymbolTable;
 
 
 public class AntlrToProgram extends AngularParserBaseVisitor<Program> {
+
+    public SymbolTable symbolTable = new SymbolTable();
+    public void setSymbolTable(SymbolTable symbolTable){
+        this.symbolTable = symbolTable;
+    }
 
     @Override
     public Program visitProgram(AngularParser.ProgramContext ctx) {
@@ -18,6 +24,7 @@ public class AntlrToProgram extends AngularParserBaseVisitor<Program> {
                 program.addExpression(exprVisitor.visitExpression(ctx.expression(i)));
             }
         }
+        this.symbolTable = exprVisitor.symbolTable;
         return program;
     }
 }

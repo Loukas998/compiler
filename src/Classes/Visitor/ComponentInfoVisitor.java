@@ -4,9 +4,12 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.ComponenetInfos.*;
 import Classes.ComponentInfo;
+import Classes.SymbolTable.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo> {
+
+    public SymbolTable symbolTable = new SymbolTable();
 
     public ComponentInfo visitComponentInfo(AngularParser.ComponentInfoContext ctx){
         if(ctx instanceof AngularParser.SelectContext){

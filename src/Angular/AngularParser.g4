@@ -68,7 +68,7 @@ genericStatement:
                 ;
 classStructure: Export Class ID (OpenBrace|OpenBraceHTML) (genericStatement (SemiColon)?)* (CloseBrace|CloseBraceHTML);
 
-variableDeclaration: variableNaming (Assign value (BitOr NullLiteral (Assign NullLiteral)?))? (SemiColon)?;
+variableDeclaration: variableNaming (Assign value (BitOr NullLiteral (Assign NullLiteral)?)?)? (SemiColon)?;
 
 arrayDeclaration: variableNaming (OpenBracket CloseBracket)? (Assign arrayInfo*)?(SemiColon)?;
 arrayInfo: OpenBracket value (Comma value)* (Comma)? CloseBracket;
