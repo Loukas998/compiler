@@ -11,8 +11,9 @@ selector: 'app-root',
 })
 export class AppComponent {
  selectedProduct: any = null;
- images = [
+ Product List= [
   { name: 'Product 1', src: 'assets/Image/1.jpg', details: 'Details of Product 1.' },
+  { name: 'Product 2', src: 'assets/Image/2.jpg', details: 'Details of Product 2.' },
    ];
  selectProduct(product: any) {
  return product;
