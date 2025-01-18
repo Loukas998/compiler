@@ -25,10 +25,10 @@ public class Main {
             AntlrToProgram progVisitor = new AntlrToProgram();
             Program prog = progVisitor.visit(antlrAST);
             ExpressionProcessor ep = new ExpressionProcessor(prog.expressionList);
-//            for(String evaluation : ep.getEvaluationResults()){
-//                System.out.println(evaluation);
-//            } // for printing AST
-           //progVisitor.symbolTable.printTable(); //For printing symbol table
+            for(String evaluation : ep.getEvaluationResults()){
+                System.out.println(evaluation);
+            } // for printing AST
+           progVisitor.symbolTable.printTable(); //For printing symbol table
         }
     }
 

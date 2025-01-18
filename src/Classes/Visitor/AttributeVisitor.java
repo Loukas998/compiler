@@ -3,6 +3,8 @@ package Classes.Visitor;
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.GenericStatements.IfStatements.LogicalStatement;
+import Classes.SymbolTable.Row;
+import Classes.SymbolTable.SymbolTable;
 import Classes.Values.Htmls.Tags.Attributes.Attribute;
 import Classes.Values.Htmls.Tags.Attributes.NgFor;
 import Classes.Values.Htmls.Tags.Attributes.NgIf;
@@ -10,6 +12,7 @@ import Classes.Values.Htmls.Tags.Attributes.QuotedAttribute;
 
 public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
 
+    public SymbolTable symbolTable = new SymbolTable();
     public Attribute visitAttribute(AngularParser.AttributeContext ctx){
         if(ctx instanceof AngularParser.NgForContext){
             return this.visitNgFor((AngularParser.NgForContext) ctx);
@@ -25,6 +28,10 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
 
     @Override
     public NgFor visitNgFor(AngularParser.NgForContext ctx) {
+        Row row = new Row();
+        row.type = "AngularAttribute";
+        row.value = "NgFor";
+        this.symbolTable.addRow(row);
         return this.visitNgForStatement(ctx.ngForStatement());
     }
 
@@ -49,6 +56,10 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
             quotedAttribute.attributeName = ctx.Class().getText();
         }
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        Row row = new Row();
+        row.type = "AttributeType: " + quotedAttribute.attributeName;
+        row.value = quotedAttribute.attributeValue;
+        this.symbolTable.addRow(row);
         return quotedAttribute;
     }
 
@@ -61,11 +72,19 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
             quotedAttribute.attributeName = ctx.Class().getText();
         }
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        Row row = new Row();
+        row.type = "Event: " + quotedAttribute.attributeName;
+        row.value = quotedAttribute.attributeValue;
+        this.symbolTable.addRow(row);
         return quotedAttribute;
     }
 
     @Override
     public NgIf visitNgIf(AngularParser.NgIfContext ctx) {
+        Row row = new Row();
+        row.type = "AngularAttribute";
+        row.value = "NgIf";
+        this.symbolTable.addRow(row);
         return this.visitNgIfStatement(ctx.ngIfStatement());
     }
 

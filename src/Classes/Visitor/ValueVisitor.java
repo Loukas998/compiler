@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.SymbolTable.Row;
 import Classes.SymbolTable.SymbolTable;
 import Classes.Values.ArrayInfoValue;
 import Classes.Values.Dots.NullableDotValue;
@@ -174,9 +175,13 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public FunctionSummoning visitFunctionCall(AngularParser.FunctionCallContext ctx) {
         FunctionSummoning funCall=new FunctionSummoning();
         funCall.functionName = ctx.ID().getText();
+        Row row = new Row();
+        row.type = "FunctionCall";
         for(int i=0;i<ctx.value().size();i++){
             funCall.addArgument(this.visitValue(ctx.value(i)));
         }
+        row.value = funCall.functionName;
+        this.symbolTable.addRow(row);
         return funCall;
     }
 
@@ -231,6 +236,9 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     @Override
     public ValueType visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
         HtmlVisitor htmlVisitor=new HtmlVisitor();
-        return htmlVisitor.visitHtmlTags(ctx.htmlTags());
+        htmlVisitor.symbolTable = this.symbolTable;
+        ValueType htmlValueType = htmlVisitor.visitHtmlTags(ctx.htmlTags());
+        this.symbolTable = htmlVisitor.symbolTable;
+        return htmlValueType;
     }
 }
