@@ -134,3 +134,10 @@ interpolation: (OpenBrace|OpenBraceHTML)(OpenBrace|OpenBraceHTML) (value)* (Clos
 openTag: (LessThan |OpenTag) ID (attribute)* (MoreThan|CloseTag);
 closeTag: (LessThan |OpenTag) Divide ID (MoreThan|CloseTag);
 selfClosingTag:(LessThan |OpenTag) ID (attribute)* Divide (MoreThan|CloseTag);
+
+// fix html tags rules from lexer
+// ability to write html in the template url
+// fix symbol table (hash map)
+
+
+// css: flex box

@@ -9,17 +9,18 @@ import Classes.GenericStatements.GenericStatement;
 import Classes.Import;
 import Classes.InterfaceDecl;
 import Classes.SymbolTable.Row;
+import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.SymbolTable;
 import Classes.Visitor.ComponentInfoVisitor;
 import Classes.Visitor.GenericStatementVisitor;
 import Classes.Visitor.VariableNamingVisitor;
 
-public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
+import java.util.Stack;
 
+public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
+    public Scope scope;
+    public Stack<Scope> currentScope;
     public SymbolTable symbolTable = new SymbolTable();
-    public void setSymbolTable(SymbolTable symbolTable){
-        this.symbolTable = symbolTable;
-    }
 
     public Expression visitExpression(AngularParser.ExpressionContext ctx){
         if(ctx instanceof AngularParser.ImportContext){
