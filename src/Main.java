@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
        {
 
-            AngularParser parser = getParser("D:\\Java intellj\\compiler-project\\tests\\anotherWayForTheSameInterface.txt");
+            AngularParser parser = getParser("tests\\angularTest.txt");
 
             ParseTree antlrAST = parser.prog();
 

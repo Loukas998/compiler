@@ -15,10 +15,14 @@ public class VariableDecl extends VariableAssignment{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
+        if (this.value != null) {
+            return "\n VariableDecl {" +
+                    "\n varName: " + this.variableNaming.toString() +
+                    "\n , varValue: " + this.value.toString() +
+                    "\n }";
+        }
         return "\n VariableDecl {" +
-                "\n varName: " + this.variableNaming.toString() +
-                "\n , varValue: " + this.value.toString() +
-                "\n }";
+                "\n varName: " + this.variableNaming.toString() ;
     }
 }
