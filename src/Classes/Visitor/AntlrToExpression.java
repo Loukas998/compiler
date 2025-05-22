@@ -50,9 +50,9 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public GenericStatement visitGeneric(AngularParser.GenericContext ctx) {
         GenericStatementVisitor genericStatementVisitor = new GenericStatementVisitor();
-        genericStatementVisitor.symbolTable = this.symbolTable;
+      //  genericStatementVisitor.symbolTable = this.symbolTable;
         GenericStatement generics = genericStatementVisitor.visitGenericStatement(ctx.genericStatement());
-        this.symbolTable = genericStatementVisitor.symbolTable;
+        // this.symbolTable = genericStatementVisitor.symbolTable;
         return generics;
     }
 
@@ -84,6 +84,8 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public InterfaceDecl visitInterface(AngularParser.InterfaceContext ctx) {
         Scope scope = new Scope("InterfaceDeclaration",this.currId+1,currentScope.peek());
+        Scope parent = currentScope.peek();
+        parent.childrenScopes.add(scope);
         currentScope.push(scope);
         currId++;
         InterfaceDecl interfaceDecl=new InterfaceDecl();
@@ -139,9 +141,9 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         Classes.Class cl=new Class();
         GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
         for(int i=0;i<ctx.genericStatement().size();i++){
-            genericStatementVisitor.symbolTable = this.symbolTable;
+           // genericStatementVisitor.symbolTable = this.symbolTable;
             cl.addGenericStatement(genericStatementVisitor.visitGenericStatement(ctx.genericStatement(i)));
-            this.symbolTable = genericStatementVisitor.symbolTable;
+          //  this.symbolTable = genericStatementVisitor.symbolTable;
         }
         return cl;
     }

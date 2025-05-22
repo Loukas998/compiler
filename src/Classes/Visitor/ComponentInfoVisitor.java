@@ -50,18 +50,35 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
 
     @Override
     public Styles visitStyles(AngularParser.StylesContext ctx) {
+        var scope = currentScopeStack.peek();
         Styles styleList=new Styles();
-        if(ctx.SingleQuote()!=null){
-            styleList.add(ctx.SingleQuote().getText());
+        for(int i = 0 ;i<ctx.SingleQuote().size()-1;i++){
+            if(styleList.paths.contains(ctx.SingleQuote(i).getText())){
+                //TODO THIS IS A SEMANTIC ERROR JUST ADD THE TEXT TO AN ERROR FILE
+                continue;//don't add it to list
+            }
+            styleList.add(ctx.SingleQuote(i).getText());
         }
-        else{
-            styleList.add(ctx.BackTickQuote().getText());
+        for(int i = 0 ;i<ctx.BackTickQuote().size()-1;i++){
+            if(styleList.paths.contains(ctx.BackTickQuote(i).getText())){
+                //TODO THIS IS A SEMANTIC ERROR JUST ADD THE TEXT TO AN ERROR FILE
+                continue;//don't add it to list
+            }
+            styleList.add(ctx.BackTickQuote(i).getText());
+        }
+        for(int i = 0; i<styleList.paths.size();i++){
+            //TODO Check for file existing
+            Symbol stylePathSymbol = new Symbol();
+            stylePathSymbol.type = "Style File Path " + i;
+            stylePathSymbol.value = styleList.paths.get(i);
+            scope.addSymbol(stylePathSymbol.type,stylePathSymbol);
         }
         return styleList;
     }
 
     @Override
     public ComponentInfo visitTempUrl(AngularParser.TempUrlContext ctx) {
+        Scope scope = currentScopeStack.peek();
         TempUrl templateUrl=new TempUrl();
         if(ctx.SingleQuote()!=null){
             templateUrl.path=(ctx.SingleQuote().getText());
@@ -69,6 +86,11 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         else{
             templateUrl.path=(ctx.BackTickQuote().getText());
         }
+        //TODO CHECK THAT THE FILE EXISTS
+        Symbol symbol = new Symbol();
+        symbol.type = "Html File Url";
+        symbol.value = templateUrl.path;
+        scope.addSymbol("HTMLFILE",symbol);
         return templateUrl;
     }
 
@@ -79,6 +101,8 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
 
     @Override
     public ComponentInfo visitImportss(AngularParser.ImportssContext ctx) {
+        Scope scope = currentScopeStack.peek();
+
         Importss importList=new Importss();
         if(ctx.NgFor()!=null){
             for(int i=0;i<ctx.NgFor().size();i++){
@@ -94,6 +118,12 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
             for(int i=0;i<ctx.ID().size();i++){
                 importList.add(ctx.ID(i).getText());
             }
+        }
+        for(int i = 0 ; i<importList.imported.size();i++){
+            Symbol symbol = new Symbol();
+            symbol.type = "Import";
+            symbol.value = importList.imported.get(i);
+            scope.addSymbol("ImportModule",symbol);
         }
         return importList;
     }

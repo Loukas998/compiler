@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
        {
 
-            AngularParser parser = getParser("tests\\angularTest.txt");
+            AngularParser parser = getParser("tests\\angular.txt");
 
             ParseTree antlrAST = parser.prog();
 
@@ -28,7 +28,8 @@ public class Main {
             for(String evaluation : ep.getEvaluationResults()){
                 System.out.println(evaluation);
             } // for printing AST
-           progVisitor.symbolTable.printTable(); //For printing symbol table
+          // progVisitor.symbolTable.printTable(); //For printing symbol table
+           System.out.println(progVisitor.globalScope.print());
         }
     }
 

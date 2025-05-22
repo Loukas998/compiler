@@ -24,6 +24,7 @@ public class AntlrToProgram extends AngularParserBaseVisitor<Program> {
         scopeOrderStack.push(globalScope);
         Program program = new Program();
         AntlrToExpression exprVisitor = new AntlrToExpression();
+        exprVisitor.currentScope = scopeOrderStack;
         for(int i = 0; i < ctx.getChildCount(); i++) {
             if (i == ctx.getChildCount() - 1) {
                 // the last child is EOF, we don't visit it

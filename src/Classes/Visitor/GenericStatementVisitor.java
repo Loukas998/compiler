@@ -12,7 +12,7 @@ import Classes.Values.ValueType;
 
 public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericStatement> {
 
-    public SymbolTable symbolTable = new SymbolTable();
+    // public SymbolTable symbolTable = new SymbolTable();
 
     public GenericStatement visitGenericStatement(AngularParser.GenericStatementContext ctx){
         if(ctx instanceof AngularParser.VariableDeclContext){
@@ -52,10 +52,10 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     public VariableDecl visitVariableDeclaration(AngularParser.VariableDeclarationContext ctx) {
         VariableDecl variableDecl = new VariableDecl();
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
-        variableNamingVisitor.symbolTable = this.symbolTable;
+       // variableNamingVisitor.symbolTable = this.symbolTable;
         ValueVisitor valueVisitor=new ValueVisitor();
         variableDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
-        this.symbolTable = variableNamingVisitor.symbolTable;
+       // this.symbolTable = variableNamingVisitor.symbolTable;
         if(ctx.value()!=null){
             variableDecl.value=valueVisitor.visit(ctx.value());
         }
@@ -65,15 +65,15 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     @Override
     public ArrayDecl visitArrayDeclaration(AngularParser.ArrayDeclarationContext ctx) {
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
-        variableNamingVisitor.symbolTable = this.symbolTable;
+      //  variableNamingVisitor.symbolTable = this.symbolTable;
         ArrayDecl arrayDecl = new ArrayDecl();
         ArrayInfoVisitor arrayInfoVisitor = new ArrayInfoVisitor();
-        arrayInfoVisitor.symbolTable = this.symbolTable;
+       // arrayInfoVisitor.symbolTable = this.symbolTable;
         arrayDecl.variableNaming = variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
-        this.symbolTable = variableNamingVisitor.symbolTable;
+       // this.symbolTable = variableNamingVisitor.symbolTable;
         for(int i=0;i<ctx.arrayInfo().size();i++){
             arrayDecl.addArrayInfo(arrayInfoVisitor.visitArrayInfo(ctx.arrayInfo(i)));
-            this.symbolTable = arrayInfoVisitor.symbolTable;
+           // this.symbolTable = arrayInfoVisitor.symbolTable;
         }
 
         return arrayDecl;
@@ -119,16 +119,16 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     @Override
     public ValueType visitValueType(AngularParser.ValueTypeContext ctx) {
         ValueVisitor valueVisitor=new ValueVisitor();
-        valueVisitor.symbolTable = this.symbolTable;
+       // valueVisitor.symbolTable = this.symbolTable;
         ValueType valueType = valueVisitor.visitValue(ctx.value());
-        this.symbolTable = valueVisitor.symbolTable;
+        //this.symbolTable = valueVisitor.symbolTable;
         return valueType;
     }
     public ValueType visitValue(AngularParser.ValueContext ctx){
     ValueVisitor valueVisitor = new ValueVisitor();
-    valueVisitor.symbolTable = this.symbolTable;
+    //valueVisitor.symbolTable = this.symbolTable;
     ValueType valueType = valueVisitor.visitValue(ctx);
-    this.symbolTable = valueVisitor.symbolTable;
+   // this.symbolTable = valueVisitor.symbolTable;
     return valueType;
     }
 }

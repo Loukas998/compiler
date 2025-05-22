@@ -51,7 +51,7 @@ componentDeclaration : At Component OpenParen (OpenBrace|OpenBraceHTML) componen
 
 componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
              | TemplateUrl Colon (SingleQuote | BackTickQuote) # TempUrl
-             | StyleUrls Colon OpenBracket (SingleQuote | BackTickQuote) CloseBracket # Styles
+             | StyleUrls Colon OpenBracket (SingleQuote | BackTickQuote)(Comma(SingleQuote | BackTickQuote))* CloseBracket # Styles
              | Standalone Colon BooleanLiteral # StandaloneStatus
              | Imports Colon OpenBracket ((NgFor|NgIf|ID) (Comma (NgFor|NgIf|ID))*)? CloseBracket # Importss
              ;
