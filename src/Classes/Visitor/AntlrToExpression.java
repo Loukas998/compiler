@@ -10,6 +10,7 @@ import Classes.Import;
 import Classes.InterfaceDecl;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
+import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
 import Classes.Visitor.ComponentInfoVisitor;
 import Classes.Visitor.GenericStatementVisitor;
@@ -18,10 +19,17 @@ import Classes.Visitor.VariableNamingVisitor;
 import java.util.Stack;
 
 public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
-    public Scope scope;
+    public int currId;
+    //public Scope scope;
     public Stack<Scope> currentScope;
     public SymbolTable symbolTable = new SymbolTable();
+    public AntlrToExpression(){
 
+    }
+    public AntlrToExpression(int id ,Stack<Scope>currentScope){
+        this.currId = id;
+        this.currentScope = currentScope;
+    }
     public Expression visitExpression(AngularParser.ExpressionContext ctx){
         if(ctx instanceof AngularParser.ImportContext){
             return this.visitImport((AngularParser.ImportContext) ctx);
@@ -67,26 +75,36 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     public InterfaceDecl visitInterfaceDecl(AngularParser.InterfaceDeclContext ctx) {
         InterfaceDecl interfaceDecl = this.visitInterface(ctx.interface_());
         Row row = new Row();
-        row.type = "InterfaceDeclaration";
+       /* row.type = "InterfaceDeclaration";
         row.value = interfaceDecl.name;
-        this.symbolTable.addRow(row);
+        this.symbolTable.addRow(row);*/
         return interfaceDecl;
     }
 
     @Override
     public InterfaceDecl visitInterface(AngularParser.InterfaceContext ctx) {
-        VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
+        Scope scope = new Scope("InterfaceDeclaration",this.currId+1,currentScope.peek());
+        currentScope.push(scope);
+        currId++;
         InterfaceDecl interfaceDecl=new InterfaceDecl();
         interfaceDecl.name=ctx.ID().getText();
-        for(int i=0;i<ctx.variableNaming().size();i++){
-            variableNamingVisitor.symbolTable = this.symbolTable;
+        Symbol symbol = new Symbol();
+        symbol.scope = scope;
+        symbol.type = interfaceDecl.name;
+        symbol.value = interfaceDecl.name;
+        scope.addSymbol(interfaceDecl.name,symbol);
+        VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
+        variableNamingVisitor.currScopeStack = this.currentScope;
+        for(int i=0;i<ctx.variableNaming().size();i++) {
+            //variableNamingVisitor.symbolTable = this.symbolTable;
             interfaceDecl.addVariableNaming(variableNamingVisitor.visitVariableNaming(ctx.variableNaming(i)));
-            this.symbolTable = variableNamingVisitor.symbolTable;
+            // this.symbolTable = variableNamingVisitor.symbolTable;
         }
-        Row row = new Row();
+        scope = currentScope.pop();
+        /*Row row = new Row();
         row.type = interfaceDecl.name + " variables";
         row.value = interfaceDecl.variableNamingList.toString();
-        this.symbolTable.addRow(row);
+        this.symbolTable.addRow(row);*/
         return interfaceDecl;
     }
 
@@ -97,6 +115,10 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
 
     @Override
     public ComponentDeclaration visitComponentDeclaration(AngularParser.ComponentDeclarationContext ctx) {
+        //Scope scope = currentScope.peek();
+        Scope scope = new Scope("ComponentDeclaration",currId+1,currentScope.peek());
+        currId++;
+        currentScope.push(scope);
         ComponentDeclaration componentDeclaration = new ComponentDeclaration();
         ComponentInfoVisitor componentInfoVisitor = new ComponentInfoVisitor();
         for(int i=0;i<ctx.componentInfo().size();i++){

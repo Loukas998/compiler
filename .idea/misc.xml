@@ -6,7 +6,17 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/Angular/AngularParser.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="D:\Java intellj\compiler-project\src\Angular" />
+          <option name="outputDir" value="C:\Users\LOQ\Documents\Github\compiler\src\Angular" />
+          <option name="libDir" value="" />
+          <option name="encoding" value="" />
+          <option name="pkg" value="" />
+          <option name="language" value="" />
+          <option name="generateVisitor" value="true" />
+        </PerGrammarGenerationSettings>
+        <PerGrammarGenerationSettings>
+          <option name="fileName" value="$PROJECT_DIR$/src/Angular/AngularLexer.g4" />
+          <option name="autoGen" value="true" />
+          <option name="outputDir" value="C:\Users\LOQ\Documents\Github\compiler\src\Angular" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />

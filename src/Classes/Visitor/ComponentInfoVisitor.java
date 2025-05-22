@@ -4,11 +4,15 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.ComponenetInfos.*;
 import Classes.ComponentInfo;
+import Classes.SymbolTable.Scope;
+import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo> {
+import java.util.Stack;
 
+public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo> {
+    public Stack<Scope> currentScopeStack = new Stack<>();
     public SymbolTable symbolTable = new SymbolTable();
 
     public ComponentInfo visitComponentInfo(AngularParser.ComponentInfoContext ctx){
@@ -28,6 +32,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
     }
     @Override
     public Select visitSelect(AngularParser.SelectContext ctx) {
+        var scope = currentScopeStack.peek();
         Select selector=new Select();
         if(ctx.SingleQuote()!=null){
             selector.name=ctx.SingleQuote().getText();
@@ -35,6 +40,11 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         else{
             selector.name=ctx.BackTickQuote().getText();
         }
+        Symbol selectSymbol = new Symbol();
+        selectSymbol.scope = scope;
+        selectSymbol.type = "Selector";
+        selectSymbol.value = selector.name;
+        scope.addSymbol(selector.name,selectSymbol);
         return selector;
     }
 
