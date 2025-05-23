@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Class extends Expression{
+    public String name;
     public List<GenericStatement> genericStatements;
     public Class() {
         this.genericStatements = new ArrayList<>();

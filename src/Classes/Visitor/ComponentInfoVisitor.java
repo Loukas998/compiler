@@ -123,7 +123,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
             Symbol symbol = new Symbol();
             symbol.type = "Import";
             symbol.value = importList.imported.get(i);
-            scope.addSymbol("ImportModule",symbol);
+            scope.addSymbol("ImportModule" +i,symbol);
         }
         return importList;
     }

@@ -3,6 +3,8 @@ package Classes.Visitor;
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.SymbolTable.Row;
+import Classes.SymbolTable.Scope;
+import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
 import Classes.Values.ArrayInfoValue;
 import Classes.Values.Dots.NullableDotValue;
@@ -18,8 +20,11 @@ import Classes.Values.Simples.VariableValue;
 import Classes.Values.ValueOrValue;
 import Classes.Values.ValueType;
 
+import java.util.Stack;
+
 public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 {
+    public  Stack<Scope>currentScope = new Stack<>();
     public SymbolTable symbolTable = new SymbolTable();
     public ValueType visitValue(AngularParser.ValueContext ctx){
        if(ctx instanceof AngularParser.StringValueContext){
@@ -80,6 +85,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public StringValue visitString(AngularParser.StringContext ctx) {
+        Scope scope = currentScope.peek();
         String s;
         if(ctx.SingleQuote()!=null){
             s=ctx.SingleQuote().getText();
@@ -90,6 +96,10 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         else {
             s=ctx.BackTickQuote().getText();
         }
+        Symbol symbol = new Symbol();
+        symbol.type = "String";
+        symbol.value = s;
+        scope.addSymbol("Just a string",symbol);
         return new StringValue(s);
     }
 

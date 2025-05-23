@@ -6,12 +6,16 @@ import Classes.GenericStatements.Assign;
 import Classes.GenericStatements.GenericStatement;
 import Classes.GenericStatements.Variables.ArrayDecl;
 import Classes.GenericStatements.Variables.VariableDecl;
+import Classes.SymbolTable.Scope;
+import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
 import Classes.Values.ArrayInfoValue;
 import Classes.Values.ValueType;
 
-public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericStatement> {
+import java.util.Stack;
 
+public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericStatement> {
+    public Stack<Scope> currentScope = new Stack<>();
     // public SymbolTable symbolTable = new SymbolTable();
 
     public GenericStatement visitGenericStatement(AngularParser.GenericStatementContext ctx){
@@ -50,21 +54,25 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
 
     @Override
     public VariableDecl visitVariableDeclaration(AngularParser.VariableDeclarationContext ctx) {
+        Scope scope = currentScope.peek();
         VariableDecl variableDecl = new VariableDecl();
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
+        variableNamingVisitor.currScopeStack = currentScope;
        // variableNamingVisitor.symbolTable = this.symbolTable;
-        ValueVisitor valueVisitor=new ValueVisitor();
         variableDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
        // this.symbolTable = variableNamingVisitor.symbolTable;
-        if(ctx.value()!=null){
-            variableDecl.value=valueVisitor.visit(ctx.value());
+        ValueVisitor valueVisitor=new ValueVisitor();
+        if(ctx.value()!=null) {
+            variableDecl.value = valueVisitor.visit(ctx.value());
         }
         return variableDecl;
     }
 
     @Override
     public ArrayDecl visitArrayDeclaration(AngularParser.ArrayDeclarationContext ctx) {
+        Scope scope = currentScope.peek();
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
+        variableNamingVisitor.currScopeStack = currentScope;
       //  variableNamingVisitor.symbolTable = this.symbolTable;
         ArrayDecl arrayDecl = new ArrayDecl();
         ArrayInfoVisitor arrayInfoVisitor = new ArrayInfoVisitor();

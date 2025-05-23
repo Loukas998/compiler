@@ -74,7 +74,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public InterfaceDecl visitInterfaceDecl(AngularParser.InterfaceDeclContext ctx) {
         InterfaceDecl interfaceDecl = this.visitInterface(ctx.interface_());
-        Row row = new Row();
+        //Row row = new Row();
        /* row.type = "InterfaceDeclaration";
         row.value = interfaceDecl.name;
         this.symbolTable.addRow(row);*/
@@ -92,7 +92,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         interfaceDecl.name=ctx.ID().getText();
         Symbol symbol = new Symbol();
         symbol.scope = scope;
-        symbol.type = interfaceDecl.name;
+        symbol.type = "Interface";
         symbol.value = interfaceDecl.name;
         scope.addSymbol(interfaceDecl.name,symbol);
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
@@ -123,11 +123,13 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         currentScope.push(scope);
         ComponentDeclaration componentDeclaration = new ComponentDeclaration();
         ComponentInfoVisitor componentInfoVisitor = new ComponentInfoVisitor();
+        componentInfoVisitor.currentScopeStack = currentScope;
         for(int i=0;i<ctx.componentInfo().size();i++){
-            componentInfoVisitor.symbolTable = this.symbolTable;
+            //componentInfoVisitor.symbolTable = this.symbolTable;
             componentDeclaration.addComponentInfo(componentInfoVisitor.visitComponentInfo(ctx.componentInfo(i)));
-            this.symbolTable = componentInfoVisitor.symbolTable;
+           // this.symbolTable = componentInfoVisitor.symbolTable;
         }
+        currentScope.pop();
         return componentDeclaration;
     }
 
@@ -139,7 +141,13 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public Classes.Class visitClassStructure(AngularParser.ClassStructureContext ctx) {
         Classes.Class cl=new Class();
+        cl.name = ctx.ID().getText();
+        Scope scope = new Scope("Class" + cl.name,currId+1,currentScope.peek());
+        Scope parentScope = currentScope.peek();
+        parentScope.childrenScopes.add(scope);
+        currentScope.push(scope);
         GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
+        genericStatementVisitor.currentScope = currentScope;
         for(int i=0;i<ctx.genericStatement().size();i++){
            // genericStatementVisitor.symbolTable = this.symbolTable;
             cl.addGenericStatement(genericStatementVisitor.visitGenericStatement(ctx.genericStatement(i)));

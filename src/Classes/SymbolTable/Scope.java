@@ -3,6 +3,8 @@ package Classes.SymbolTable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Scope {
 
@@ -10,8 +12,8 @@ public class Scope {
     public String name;
     public int id;
     public ArrayList<Scope>childrenScopes = new ArrayList<>();
-    public HashMap<String, Symbol> variables = new HashMap<String, Symbol>();
-    public HashMap<String, Symbol> functions = new HashMap<String, Symbol>();
+    public Map<String, Symbol> variables = new LinkedHashMap<String, Symbol>();
+    public Map<String, Symbol> functions = new LinkedHashMap<String,Symbol>();
 
     public Scope(String name, int id)
     {

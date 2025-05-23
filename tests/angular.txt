@@ -3,3 +3,10 @@ interface Product {
   image: string;
   details: string;
 }
+
+
+interface newItem{
+price : int
+name : string
+image : file
+}
