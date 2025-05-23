@@ -28,6 +28,7 @@ public class Scope {
         this.name = name;
         this.id = id;
         this.parent = parent;
+        this.parent.childrenScopes.add(this);
     }
 
     public Symbol getSymbol(String symbolName)
@@ -101,13 +102,13 @@ public class Scope {
        return res;
     }
     public String printChildren(){
-        String ans = " " ;
+        StringBuilder ans = new StringBuilder(" ");
         for(int i = 0;i<childrenScopes.size();i++){
-            ans += childrenScopes.get(i).print();
-            ans += "\n";
+            ans.append(childrenScopes.get(i).print());
+            ans.append("\n");
            // ans+=childrenScopes.get(i).printChildren();
         }
-        return ans;
+        return ans.toString();
     }
     public String print(){
         return "\n---------------------------------------" + "\n"

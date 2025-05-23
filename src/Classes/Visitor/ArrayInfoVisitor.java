@@ -21,10 +21,14 @@ public class ArrayInfoVisitor extends AngularParserBaseVisitor<ArrayInfoValue> {
         for(int i=0;i<ctx.value().size();i++){
             arrayInfoValue.addArrayValue(valueVisitor.visitValue(ctx.value(i)));
         }
-        Symbol symbol = new Symbol();
-        symbol.type = "Array";
-        symbol.value = arrayInfoValue.arrayValues.toString();
-        scope.addSymbol("ArrayValues",symbol);
+        for (int i = 0 ; i<arrayInfoValue.arrayValues.size();i++){
+            Symbol symbol = new Symbol();
+            symbol.type = "Array Element " + i;
+            symbol.value = arrayInfoValue.arrayValues.get(i);
+            scope.addSymbol("ArrayValue " + i,symbol);
+        }
+
+
         return arrayInfoValue;
     }
 }

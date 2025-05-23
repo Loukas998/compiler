@@ -84,8 +84,6 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public InterfaceDecl visitInterface(AngularParser.InterfaceContext ctx) {
         Scope scope = new Scope("InterfaceDeclaration",this.currId+1,currentScope.peek());
-        Scope parent = currentScope.peek();
-        parent.childrenScopes.add(scope);
         currentScope.push(scope);
         currId++;
         InterfaceDecl interfaceDecl=new InterfaceDecl();
@@ -143,8 +141,6 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         Classes.Class cl=new Class();
         cl.name = ctx.ID().getText();
         Scope scope = new Scope("Class" + cl.name,currId+1,currentScope.peek());
-        Scope parentScope = currentScope.peek();
-        parentScope.childrenScopes.add(scope);
         currentScope.push(scope);
         GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
         genericStatementVisitor.currentScope = currentScope;

@@ -1,12 +1,13 @@
 package Classes.Values;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JsonObjectValue extends ValueType{
     public Map<String, ValueType> jsons;
     public JsonObjectValue(){
-        this.jsons = new HashMap<>();
+        this.jsons = new LinkedHashMap<>();
     }
     public JsonObjectValue(Map<String, ValueType> jsons) {
         this.jsons = jsons;

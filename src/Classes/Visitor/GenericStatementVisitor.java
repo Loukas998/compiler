@@ -69,6 +69,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         if(ctx.value()!=null) {
             variableDecl.value = valueVisitor.visit(ctx.value());
             symbol.value = variableDecl.value;
+
         }
         scope.addSymbol(variableDecl.variableNaming.name,symbol);
         return variableDecl;

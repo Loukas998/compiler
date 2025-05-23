@@ -26,6 +26,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 {
     public  Stack<Scope>currentScope = new Stack<>();
     public SymbolTable symbolTable = new SymbolTable();
+    public int currId;
     public ValueType visitValue(AngularParser.ValueContext ctx){
        if(ctx instanceof AngularParser.StringValueContext){
 
@@ -79,6 +80,9 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
            return this.visitValueOrValue((AngularParser.ValueOrValueContext) ctx);
 
+       }
+       else if (ctx instanceof AngularParser.FunctionStatementContext){
+           return this.visitFunctionStatement((AngularParser.FunctionStatementContext) ctx);
        }
        return this.visitHtmlTagValue((AngularParser.HtmlTagValueContext) ctx);
     }
@@ -160,6 +164,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public Function visitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx) {
+
         Function function=new Function();
         function.functionName=ctx.ID().getText();
         function.functionStatement=this.visitFunctionBody(ctx.functionBody());
@@ -168,8 +173,13 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public FunctionStatement visitFunctionBody(AngularParser.FunctionBodyContext ctx) {
+        Scope scope = new Scope("Function" + currId+1, currId+1,currentScope.peek());
+        currId++;
+        currentScope.push(scope);
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
+        variableNamingVisitor.currScopeStack = currentScope;
         GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
+        genericStatementVisitor.currentScope = currentScope;
         FunctionStatement functionStatement=new FunctionStatement();
         for(int i=0;i<ctx.variableNaming().size();i++){
             functionStatement.addVariableNamings
@@ -180,6 +190,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
             functionStatement.addGenericStatements(
                     genericStatementVisitor.visitGenericStatement(ctx.genericStatement(i)));
         }
+        currentScope.pop();
         return functionStatement;
     }
 
@@ -187,13 +198,13 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public FunctionSummoning visitFunctionCall(AngularParser.FunctionCallContext ctx) {
         FunctionSummoning funCall=new FunctionSummoning();
         funCall.functionName = ctx.ID().getText();
-        Row row = new Row();
-        row.type = "FunctionCall";
+        //Row row = new Row();
+       // row.type = "FunctionCall";
         for(int i=0;i<ctx.value().size();i++){
             funCall.addArgument(this.visitValue(ctx.value(i)));
         }
-        row.value = funCall.functionName;
-        this.symbolTable.addRow(row);
+        //row.value = funCall.functionName;
+        //this.symbolTable.addRow(row);
         return funCall;
     }
 
@@ -204,10 +215,20 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public JsonObjectValue visitJsonObject(AngularParser.JsonObjectContext ctx) {
+        Scope scope = new Scope("JsonObject " + currId+1 , currId+1,currentScope.peek());
+        currId++;
+        currentScope.push(scope);
         JsonObjectValue jsonObjectValue=new JsonObjectValue();
         for(int i=0;i<ctx.ID().size();i++){
             jsonObjectValue.addJsons(ctx.ID(i).getText(),this.visitValue(ctx.value(i)));
         }
+        jsonObjectValue.jsons.forEach((name,value)->{
+            Symbol symbol = new Symbol();
+            symbol.type = name;
+            symbol.value = value;
+            scope.addSymbol(name,symbol);
+        });
+        currentScope.pop();
         return jsonObjectValue;
     }
 
