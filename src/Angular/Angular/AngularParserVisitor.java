@@ -229,13 +229,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportss(AngularParser.ImportssContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ValueType}
-	 * labeled alternative in {@link AngularParser#genericStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitValueType(AngularParser.ValueTypeContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code VariableDecl}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -277,6 +270,13 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFor(AngularParser.ForContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueType}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueType(AngularParser.ValueTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#classStructure}.
 	 * @param ctx the parse tree

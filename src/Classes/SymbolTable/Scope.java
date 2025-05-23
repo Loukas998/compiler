@@ -37,6 +37,7 @@ public class Scope {
         {
             return symbol;
         }
+
         if (parent != null)
         {
             return parent.getSymbol(symbolName);
@@ -88,6 +89,7 @@ public class Scope {
     public String printVars(){
         ArrayList<String> ans = new ArrayList<>();
        variables.forEach((k,v)->{
+           ans.add(k);
              var symbol = v.print();
              ans.add(symbol);
        });

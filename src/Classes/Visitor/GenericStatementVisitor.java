@@ -61,10 +61,16 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
        // variableNamingVisitor.symbolTable = this.symbolTable;
         variableDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
        // this.symbolTable = variableNamingVisitor.symbolTable;
+        Symbol symbol = new Symbol();
+        symbol.type = ((variableDecl.variableNaming.type.type == null)? "any" :variableDecl.variableNaming.type.type) ;
+        symbol.scope = scope;
         ValueVisitor valueVisitor=new ValueVisitor();
+        valueVisitor.currentScope = currentScope;
         if(ctx.value()!=null) {
             variableDecl.value = valueVisitor.visit(ctx.value());
+            symbol.value = variableDecl.value;
         }
+        scope.addSymbol(variableDecl.variableNaming.name,symbol);
         return variableDecl;
     }
 
@@ -83,7 +89,11 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
             arrayDecl.addArrayInfo(arrayInfoVisitor.visitArrayInfo(ctx.arrayInfo(i)));
            // this.symbolTable = arrayInfoVisitor.symbolTable;
         }
-
+        Symbol symbol = new Symbol();
+        symbol.type = "Array";
+        symbol.value = arrayDecl.arrayInfoValues;
+        symbol.scope = scope;
+        scope.addSymbol(arrayDecl.variableNaming.name,symbol);
         return arrayDecl;
     }
 
@@ -99,13 +109,21 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
 
     @Override
     public Assign visitAssignStatement(AngularParser.AssignStatementContext ctx) {
+        Scope scope = currentScope.peek();
         Assign assign=new Assign();
         if(ctx.thisorId()!=null){
             assign.firstId=ctx.thisorId().getChild(0).getText();
         }
         assign.secondId=ctx.ID().getText();
         ValueVisitor valueVisitor=new ValueVisitor();
+        valueVisitor.currentScope = currentScope;
         assign.valueType=valueVisitor.visitValue(ctx.value());
+        Symbol symbol = new Symbol();
+        Symbol findSym = scope.getSymbol(assign.firstId);
+        symbol.type = findSym.type;
+        symbol.value = assign.secondId;
+        symbol.scope = scope;
+        scope.addSymbol(assign.firstId + "New Value",symbol);
         return assign;
     }
 
@@ -127,6 +145,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     @Override
     public ValueType visitValueType(AngularParser.ValueTypeContext ctx) {
         ValueVisitor valueVisitor=new ValueVisitor();
+        valueVisitor.currentScope = currentScope;
        // valueVisitor.symbolTable = this.symbolTable;
         ValueType valueType = valueVisitor.visitValue(ctx.value());
         //this.symbolTable = valueVisitor.symbolTable;
@@ -134,6 +153,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     }
     public ValueType visitValue(AngularParser.ValueContext ctx){
     ValueVisitor valueVisitor = new ValueVisitor();
+    valueVisitor.currentScope = currentScope;
     //valueVisitor.symbolTable = this.symbolTable;
     ValueType valueType = valueVisitor.visitValue(ctx);
    // this.symbolTable = valueVisitor.symbolTable;

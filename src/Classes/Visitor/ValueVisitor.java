@@ -99,6 +99,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         Symbol symbol = new Symbol();
         symbol.type = "String";
         symbol.value = s;
+        symbol.scope = scope;
         scope.addSymbol("Just a string",symbol);
         return new StringValue(s);
     }
@@ -128,6 +129,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public ArrayInfoValue visitArrayInfo(AngularParser.ArrayInfoContext ctx) {
+
         ArrayInfoValue arrayInfoValue=new ArrayInfoValue();
         for(int i=0;i<ctx.value().size();i++){
             arrayInfoValue.addArrayValue(visitValue(ctx.value(i)));

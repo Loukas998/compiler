@@ -6,6 +6,7 @@ import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
+import Classes.VarType;
 import Classes.VariableNaming;
 
 import java.util.Stack;
@@ -20,20 +21,24 @@ public class VariableNamingVisitor extends AngularParserBaseVisitor<VariableNami
         Scope scope = currScopeStack.peek();
         VarTypeVisitor varTypeVisitor=new VarTypeVisitor();
         VariableNaming variableNaming=new VariableNaming();
-        variableNaming.name=(ctx.ID().getText());
-
-       // Row row = new Row();
-      //  row.type = "VariableName";
-      //  row.value = variableNaming.name;
-       // this.symbolTable.addRow(row);
+        //variableNaming.name=(ctx.ID().getText());
+        if(ctx.Let()==null && ctx.Const()==null && ctx.Var() == null){
+                variableNaming.name = ctx.ID(ctx.ID().size()-1).getText();
+        }
         if(ctx.varType()!=null){
             //varTypeVisitor.symbolTable = this.symbolTable;
             variableNaming.type=varTypeVisitor.visitVarType(ctx.varType());
           //  this.symbolTable = varTypeVisitor.symbolTable;
         }
+        else if(ctx.ID().size()==1){
+            variableNaming.type = new VarType("any");
+        }
+        else{
+            variableNaming.type = new VarType(ctx.ID(0).getText());
+        }
         Symbol symbol = new Symbol();
         symbol.scope = scope;
-        symbol.type = variableNaming.type!=null?variableNaming.type.type:"any";
+        symbol.type =variableNaming.type.type;
         symbol.value = variableNaming.name;
         scope.addSymbol(variableNaming.name,symbol);
         return variableNaming;

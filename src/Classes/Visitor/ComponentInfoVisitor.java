@@ -71,6 +71,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
             Symbol stylePathSymbol = new Symbol();
             stylePathSymbol.type = "Style File Path " + i;
             stylePathSymbol.value = styleList.paths.get(i);
+            stylePathSymbol.scope = scope;
             scope.addSymbol(stylePathSymbol.type,stylePathSymbol);
         }
         return styleList;
@@ -90,6 +91,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         Symbol symbol = new Symbol();
         symbol.type = "Html File Url";
         symbol.value = templateUrl.path;
+        symbol.scope = scope;
         scope.addSymbol("HTMLFILE",symbol);
         return templateUrl;
     }
@@ -123,6 +125,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
             Symbol symbol = new Symbol();
             symbol.type = "Import";
             symbol.value = importList.imported.get(i);
+            symbol.scope = scope;
             scope.addSymbol("ImportModule" +i,symbol);
         }
         return importList;

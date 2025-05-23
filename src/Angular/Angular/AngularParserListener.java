@@ -380,18 +380,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitImportss(AngularParser.ImportssContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ValueType}
-	 * labeled alternative in {@link AngularParser#genericStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterValueType(AngularParser.ValueTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ValueType}
-	 * labeled alternative in {@link AngularParser#genericStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitValueType(AngularParser.ValueTypeContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code VariableDecl}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -463,6 +451,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFor(AngularParser.ForContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ValueType}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueType(AngularParser.ValueTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueType}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueType(AngularParser.ValueTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#classStructure}.
 	 * @param ctx the parse tree

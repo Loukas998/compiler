@@ -17,7 +17,7 @@ importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | I
 
 interface: Interface ID (OpenBrace|OpenBraceHTML) (variableNaming SemiColon)* (CloseBrace|CloseBraceHTML);
 
-variableNaming: (Let|Var|Const)? ID (Colon varType (BitOr NullLiteral (Assign NullLiteral )?)? )? ;
+variableNaming: (Let|Var|Const | ID)? ID (Colon varType (BitOr NullLiteral (Assign NullLiteral )?)? )? ;
 
 varType: String
        | Int
@@ -57,13 +57,13 @@ componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
              ;
 
 genericStatement:
-                 value # ValueType
-                | variableDeclaration # VariableDecl
+                 variableDeclaration # VariableDecl
                 | arrayDeclaration # ArrayDecl
                 | assignStatement # Assign
                 | returnStatement # Return
                 | ifStatement # If
                 | forLoop # For
+                |value # ValueType
 
                 ;
 classStructure: Export Class ID (OpenBrace|OpenBraceHTML) (genericStatement (SemiColon)?)* (CloseBrace|CloseBraceHTML);

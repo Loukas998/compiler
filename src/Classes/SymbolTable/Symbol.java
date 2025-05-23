@@ -2,11 +2,11 @@ package Classes.SymbolTable;
 
 public class Symbol {
     public String type;
-    public String value;
+    public Object value;
     public Scope scope;
 
     public String print(){
-        return "\n Type : " +this.type.toString()
+        return "\n Type : " + this.type
                 + "        "  + "\n Value : " + this.value.toString();
 
     }
