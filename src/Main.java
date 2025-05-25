@@ -1,5 +1,6 @@
 import Angular.AngularLexer;
 import Angular.AngularParser;
+import Classes.Errors.SemError;
 import Classes.ExpressionProcessor;
 import Classes.Program;
 import Classes.Visitor.AntlrToProgram;
@@ -10,6 +11,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -17,19 +20,30 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
        {
-
+           ArrayList<SemError>semanticErrors = new ArrayList<>();
             AngularParser parser = getParser("tests\\angularTest.txt");
 
             ParseTree antlrAST = parser.prog();
 
             AntlrToProgram progVisitor = new AntlrToProgram();
+            progVisitor.semanticErrors = semanticErrors;
             Program prog = progVisitor.visit(antlrAST);
             ExpressionProcessor ep = new ExpressionProcessor(prog.expressionList);
-            for(String evaluation : ep.getEvaluationResults()){
-                System.out.println(evaluation);
-            } // for printing AST
+            if(semanticErrors.isEmpty()) {
+                for (String evaluation : ep.getEvaluationResults()) {
+                    System.out.println(evaluation);
+
+                } // for printing AST
+                System.out.println(progVisitor.globalScope.print());
+            }
+            else{
+                for(int i = 0 ; i < semanticErrors.size();i++){
+                    System.out.println(semanticErrors.get(i).print());
+                    System.out.println();
+                }
+            }
           // progVisitor.symbolTable.printTable(); //For printing symbol table
-           System.out.println(progVisitor.globalScope.print());
+
         }
     }
 

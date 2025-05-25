@@ -13,11 +13,11 @@ tokenVocab=AngularLexer;
               | genericStatement # Generic
               ;
 
-importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | ID) (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
+importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | ID) (As ID)? (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
 
 interface: Interface ID (OpenBrace|OpenBraceHTML) (variableNaming SemiColon)* (CloseBrace|CloseBraceHTML);
 
-variableNaming: (Let|Var|Const | ID)? ID (Colon varType (BitOr NullLiteral (Assign NullLiteral )?)? )? ;
+variableNaming: (Let|Var|Const | ID)? ID ((Colon varType)? (BitOr NullLiteral (Assign NullLiteral )?)? )? ;
 
 varType: String
        | Int

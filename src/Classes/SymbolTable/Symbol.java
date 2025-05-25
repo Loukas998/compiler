@@ -6,8 +6,8 @@ public class Symbol {
     public Scope scope;
 
     public String print(){
-        return "\n Type : " + this.type
-                + "        "  + "\n Value : " + this.value.toString();
+        return "\n Type : " + this.type + "\n"
+                + "        "  + "\n Value : " + this.value.toString()+"\n";
 
     }
 }

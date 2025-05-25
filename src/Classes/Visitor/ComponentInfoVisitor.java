@@ -4,16 +4,18 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.ComponenetInfos.*;
 import Classes.ComponentInfo;
+import Classes.Errors.SemError;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo> {
     public Stack<Scope> currentScopeStack = new Stack<>();
-    public SymbolTable symbolTable = new SymbolTable();
+    ArrayList<SemError> semanticErrors = new ArrayList<>();
 
     public ComponentInfo visitComponentInfo(AngularParser.ComponentInfoContext ctx){
         if(ctx instanceof AngularParser.SelectContext){
@@ -108,25 +110,46 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         Importss importList=new Importss();
         if(ctx.NgFor()!=null){
             for(int i=0;i<ctx.NgFor().size();i++){
+                if(scope.getSymbol((ctx.NgFor(i).getText()))==null){
+                    var sym =ctx.NgFor(i).getSymbol();
+                    int line = sym.getLine();
+                    int charPos = sym.getCharPositionInLine()-1;
+                    semanticErrors.add(new SemError("NgFor Not Imported",line,charPos));
+                }
                 importList.add(ctx.NgFor(i).getText());
             }
         }
         if(ctx.NgIf()!=null){
-            for(int i=0;i<ctx.NgIf().size();i++){
+
+            for(int i=0;i<ctx.NgIf().size();i++) {
+                if(scope.getSymbol((ctx.NgIf(i).getText()))==null){
+                var sym = ctx.NgIf(i).getSymbol();
+                int line = sym.getLine();
+                int charPos = sym.getCharPositionInLine() - 1;
+                semanticErrors.add(new SemError("NgIf Not Imported", line, charPos));
+            }
                 importList.add(ctx.NgIf(i).getText());
             }
         }
         if(ctx.ID()!=null){
             for(int i=0;i<ctx.ID().size();i++){
+                if(scope.getSymbol((ctx.ID(i).getText()))==null) {
+                    var sym = ctx.ID(i).getSymbol();
+                    int line = sym.getLine();
+                    int charPos = sym.getCharPositionInLine() - 1;
+                    semanticErrors.add(new SemError(ctx.ID(i).getText() + " Not Imported", line, charPos));
+                }
                 importList.add(ctx.ID(i).getText());
             }
         }
-        for(int i = 0 ; i<importList.imported.size();i++){
-            Symbol symbol = new Symbol();
-            symbol.type = "Import";
-            symbol.value = importList.imported.get(i);
-            symbol.scope = scope;
-            scope.addSymbol("ImportModule" +i,symbol);
+        if(semanticErrors.isEmpty()) {
+            for (int i = 0; i < importList.imported.size(); i++) {
+                Symbol symbol = new Symbol();
+                symbol.type = "Import";
+                symbol.value = importList.imported.get(i);
+                symbol.scope = scope;
+                scope.addSymbol("ImportModule" + i, symbol);
+            }
         }
         return importList;
     }

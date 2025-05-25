@@ -2,10 +2,12 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.SemError;
 import Classes.Program;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.SymbolTable;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 
@@ -16,6 +18,7 @@ public class AntlrToProgram extends AngularParserBaseVisitor<Program> {
         this.globalScope = scope;
     }
     public Stack<Scope>scopeOrderStack = new Stack<>();
+   public ArrayList<SemError> semanticErrors = new ArrayList<>();
 
     public SymbolTable symbolTable = new SymbolTable();
     @Override
@@ -24,6 +27,7 @@ public class AntlrToProgram extends AngularParserBaseVisitor<Program> {
         scopeOrderStack.push(globalScope);
         Program program = new Program();
         AntlrToExpression exprVisitor = new AntlrToExpression();
+        exprVisitor.semanticErrors = semanticErrors;
         exprVisitor.currentScope = scopeOrderStack;
         for(int i = 0; i < ctx.getChildCount(); i++) {
             if (i == ctx.getChildCount() - 1) {

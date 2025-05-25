@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.SemError;
 import Classes.GenericStatements.Assign;
 import Classes.GenericStatements.GenericStatement;
 import Classes.GenericStatements.Variables.ArrayDecl;
@@ -12,10 +13,12 @@ import Classes.SymbolTable.SymbolTable;
 import Classes.Values.ArrayInfoValue;
 import Classes.Values.ValueType;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericStatement> {
     public Stack<Scope> currentScope = new Stack<>();
+    public ArrayList<SemError>semanticErrors = new ArrayList<>();
     // public SymbolTable symbolTable = new SymbolTable();
 
     public GenericStatement visitGenericStatement(AngularParser.GenericStatementContext ctx){
@@ -58,20 +61,24 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         VariableDecl variableDecl = new VariableDecl();
         VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
         variableNamingVisitor.currScopeStack = currentScope;
-       // variableNamingVisitor.symbolTable = this.symbolTable;
         variableDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
-       // this.symbolTable = variableNamingVisitor.symbolTable;
-        Symbol symbol = new Symbol();
-        symbol.type = ((variableDecl.variableNaming.type.type == null)? "any" :variableDecl.variableNaming.type.type) ;
-        symbol.scope = scope;
         ValueVisitor valueVisitor=new ValueVisitor();
         valueVisitor.currentScope = currentScope;
         if(ctx.value()!=null) {
             variableDecl.value = valueVisitor.visit(ctx.value());
-            symbol.value = variableDecl.value;
-
         }
-        scope.addSymbol(variableDecl.variableNaming.name,symbol);
+        Symbol symbol = new Symbol();
+        symbol.type = variableDecl.variableNaming.type.type;
+        symbol.value = variableDecl.value!=null?variableDecl.value: "Null";
+        Symbol existingSymbol = scope.exists(variableDecl.variableNaming.name);
+        if(existingSymbol==null){
+            scope.addSymbol(variableDecl.variableNaming.name,symbol);
+        }
+        else{
+            semanticErrors.add(new SemError("Variable " + variableDecl.variableNaming.name +
+                    " Already Exists in this Scope",ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getLine(),
+                    ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getCharPositionInLine()-1));
+        }
         return variableDecl;
     }
 

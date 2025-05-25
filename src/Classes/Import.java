@@ -2,6 +2,7 @@ package Classes;
 
 public class Import extends Expression{
     public String type;
+    public String altName;
     public String fromPath;
     public Import(){
 

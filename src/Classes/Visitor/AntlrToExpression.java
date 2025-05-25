@@ -2,12 +2,10 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.*;
 import Classes.Class;
-import Classes.ComponentDeclaration;
-import Classes.Expression;
+import Classes.Errors.SemError;
 import Classes.GenericStatements.GenericStatement;
-import Classes.Import;
-import Classes.InterfaceDecl;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
@@ -16,10 +14,12 @@ import Classes.Visitor.ComponentInfoVisitor;
 import Classes.Visitor.GenericStatementVisitor;
 import Classes.Visitor.VariableNamingVisitor;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     public int currId;
+    ArrayList<SemError> semanticErrors = new ArrayList<>();
     //public Scope scope;
     public Stack<Scope> currentScope;
     public SymbolTable symbolTable = new SymbolTable();
@@ -50,6 +50,8 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public GenericStatement visitGeneric(AngularParser.GenericContext ctx) {
         GenericStatementVisitor genericStatementVisitor = new GenericStatementVisitor();
+        genericStatementVisitor.currentScope = currentScope;
+        genericStatementVisitor.semanticErrors = semanticErrors;
       //  genericStatementVisitor.symbolTable = this.symbolTable;
         GenericStatement generics = genericStatementVisitor.visitGenericStatement(ctx.genericStatement());
         // this.symbolTable = genericStatementVisitor.symbolTable;
@@ -64,10 +66,12 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public Import visitImportStatement(AngularParser.ImportStatementContext ctx) {
         Import imp = new Import(ctx.getChild(2).getText());
-        Row row = new Row();
-        row.type = "Imported";
-        row.value = imp.type;
-        this.symbolTable.addRow(row);
+        imp.fromPath = ctx.getChild(ctx.getChildCount()-1).getText();
+        Scope scope = currentScope.peek();
+        Symbol symbol = new Symbol();
+        symbol.type = "Imported";
+        symbol.value = imp.fromPath;
+        scope.addSymbol(imp.type,symbol);
         return imp;
     }
 
@@ -97,7 +101,12 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         variableNamingVisitor.currScopeStack = this.currentScope;
         for(int i=0;i<ctx.variableNaming().size();i++) {
             //variableNamingVisitor.symbolTable = this.symbolTable;
-            interfaceDecl.addVariableNaming(variableNamingVisitor.visitVariableNaming(ctx.variableNaming(i)));
+            VariableNaming varName = variableNamingVisitor.visitVariableNaming(ctx.variableNaming(i));
+            interfaceDecl.addVariableNaming(varName);
+            Symbol varSymbol = new Symbol();
+            symbol.type = varName.type.type;
+            symbol.value = varName.name;
+            scope.addSymbol(varName.name,symbol);
             // this.symbolTable = variableNamingVisitor.symbolTable;
         }
         scope = currentScope.pop();
@@ -121,6 +130,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         currentScope.push(scope);
         ComponentDeclaration componentDeclaration = new ComponentDeclaration();
         ComponentInfoVisitor componentInfoVisitor = new ComponentInfoVisitor();
+        componentInfoVisitor.semanticErrors = this.semanticErrors;
         componentInfoVisitor.currentScopeStack = currentScope;
         for(int i=0;i<ctx.componentInfo().size();i++){
             //componentInfoVisitor.symbolTable = this.symbolTable;
@@ -143,6 +153,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         Scope scope = new Scope("Class" + cl.name,currId+1,currentScope.peek());
         currentScope.push(scope);
         GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
+        genericStatementVisitor.semanticErrors = semanticErrors;
         genericStatementVisitor.currentScope = currentScope;
         for(int i=0;i<ctx.genericStatement().size();i++){
            // genericStatementVisitor.symbolTable = this.symbolTable;

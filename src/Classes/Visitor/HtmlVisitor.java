@@ -3,15 +3,18 @@ package Classes.Visitor;
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.SymbolTable.Row;
+import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.SymbolTable;
 import Classes.Values.Htmls.*;
 import Classes.Values.Htmls.Tags.Attributes.Attribute;
 import Classes.Values.Htmls.Tags.CloseTag;
 import Classes.Values.Htmls.Tags.OpenTag;
 
-public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
+import java.util.Stack;
 
-    public SymbolTable symbolTable = new SymbolTable();
+public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
+    public int currId;
+    Stack<Scope> currentScope = new Stack<Scope>();
     public HtmlTagValue visitHtmlTags(AngularParser.HtmlTagsContext ctx){
         if(ctx instanceof AngularParser.PairedTagContext){
             return this.visitPairedTag((AngularParser.PairedTagContext) ctx);
@@ -42,6 +45,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
 
     @Override
     public CloseTag visitCloseTag(AngularParser.CloseTagContext ctx) {
+        currentScope.pop();
         return new CloseTag(ctx.ID().getText());
     }
 
@@ -49,16 +53,21 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
     public UnpairedTag visitSelfClosingTag(AngularParser.SelfClosingTagContext ctx) {
         UnpairedTag unpairedTag = new UnpairedTag();
         unpairedTag.tagName = ctx.ID().getText();
+        Scope scope;
+        if(currentScope.isEmpty()){
+            scope = new Scope(unpairedTag.tagName + currId,currId+1);
+        }
+        else{
+            scope = new Scope(unpairedTag.tagName + currId,currId+1,currentScope.peek());
+        }
+        currId++;
+        currentScope.push(scope);
         AttributeVisitor attributeVisitor = new AttributeVisitor();
-        attributeVisitor.symbolTable = this.symbolTable;
+        attributeVisitor.currentScope = this.currentScope;
         for (int i = 0 ; i < ctx.attribute().size(); i++){
             unpairedTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
         }
-        this.symbolTable = attributeVisitor.symbolTable;
-        Row row = new Row();
-        row.type = "SelfClosingTag: " + unpairedTag.tagName;
-        row.value = unpairedTag.attributes.toString();
-        this.symbolTable.addRow(row);
+        currentScope.pop();
         return unpairedTag;
     }
 
@@ -66,16 +75,20 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
     public OpenTag visitOpenTag(AngularParser.OpenTagContext ctx) {
         OpenTag openTag = new OpenTag();
         openTag.tagName = ctx.ID().getText();
-        Row row = new Row();
-        row.type = "OpenTagName: " + openTag.tagName;
+        Scope scope;
+        if(currentScope.isEmpty()){
+            scope = new Scope(openTag.tagName + currId,currId+1);
+        }
+        else{
+            scope = new Scope(openTag.tagName + currId,currId+1,currentScope.peek());
+        }
+        currId++;
+        currentScope.push(scope);
         AttributeVisitor attributeVisitor = new AttributeVisitor();
-        attributeVisitor.symbolTable = this.symbolTable;
+      attributeVisitor.currentScope = currentScope;
         for (int i = 0 ; i < ctx.attribute().size(); i++){
             openTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
         }
-        this.symbolTable = attributeVisitor.symbolTable;
-        row.value = "Attributes: " + openTag.attributes.toString();
-        symbolTable.addRow(row);
         return openTag;
     }
 
@@ -91,11 +104,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
 
     @Override
     public UnpairedTag visitUnpairedTag(AngularParser.UnpairedTagContext ctx) {
-        Row row = new Row();
-        row.type = "SelfClosingTag";
         UnpairedTag selfClosing = this.visitSelfClosingTag(ctx.selfClosingTag());
-        row.value = selfClosing.tagName;
-        this.symbolTable.addRow(row);
         return selfClosing;
     }
 

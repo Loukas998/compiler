@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.SemError;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
@@ -9,12 +10,14 @@ import Classes.SymbolTable.SymbolTable;
 import Classes.VarType;
 import Classes.VariableNaming;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class VariableNamingVisitor extends AngularParserBaseVisitor<VariableNaming> {
 
    // public SymbolTable symbolTable = new SymbolTable();
     public Stack<Scope>currScopeStack = new Stack<>();
+    public ArrayList<SemError>semanticErrors = new ArrayList<>();
 
     @Override
     public VariableNaming visitVariableNaming(AngularParser.VariableNamingContext ctx) {
@@ -24,6 +27,9 @@ public class VariableNamingVisitor extends AngularParserBaseVisitor<VariableNami
         //variableNaming.name=(ctx.ID().getText());
         if(ctx.Let()==null && ctx.Const()==null && ctx.Var() == null){
                 variableNaming.name = ctx.ID(ctx.ID().size()-1).getText();
+        }
+        else{
+            variableNaming.name = ctx.ID(ctx.ID().size()-1).getText();
         }
         if(ctx.varType()!=null){
             //varTypeVisitor.symbolTable = this.symbolTable;
@@ -36,11 +42,18 @@ public class VariableNamingVisitor extends AngularParserBaseVisitor<VariableNami
         else{
             variableNaming.type = new VarType(ctx.ID(0).getText());
         }
-        Symbol symbol = new Symbol();
-        symbol.scope = scope;
-        symbol.type =variableNaming.type.type;
-        symbol.value = variableNaming.name;
-        scope.addSymbol(variableNaming.name,symbol);
+//        boolean idSizeMoreThanOne = false;
+//        if(ctx.ID().size()>1){
+//            idSizeMoreThanOne = true;
+//        }
+//        if(ctx.Let() != null || ctx.Const() != null || ctx.Var() != null || idSizeMoreThanOne){
+//            Symbol varSymbol =scope.exists(variableNaming.name);
+//            if(varSymbol != null){
+//                semanticErrors.add(new SemError("Variable" + variableNaming.name +
+//                        "Already Exists in this Scope",ctx.ID(ctx.ID().size()-1).getSymbol().getLine(),
+//                        ctx.ID(ctx.ID().size()-1).getSymbol().getCharPositionInLine()-1));
+//            }
+        //}
         return variableNaming;
     }
 }

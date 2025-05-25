@@ -100,11 +100,11 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         else {
             s=ctx.BackTickQuote().getText();
         }
-        Symbol symbol = new Symbol();
-        symbol.type = "String";
-        symbol.value = s;
-        symbol.scope = scope;
-        scope.addSymbol("Just a string",symbol);
+//        Symbol symbol = new Symbol();
+//        symbol.type = "String";
+//        symbol.value = s;
+//        symbol.scope = scope;
+//        scope.addSymbol("Just a string",symbol);
         return new StringValue(s);
     }
 
@@ -269,9 +269,10 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     @Override
     public ValueType visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
         HtmlVisitor htmlVisitor=new HtmlVisitor();
-        htmlVisitor.symbolTable = this.symbolTable;
+        htmlVisitor.currentScope = this.currentScope;
+        htmlVisitor.currId = currId;
         ValueType htmlValueType = htmlVisitor.visitHtmlTags(ctx.htmlTags());
-        this.symbolTable = htmlVisitor.symbolTable;
+
         return htmlValueType;
     }
 }
