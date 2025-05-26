@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.SemError;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
@@ -20,6 +21,7 @@ import Classes.Values.Simples.VariableValue;
 import Classes.Values.ValueOrValue;
 import Classes.Values.ValueType;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
@@ -27,6 +29,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public  Stack<Scope>currentScope = new Stack<>();
     public SymbolTable symbolTable = new SymbolTable();
     public int currId;
+    public  ArrayList<SemError>semanticErrors = new ArrayList<>();
     public ValueType visitValue(AngularParser.ValueContext ctx){
        if(ctx instanceof AngularParser.StringValueContext){
 
@@ -270,6 +273,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public ValueType visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
         HtmlVisitor htmlVisitor=new HtmlVisitor();
         htmlVisitor.currentScope = this.currentScope;
+        htmlVisitor.semanticErrors = semanticErrors;
         htmlVisitor.currId = currId;
         ValueType htmlValueType = htmlVisitor.visitHtmlTags(ctx.htmlTags());
 

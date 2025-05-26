@@ -153,6 +153,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     @Override
     public ValueType visitValueType(AngularParser.ValueTypeContext ctx) {
         ValueVisitor valueVisitor=new ValueVisitor();
+        valueVisitor.semanticErrors = semanticErrors;
         valueVisitor.currentScope = currentScope;
        // valueVisitor.symbolTable = this.symbolTable;
         ValueType valueType = valueVisitor.visitValue(ctx.value());
@@ -162,6 +163,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     public ValueType visitValue(AngularParser.ValueContext ctx){
     ValueVisitor valueVisitor = new ValueVisitor();
     valueVisitor.currentScope = currentScope;
+    valueVisitor.semanticErrors = semanticErrors;
     //valueVisitor.symbolTable = this.symbolTable;
     ValueType valueType = valueVisitor.visitValue(ctx);
    // this.symbolTable = valueVisitor.symbolTable;

@@ -90,7 +90,7 @@ public class Scope {
     public String printVars(){
         ArrayList<String> ans = new ArrayList<>();
        variables.forEach((k,v)->{
-           ans.add(k);
+           ans.add("name: " + k);
              var symbol = v.print();
              ans.add(symbol);
        });
@@ -112,9 +112,10 @@ public class Scope {
     }
     public String print(){
         return "\n---------------------------------------" + "\n"
-              + "Name : "   + this.name.toString() + "\n"
-                 + "ID : " +  this.id +"\n"
-                + "Variables " + this.printVars()  + "\n"
+                + "Name : "   + this.name.toString() + "\n"
+                + "ID : " +  this.id +"\n"
+                + "Variables " +"\n"
+                + this.printVars()  + "\n"
                 + this.printChildren() + "\n"
                 + "\n---------------------------------------";
 

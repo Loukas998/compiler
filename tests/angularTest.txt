@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
-import { NgIf } from '@angular/common';
+import { NgIf as NF } from '@angular/common';
 
 @Component({
 selector: 'app-root',
  standalone: true,
   templateUrl: './app.component.html',
- imports: [CommonModule,NgIf,NgFor]
+ imports:[CommonModule,NgIf,NF],
+ styleUrls : ['app.css']
 })
 export class AppComponent {
  selectedProduct: any = null;
  Product List= [
-  { name: 'Product 1', src: 'assets/Image/1.jpg', details: 'Details of Product 1.' },
+  { name: 'Product 1', price: 'assets/Image/1.jpg', details: 'Details of Product 1.' },
   { name: 'Product 2', src: 'assets/Image/2.jpg', details: 'Details of Product 2.' },
    ];
+  // var List = 'LLL'
  selectProduct(product: any) {
  return product;
  }

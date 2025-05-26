@@ -66,12 +66,20 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public Import visitImportStatement(AngularParser.ImportStatementContext ctx) {
         Import imp = new Import(ctx.getChild(2).getText());
-        imp.fromPath = ctx.getChild(ctx.getChildCount()-1).getText();
+        imp.fromPath = ctx.getChild(ctx.getChildCount()-2).getText();
         Scope scope = currentScope.peek();
         Symbol symbol = new Symbol();
         symbol.type = "Imported";
         symbol.value = imp.fromPath;
         scope.addSymbol(imp.type,symbol);
+        if(!ctx.ID().isEmpty()){
+            imp.altName = ctx.ID(ctx.ID().size()-1).getText();
+            Symbol altNameSymbol = new Symbol();
+            altNameSymbol.type = "Alt Name for Import";
+            altNameSymbol.value = imp.altName;
+            scope.addSymbol(imp.altName,altNameSymbol);
+        }
+
         return imp;
     }
 

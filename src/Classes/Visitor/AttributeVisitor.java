@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.SemError;
 import Classes.GenericStatements.IfStatements.LogicalStatement;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
@@ -12,11 +13,13 @@ import Classes.Values.Htmls.Tags.Attributes.NgFor;
 import Classes.Values.Htmls.Tags.Attributes.NgIf;
 import Classes.Values.Htmls.Tags.Attributes.QuotedAttribute;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
 
     Stack<Scope>currentScope = new Stack<>();
+    ArrayList<SemError>semanticErrors = new ArrayList<>();
     public Attribute visitAttribute(AngularParser.AttributeContext ctx){
         if(ctx instanceof AngularParser.NgForContext){
             return this.visitNgFor((AngularParser.NgForContext) ctx);
@@ -37,56 +40,94 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
 
     @Override
     public QuotedAttribute visitDoubleQuotedAttribute(AngularParser.DoubleQuotedAttributeContext ctx) {
-
         QuotedAttribute quotedAttribute = new QuotedAttribute();
+        int line;
+        int charPos;
         if(ctx.ID() != null){
             quotedAttribute.attributeName = ctx.ID().getText();
+            line = ctx.ID().getSymbol().getLine();
+            charPos = ctx.ID().getSymbol().getCharPositionInLine();
         }else {
             quotedAttribute.attributeName = ctx.Class().getText();
+            line = ctx.Class().getSymbol().getLine();
+            charPos = ctx.Class().getSymbol().getCharPositionInLine();
         }
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
         Scope scope = currentScope.peek();
-        Symbol symbol = new Symbol();
-        symbol.scope = scope;
-        symbol.type = "HtmlAttribute";
-        symbol.value = quotedAttribute.attributeValue;
-        scope.addSymbol(quotedAttribute.attributeName,symbol);
+        if(scope.exists(quotedAttribute.attributeName)!=null){
+            semanticErrors.add(new SemError("Attribute with the same name already exists ",
+                    line,charPos
+            ));
+        }
+        else {
+            Symbol symbol = new Symbol();
+            symbol.scope = scope;
+            symbol.type = "HtmlAttribute";
+            symbol.value = quotedAttribute.attributeValue;
+            scope.addSymbol(quotedAttribute.attributeName, symbol);
+        }
         return quotedAttribute;
     }
 
     @Override
     public QuotedAttribute visitOpenBracketAttribute(AngularParser.OpenBracketAttributeContext ctx) {
         QuotedAttribute quotedAttribute = new QuotedAttribute();
+        int line;
+        int charPos;
         if(ctx.ID() != null){
             quotedAttribute.attributeName = ctx.ID().getText();
+             line = ctx.ID().getSymbol().getLine();
+             charPos = ctx.ID().getSymbol().getCharPositionInLine();
         }else {
             quotedAttribute.attributeName = ctx.Class().getText();
+            line = ctx.Class().getSymbol().getLine();
+            charPos = ctx.Class().getSymbol().getCharPositionInLine();
         }
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
         Scope scope = currentScope.peek();
-        Symbol symbol = new Symbol();
-        symbol.scope = scope;
-        symbol.type = "HtmlAttribute";
-        symbol.value = quotedAttribute.attributeValue;
-        scope.addSymbol(quotedAttribute.attributeName,symbol);
+        if(scope.exists(quotedAttribute.attributeName)!=null){
+            semanticErrors.add(new SemError("Attribute with the same name already exists ",
+                    line,charPos
+                    ));
+        }
+        else {
+            Symbol symbol = new Symbol();
+            symbol.scope = scope;
+            symbol.type = "HtmlAttribute";
+            symbol.value = quotedAttribute.attributeValue;
+            scope.addSymbol(quotedAttribute.attributeName, symbol);
+        }
         return quotedAttribute;
     }
 
     @Override
     public QuotedAttribute visitOpenParenAttribute(AngularParser.OpenParenAttributeContext ctx) {
         QuotedAttribute quotedAttribute = new QuotedAttribute();
+        int line;
+        int charPos;
         if(ctx.ID() != null){
             quotedAttribute.attributeName = ctx.ID().getText();
+            line = ctx.ID().getSymbol().getLine();
+            charPos = ctx.ID().getSymbol().getCharPositionInLine();
         }else {
             quotedAttribute.attributeName = ctx.Class().getText();
+            line = ctx.Class().getSymbol().getLine();
+            charPos = ctx.Class().getSymbol().getCharPositionInLine();
         }
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
         Scope scope = currentScope.peek();
-        Symbol symbol = new Symbol();
-        symbol.scope = scope;
-        symbol.type = "HtmlAttribute";
-        symbol.value = quotedAttribute.attributeValue;
-        scope.addSymbol(quotedAttribute.attributeName,symbol);
+        if(scope.exists(quotedAttribute.attributeName)!=null){
+            semanticErrors.add(new SemError("Attribute with the same name already exists ",
+                    line,charPos
+            ));
+        }
+        else {
+            Symbol symbol = new Symbol();
+            symbol.scope = scope;
+            symbol.type = "HtmlAttribute";
+            symbol.value = quotedAttribute.attributeValue;
+            scope.addSymbol(quotedAttribute.attributeName, symbol);
+        }
         return quotedAttribute;
     }
 

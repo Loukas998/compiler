@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.SemError;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.SymbolTable;
@@ -10,11 +11,13 @@ import Classes.Values.Htmls.Tags.Attributes.Attribute;
 import Classes.Values.Htmls.Tags.CloseTag;
 import Classes.Values.Htmls.Tags.OpenTag;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
     public int currId;
     Stack<Scope> currentScope = new Stack<Scope>();
+    ArrayList<SemError>semanticErrors = new ArrayList<>();
     public HtmlTagValue visitHtmlTags(AngularParser.HtmlTagsContext ctx){
         if(ctx instanceof AngularParser.PairedTagContext){
             return this.visitPairedTag((AngularParser.PairedTagContext) ctx);
@@ -64,6 +67,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
         currentScope.push(scope);
         AttributeVisitor attributeVisitor = new AttributeVisitor();
         attributeVisitor.currentScope = this.currentScope;
+        attributeVisitor.semanticErrors = semanticErrors;
         for (int i = 0 ; i < ctx.attribute().size(); i++){
             unpairedTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
         }
@@ -86,6 +90,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
         currentScope.push(scope);
         AttributeVisitor attributeVisitor = new AttributeVisitor();
       attributeVisitor.currentScope = currentScope;
+      attributeVisitor.semanticErrors = semanticErrors;
         for (int i = 0 ; i < ctx.attribute().size(); i++){
             openTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
         }

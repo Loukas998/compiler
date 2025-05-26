@@ -10,6 +10,7 @@ import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -54,27 +55,32 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
     public Styles visitStyles(AngularParser.StylesContext ctx) {
         var scope = currentScopeStack.peek();
         Styles styleList=new Styles();
-        for(int i = 0 ;i<ctx.SingleQuote().size()-1;i++){
+        for(int i = 0 ;i<ctx.SingleQuote().size();i++){
             if(styleList.paths.contains(ctx.SingleQuote(i).getText())){
                 //TODO THIS IS A SEMANTIC ERROR JUST ADD THE TEXT TO AN ERROR FILE
+                semanticErrors.add(new SemError("Duplicate CSS file name ",
+                        ctx.SingleQuote(i).getSymbol().getLine(),
+                        ctx.SingleQuote(i).getSymbol().getCharPositionInLine()));
                 continue;//don't add it to list
             }
             styleList.add(ctx.SingleQuote(i).getText());
         }
-        for(int i = 0 ;i<ctx.BackTickQuote().size()-1;i++){
+        for(int i = 0 ;i<ctx.BackTickQuote().size();i++){
             if(styleList.paths.contains(ctx.BackTickQuote(i).getText())){
                 //TODO THIS IS A SEMANTIC ERROR JUST ADD THE TEXT TO AN ERROR FILE
+                semanticErrors.add(new SemError("Duplicate CSS file name ",
+                        ctx.BackTickQuote(i).getSymbol().getLine(),
+                        ctx.BackTickQuote(i).getSymbol().getCharPositionInLine()));
                 continue;//don't add it to list
             }
             styleList.add(ctx.BackTickQuote(i).getText());
         }
         for(int i = 0; i<styleList.paths.size();i++){
-            //TODO Check for file existing
             Symbol stylePathSymbol = new Symbol();
             stylePathSymbol.type = "Style File Path " + i;
             stylePathSymbol.value = styleList.paths.get(i);
             stylePathSymbol.scope = scope;
-            scope.addSymbol(stylePathSymbol.type,stylePathSymbol);
+            scope.addSymbol(stylePathSymbol.value.toString(),stylePathSymbol);
         }
         return styleList;
     }
@@ -83,13 +89,26 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
     public ComponentInfo visitTempUrl(AngularParser.TempUrlContext ctx) {
         Scope scope = currentScopeStack.peek();
         TempUrl templateUrl=new TempUrl();
+        String newString;
+        int line;
+        int charPlace;
         if(ctx.SingleQuote()!=null){
             templateUrl.path=(ctx.SingleQuote().getText());
+            newString = templateUrl.path.replace("'","");
+            line = ctx.SingleQuote().getSymbol().getLine();
+            charPlace = ctx.SingleQuote().getSymbol().getCharPositionInLine();
         }
         else{
             templateUrl.path=(ctx.BackTickQuote().getText());
+            newString = templateUrl.path.replace("`","");
+             line = ctx.BackTickQuote().getSymbol().getLine();
+            charPlace = ctx.BackTickQuote().getSymbol().getCharPositionInLine();
         }
-        //TODO CHECK THAT THE FILE EXISTS
+        File file = new File(newString);
+        if(!file.exists()){
+            semanticErrors.add(new SemError("File Doesn't exist",
+                    line,charPlace));
+        }
         Symbol symbol = new Symbol();
         symbol.type = "Html File Url";
         symbol.value = templateUrl.path;
