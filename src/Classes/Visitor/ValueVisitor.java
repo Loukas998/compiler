@@ -193,6 +193,15 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
             functionStatement.addGenericStatements(
                     genericStatementVisitor.visitGenericStatement(ctx.genericStatement(i)));
         }
+
+
+        for(int i = 0 ; i < functionStatement.variableNamings.size();i++){
+            Symbol paramSymbol = new Symbol();
+            paramSymbol.type = "Function Parameter  " + functionStatement.variableNamings.get(i).type.type;
+            paramSymbol.value = functionStatement.variableNamings.get(i).name;
+            scope.addSymbol( functionStatement.variableNamings.get(i).name,paramSymbol);
+        }
+
         currentScope.pop();
         return functionStatement;
     }
