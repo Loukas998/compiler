@@ -114,7 +114,18 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
             Symbol varSymbol = new Symbol();
             symbol.type = varName.type.type;
             symbol.value = varName.name;
-            scope.addSymbol(varName.name,symbol);
+            var existingSymbol = scope.exists(varName.name);
+            int line;
+            int charPos;
+            if(existingSymbol == null)
+            {
+                scope.addSymbol(varName.name, symbol);
+            } else {
+                line = ctx.ID().getSymbol().getLine();
+                charPos = ctx.variableNaming(i).ID(ctx.variableNaming(i).ID().size() - 1).getSymbol().getCharPositionInLine();
+                semanticErrors.add(new SemError("The key already exists", line, charPos));
+            }
+
             // this.symbolTable = variableNamingVisitor.symbolTable;
         }
         scope = currentScope.pop();

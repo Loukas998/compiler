@@ -57,7 +57,6 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         Styles styleList=new Styles();
         for(int i = 0 ;i<ctx.SingleQuote().size();i++){
             if(styleList.paths.contains(ctx.SingleQuote(i).getText())){
-                //TODO THIS IS A SEMANTIC ERROR JUST ADD THE TEXT TO AN ERROR FILE
                 semanticErrors.add(new SemError("Duplicate CSS file name ",
                         ctx.SingleQuote(i).getSymbol().getLine(),
                         ctx.SingleQuote(i).getSymbol().getCharPositionInLine()));
@@ -67,7 +66,6 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         }
         for(int i = 0 ;i<ctx.BackTickQuote().size();i++){
             if(styleList.paths.contains(ctx.BackTickQuote(i).getText())){
-                //TODO THIS IS A SEMANTIC ERROR JUST ADD THE TEXT TO AN ERROR FILE
                 semanticErrors.add(new SemError("Duplicate CSS file name ",
                         ctx.BackTickQuote(i).getSymbol().getLine(),
                         ctx.BackTickQuote(i).getSymbol().getCharPositionInLine()));
