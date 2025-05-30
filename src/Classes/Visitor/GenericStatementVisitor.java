@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.DuplicateAttributeError;
 import Classes.Errors.SemError;
 import Classes.GenericStatements.Assign;
 import Classes.GenericStatements.GenericStatement;
@@ -75,8 +76,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
             scope.addSymbol(variableDecl.variableNaming.name,symbol);
         }
         else{
-            semanticErrors.add(new SemError("Variable " + variableDecl.variableNaming.name +
-                    " Already Exists in this Scope",ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getLine(),
+            semanticErrors.add(new DuplicateAttributeError( variableDecl.variableNaming.name,ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getLine(),
                     ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getCharPositionInLine()-1));
         }
         return variableDecl;

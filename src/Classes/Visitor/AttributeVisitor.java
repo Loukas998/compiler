@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.HtmlError;
 import Classes.Errors.SemError;
 import Classes.GenericStatements.IfStatements.LogicalStatement;
 import Classes.SymbolTable.Row;
@@ -55,9 +56,8 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
         Scope scope = currentScope.peek();
         if(scope.exists(quotedAttribute.attributeName)!=null){
-            semanticErrors.add(new SemError("Attribute with the same name already exists ",
-                    line,charPos
-            ));
+            semanticErrors.add(new HtmlError(line,charPos));
+
         }
         else {
             Symbol symbol = new Symbol();
@@ -86,9 +86,7 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
         Scope scope = currentScope.peek();
         if(scope.exists(quotedAttribute.attributeName)!=null){
-            semanticErrors.add(new SemError("Attribute with the same name already exists ",
-                    line,charPos
-                    ));
+            semanticErrors.add(new HtmlError(line,charPos));
         }
         else {
             Symbol symbol = new Symbol();
@@ -117,9 +115,7 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
         quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
         Scope scope = currentScope.peek();
         if(scope.exists(quotedAttribute.attributeName)!=null){
-            semanticErrors.add(new SemError("Attribute with the same name already exists ",
-                    line,charPos
-            ));
+            semanticErrors.add(new HtmlError(line,charPos));
         }
         else {
             Symbol symbol = new Symbol();

@@ -4,6 +4,9 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.ComponenetInfos.*;
 import Classes.ComponentInfo;
+import Classes.Errors.DuplicateCssError;
+import Classes.Errors.FileError;
+import Classes.Errors.ImportError;
 import Classes.Errors.SemError;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
@@ -57,19 +60,19 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         Styles styleList=new Styles();
         for(int i = 0 ;i<ctx.SingleQuote().size();i++){
             if(styleList.paths.contains(ctx.SingleQuote(i).getText())){
-                semanticErrors.add(new SemError("Duplicate CSS file name ",
-                        ctx.SingleQuote(i).getSymbol().getLine(),
-                        ctx.SingleQuote(i).getSymbol().getCharPositionInLine()));
-                continue;//don't add it to list
+                semanticErrors.add(new DuplicateCssError(
+                        ctx.BackTickQuote(i).getSymbol().getLine(),
+                        ctx.BackTickQuote(i).getSymbol().getCharPositionInLine()));
+                continue;
             }
             styleList.add(ctx.SingleQuote(i).getText());
         }
         for(int i = 0 ;i<ctx.BackTickQuote().size();i++){
             if(styleList.paths.contains(ctx.BackTickQuote(i).getText())){
-                semanticErrors.add(new SemError("Duplicate CSS file name ",
-                        ctx.BackTickQuote(i).getSymbol().getLine(),
-                        ctx.BackTickQuote(i).getSymbol().getCharPositionInLine()));
-                continue;//don't add it to list
+                semanticErrors.add(new DuplicateCssError(
+                        ctx.SingleQuote(i).getSymbol().getLine(),
+                        ctx.SingleQuote(i).getSymbol().getCharPositionInLine()));
+                continue;
             }
             styleList.add(ctx.BackTickQuote(i).getText());
         }
@@ -104,8 +107,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         }
         File file = new File(newString);
         if(!file.exists()){
-            semanticErrors.add(new SemError("File Doesn't exist",
-                    line,charPlace));
+            semanticErrors.add(new FileError(line,charPlace));
         }
         Symbol symbol = new Symbol();
         symbol.type = "Html File Url";
@@ -131,7 +133,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
                     var sym =ctx.NgFor(i).getSymbol();
                     int line = sym.getLine();
                     int charPos = sym.getCharPositionInLine()-1;
-                    semanticErrors.add(new SemError("NgFor Not Imported",line,charPos));
+                    semanticErrors.add(new ImportError("NgFor",line,charPos));
                 }
                 importList.add(ctx.NgFor(i).getText());
             }
@@ -143,7 +145,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
                 var sym = ctx.NgIf(i).getSymbol();
                 int line = sym.getLine();
                 int charPos = sym.getCharPositionInLine() - 1;
-                semanticErrors.add(new SemError("NgIf Not Imported", line, charPos));
+                    semanticErrors.add(new ImportError("NgIf", line, charPos));
             }
                 importList.add(ctx.NgIf(i).getText());
             }
@@ -154,7 +156,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
                     var sym = ctx.ID(i).getSymbol();
                     int line = sym.getLine();
                     int charPos = sym.getCharPositionInLine() - 1;
-                    semanticErrors.add(new SemError(ctx.ID(i).getText() + " Not Imported", line, charPos));
+                    semanticErrors.add(new ImportError(ctx.ID(i).getText() , line, charPos));
                 }
                 importList.add(ctx.ID(i).getText());
             }
