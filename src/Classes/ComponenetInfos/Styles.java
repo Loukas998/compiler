@@ -20,7 +20,7 @@ public class Styles extends ComponentInfo {
     @Override
     public String toString() {
         return "\n Styles {" +
-                "\n cssPaths: " + this.paths.toString() +
+                "\n cssPaths: " + //this.paths.toString() +
                 "\n }";
     }
 }

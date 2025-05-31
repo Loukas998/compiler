@@ -20,7 +20,7 @@ public class InterfaceDecl extends Expression {
     @Override
     public String toString(){
         return "\n InterfaceDeclaration {" +
-                "\n InterfaceName: " + this.name +
+                "\n Interface: " + //this.name +
                 "\n , InterfaceVariables: " + this.variableNamingList.toString() +
                 "\n}";
     }

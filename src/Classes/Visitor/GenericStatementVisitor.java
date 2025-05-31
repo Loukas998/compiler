@@ -65,6 +65,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         variableDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
         ValueVisitor valueVisitor=new ValueVisitor();
         valueVisitor.currentScope = currentScope;
+        valueVisitor.semanticErrors = this.semanticErrors;
         if(ctx.value()!=null) {
             variableDecl.value = valueVisitor.visit(ctx.value());
         }

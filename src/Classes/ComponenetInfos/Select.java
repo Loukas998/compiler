@@ -12,7 +12,7 @@ public String name;
     }
     public String toString(){
         return "\n Select {" +
-                "\n selector: " + this.name +
+                "\n selector: " +//+ this.name +
                 "\n }";
     }
 }

@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.DuplicateValueError;
 import Classes.Errors.SemError;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
@@ -232,14 +233,23 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         currentScope.push(scope);
         JsonObjectValue jsonObjectValue=new JsonObjectValue();
         for(int i=0;i<ctx.ID().size();i++){
-            jsonObjectValue.addJsons(ctx.ID(i).getText(),this.visitValue(ctx.value(i)));
-        }
-        jsonObjectValue.jsons.forEach((name,value)->{
+            String name = ctx.ID(i).getText();
+            var valueObject = this.visitValue(ctx.value(i));
             Symbol symbol = new Symbol();
-            symbol.type = name;
-            symbol.value = value;
-            scope.addSymbol(name,symbol);
-        });
+            symbol.type = ctx.ID(i).getText();
+            symbol.value = valueObject;
+            Symbol existingSymbol = scope.exists(ctx.ID(i).getText());
+            if(existingSymbol != null){
+                int line = ctx.ID(i).getSymbol().getLine();
+                int charPos = ctx.ID(i).getSymbol().getCharPositionInLine();
+                semanticErrors.add(new DuplicateValueError(ctx.ID(i).getText(),line,charPos));
+            }
+            else{
+                scope.addSymbol(name,symbol);
+            }
+
+            jsonObjectValue.addJsons(ctx.ID(i).getText(),valueObject);
+        }
         currentScope.pop();
         return jsonObjectValue;
     }

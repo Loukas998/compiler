@@ -18,15 +18,15 @@ public class Assign extends GenericStatement{
     public String toString(){
         if(firstId != null){
             return "\n Assign {" +
-                    "\n , thisOrId: " + this.firstId +
-                    "\n , variableName: " + this.secondId +
-                    "\n , newValue: " + this.valueType.toString() +
+                    "\n , thisOrId: " + //this.firstId +
+                    "\n , variableName: " + //this.secondId +
+                    "\n , newValue: " + //this.valueType.toString() +
                     "\n}";
         }
 
         return "\n Assign {" +
-                "\n variableName: " + this.secondId +
-                "\n , newValue: " + this.valueType.toString() +
+                "\n variableName =  " + //this.secondId +
+                "\n , newValue  " + //this.valueType.toString() +
                 "\n}";
     }
 }

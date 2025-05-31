@@ -10,6 +10,6 @@ public class VarType {
     }
     @Override
     public String toString(){
-        return this.type;
+        return "Variable Type";//this.type;
     }
 }

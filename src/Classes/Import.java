@@ -16,9 +16,9 @@ public class Import extends Expression{
     }
     @Override
     public String toString(){
-        if(this.type.equals("NgIf")) return "NgIfImport: " + this.type  + "From" + this.fromPath;
-        else if(this.type.equals("NgFor")) return "NgForImport: " + this.type + "From" + this.fromPath;
-        else if(this.type.equals("Component")) return "ComponentImport: " + this.type + "From" + this.fromPath;
-        return "IDImport: " + this.type + "From" + this.fromPath;
+        if(this.type.equals("NgIf")) return "Import Statement";
+        else if(this.type.equals("NgFor")) return "Import Statement";
+        else if(this.type.equals("Component")) return "Import Component ";
+        return "Import Statement ";
     }
 }

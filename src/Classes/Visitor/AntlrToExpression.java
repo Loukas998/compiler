@@ -4,6 +4,7 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.*;
 import Classes.Class;
+import Classes.Errors.ComponentImportNotExists;
 import Classes.Errors.SemError;
 import Classes.GenericStatements.GenericStatement;
 import Classes.SymbolTable.Row;
@@ -65,9 +66,11 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
 
     @Override
     public Import visitImportStatement(AngularParser.ImportStatementContext ctx) {
+
         Import imp = new Import(ctx.getChild(2).getText());
         imp.fromPath = ctx.getChild(ctx.getChildCount()-2).getText();
         Scope scope = currentScope.peek();
+
         Symbol symbol = new Symbol();
         symbol.type = "Imported";
         symbol.value = imp.fromPath;
@@ -79,7 +82,21 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
             altNameSymbol.value = imp.altName;
             scope.addSymbol(imp.altName,altNameSymbol);
         }
-
+        var existComponent = scope.exists("Component");
+        if(existComponent == null){
+            int line = 1 , charPos = 8;
+            if(ctx.NgFor()!=null){
+                line = ctx.NgFor().getSymbol().getLine();
+                charPos = ctx.NgFor().getSymbol().getCharPositionInLine();
+            }
+            else if(ctx.NgIf()!=null){
+                line = ctx.NgIf().getSymbol().getLine();
+                charPos = ctx.NgIf().getSymbol().getCharPositionInLine();
+            } else if (ctx.ID().size() == 2){
+                line = ctx.ID(0).getSymbol().getLine();
+                charPos = ctx.ID(0).getSymbol().getCharPositionInLine();}
+            semanticErrors.add(new ComponentImportNotExists(line,charPos));
+        }
         return imp;
     }
 

@@ -15,12 +15,12 @@ public class VariableNaming {
     public String toString() {
         if(this.type!=null){
             return " VariableNaming {" +
-                    "\n VariableName: " + this.name +
-                    "\n , VariableType: " + this.type.toString() +
-                    "\n}";
+                    "\n VariableName: " +//+ this.name +
+                    "\n , VariableType: " ;//+ this.type.toString() +
+                    //"\n}";
         }
         return "\n VariableNaming {" +
-                "\n VariableName: " + this.name +
+                "\n VariableName: " + //this.name +
                 "\n}";
     }
 }
