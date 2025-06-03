@@ -22,6 +22,6 @@ public class If extends GenericStatement {
 
     @Override
     public String toString(){
-        return "Condition: " + conditionalState.toString() + " Statements: " + genericStatements.toString();
+        return "If Statement ";//"Condition: " + conditionalState.toString() + " Statements: " + genericStatements.toString();
     }
 }

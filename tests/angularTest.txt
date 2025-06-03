@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component as Cp } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { NgIf as NF } from '@angular/common';
@@ -7,13 +7,13 @@ import { NgIf as NF } from '@angular/common';
 selector: 'app-root',
  standalone: true,
   templateUrl: './app.component.html',
- imports:[CommonModule,NgIf,NF],
+ imports:[CommonModule,NgIf, fjsdjkfn],
  styleUrls : ['app.css']
 })
 export class AppComponent {
  selectedProduct: any = null;
  Product List= [
-  { name: 'Product 1',name :'fuck me', price: 'assets/Image/1.jpg', details: 'Details of Product 1.' },
+  { name: 'Product 1', price: 'assets/Image/1.jpg', details: 'Details of Product 1.' },
   { name: 'Product 2', src: 'assets/Image/2.jpg', details: 'Details of Product 2.' },
    ];
   // var List = 'LLL'

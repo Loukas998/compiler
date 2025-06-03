@@ -68,6 +68,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
         AttributeVisitor attributeVisitor = new AttributeVisitor();
         attributeVisitor.currentScope = this.currentScope;
         attributeVisitor.semanticErrors = semanticErrors;
+        attributeVisitor.currId = this.currId;
         for (int i = 0 ; i < ctx.attribute().size(); i++){
             unpairedTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
         }

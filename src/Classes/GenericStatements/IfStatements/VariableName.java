@@ -8,6 +8,7 @@ public class VariableName extends ConditionalState {
     }
     @Override
     public String toString(){
-        return this.variableName;
+        //return this.variableName;
+        return "VariableName ";
     }
 }

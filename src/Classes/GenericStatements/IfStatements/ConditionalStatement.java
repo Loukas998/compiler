@@ -24,6 +24,6 @@ public class ConditionalStatement extends ConditionalState {
 
     @Override
     public String toString(){
-        return "LogicalStatement: " + logicalStatements.toString() + " logicalOps: " + logicalOps.toString();
+        return "LogicalStatement: " ;
     }
 }

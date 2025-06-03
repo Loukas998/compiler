@@ -20,6 +20,7 @@ import java.util.Stack;
 public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
 
     Stack<Scope>currentScope = new Stack<>();
+    public  int currId;
     ArrayList<SemError>semanticErrors = new ArrayList<>();
     public Attribute visitAttribute(AngularParser.AttributeContext ctx){
         if(ctx instanceof AngularParser.NgForContext){

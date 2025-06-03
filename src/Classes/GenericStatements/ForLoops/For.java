@@ -15,6 +15,6 @@ public class For {
 
     @Override
     public String toString(){
-        return "singular: " + singular + " plural" + plural + " body: " + forBody.toString();
+        return "For Loop " + forBody.toString();
     }
 }

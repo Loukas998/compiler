@@ -53,6 +53,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         GenericStatementVisitor genericStatementVisitor = new GenericStatementVisitor();
         genericStatementVisitor.currentScope = currentScope;
         genericStatementVisitor.semanticErrors = semanticErrors;
+        genericStatementVisitor.currId = this.currId;
       //  genericStatementVisitor.symbolTable = this.symbolTable;
         GenericStatement generics = genericStatementVisitor.visitGenericStatement(ctx.genericStatement());
         // this.symbolTable = genericStatementVisitor.symbolTable;
@@ -190,6 +191,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         currentScope.push(scope);
         GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
         genericStatementVisitor.semanticErrors = semanticErrors;
+        genericStatementVisitor.currId = this.currId;
         genericStatementVisitor.currentScope = currentScope;
         for(int i=0;i<ctx.genericStatement().size();i++){
            // genericStatementVisitor.symbolTable = this.symbolTable;

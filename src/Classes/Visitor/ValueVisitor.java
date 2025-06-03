@@ -292,6 +292,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public ValueType visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
         HtmlVisitor htmlVisitor=new HtmlVisitor();
         htmlVisitor.currentScope = this.currentScope;
+        htmlVisitor.currId = this.currId;
         htmlVisitor.semanticErrors = semanticErrors;
         htmlVisitor.currId = currId;
         ValueType htmlValueType = htmlVisitor.visitHtmlTags(ctx.htmlTags());

@@ -2,7 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
-import Classes.Errors.DuplicateAttributeError;
+import Classes.Errors.DuplicateValueError;
 import Classes.Errors.SemError;
 import Classes.GenericStatements.Assign;
 import Classes.GenericStatements.GenericStatement;
@@ -10,8 +10,6 @@ import Classes.GenericStatements.Variables.ArrayDecl;
 import Classes.GenericStatements.Variables.VariableDecl;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
-import Classes.SymbolTable.SymbolTable;
-import Classes.Values.ArrayInfoValue;
 import Classes.Values.ValueType;
 
 import java.util.ArrayList;
@@ -19,6 +17,7 @@ import java.util.Stack;
 
 public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericStatement> {
     public Stack<Scope> currentScope = new Stack<>();
+    public int currId;
     public ArrayList<SemError>semanticErrors = new ArrayList<>();
     // public SymbolTable symbolTable = new SymbolTable();
 
@@ -64,6 +63,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         variableNamingVisitor.currScopeStack = currentScope;
         variableDecl.variableNaming=variableNamingVisitor.visitVariableNaming(ctx.variableNaming());
         ValueVisitor valueVisitor=new ValueVisitor();
+        valueVisitor.currId = this.currId;
         valueVisitor.currentScope = currentScope;
         valueVisitor.semanticErrors = this.semanticErrors;
         if(ctx.value()!=null) {
@@ -77,7 +77,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
             scope.addSymbol(variableDecl.variableNaming.name,symbol);
         }
         else{
-            semanticErrors.add(new DuplicateAttributeError( variableDecl.variableNaming.name,ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getLine(),
+            semanticErrors.add(new DuplicateValueError( variableDecl.variableNaming.name,ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getLine(),
                     ctx.variableNaming().ID(ctx.variableNaming().ID().size()-1).getSymbol().getCharPositionInLine()-1));
         }
         return variableDecl;
@@ -126,6 +126,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         assign.secondId=ctx.ID().getText();
         ValueVisitor valueVisitor=new ValueVisitor();
         valueVisitor.currentScope = currentScope;
+        valueVisitor.currId = this.currId;
         assign.valueType=valueVisitor.visitValue(ctx.value());
         Symbol symbol = new Symbol();
         Symbol findSym = scope.getSymbol(assign.firstId);
@@ -156,6 +157,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         ValueVisitor valueVisitor=new ValueVisitor();
         valueVisitor.semanticErrors = semanticErrors;
         valueVisitor.currentScope = currentScope;
+        valueVisitor.currId = this.currId;
        // valueVisitor.symbolTable = this.symbolTable;
         ValueType valueType = valueVisitor.visitValue(ctx.value());
         //this.symbolTable = valueVisitor.symbolTable;
@@ -165,6 +167,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     ValueVisitor valueVisitor = new ValueVisitor();
     valueVisitor.currentScope = currentScope;
     valueVisitor.semanticErrors = semanticErrors;
+    valueVisitor.currId = this.currId;
     //valueVisitor.symbolTable = this.symbolTable;
     ValueType valueType = valueVisitor.visitValue(ctx);
    // this.symbolTable = valueVisitor.symbolTable;

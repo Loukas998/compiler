@@ -4,10 +4,7 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.ComponenetInfos.*;
 import Classes.ComponentInfo;
-import Classes.Errors.DuplicateCssError;
-import Classes.Errors.FileError;
-import Classes.Errors.ImportError;
-import Classes.Errors.SemError;
+import Classes.Errors.*;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
@@ -60,7 +57,8 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         Styles styleList=new Styles();
         for(int i = 0 ;i<ctx.SingleQuote().size();i++){
             if(styleList.paths.contains(ctx.SingleQuote(i).getText())){
-                semanticErrors.add(new DuplicateCssError(
+                semanticErrors.add(new DuplicateValueError(
+                        ctx.BackTickQuote(i).getText(),
                         ctx.BackTickQuote(i).getSymbol().getLine(),
                         ctx.BackTickQuote(i).getSymbol().getCharPositionInLine()));
                 continue;
@@ -69,7 +67,8 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         }
         for(int i = 0 ;i<ctx.BackTickQuote().size();i++){
             if(styleList.paths.contains(ctx.BackTickQuote(i).getText())){
-                semanticErrors.add(new DuplicateCssError(
+                semanticErrors.add(new DuplicateValueError(
+                        ctx.SingleQuote(i).getText(),
                         ctx.SingleQuote(i).getSymbol().getLine(),
                         ctx.SingleQuote(i).getSymbol().getCharPositionInLine()));
                 continue;
