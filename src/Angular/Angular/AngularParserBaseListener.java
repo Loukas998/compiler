@@ -1,4 +1,4 @@
-// Generated from D:/Java intellj/compiler-project/src/Angular/AngularParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/LOQ/Documents/Github/compiler/src/Angular/AngularParser.g4 by ANTLR 4.13.2
 package Angular;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -197,13 +197,13 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionSummoning(AngularParser.FunctionSummoningContext ctx) { }
+	@Override public void enterThisDotValue(AngularParser.ThisDotValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionSummoning(AngularParser.FunctionSummoningContext ctx) { }
+	@Override public void exitThisDotValue(AngularParser.ThisDotValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -221,6 +221,30 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEllipsisValue(AngularParser.EllipsisValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEllipsisValue(AngularParser.EllipsisValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueAndValue(AngularParser.ValueAndValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueAndValue(AngularParser.ValueAndValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNullableDotValue(AngularParser.NullableDotValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -233,25 +257,13 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunction(AngularParser.FunctionContext ctx) { }
+	@Override public void enterBracedValue(AngularParser.BracedValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunction(AngularParser.FunctionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunctionStatement(AngularParser.FunctionStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionStatement(AngularParser.FunctionStatementContext ctx) { }
+	@Override public void exitBracedValue(AngularParser.BracedValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -401,6 +413,42 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFunction(AngularParser.FunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunction(AngularParser.FunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionSummoning(AngularParser.FunctionSummoningContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionSummoning(AngularParser.FunctionSummoningContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionStatement(AngularParser.FunctionStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionStatement(AngularParser.FunctionStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariableDecl(AngularParser.VariableDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -468,6 +516,18 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFor(AngularParser.ForContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

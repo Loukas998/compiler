@@ -103,7 +103,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
         HtmlInterpolation htmlInterpolation = new HtmlInterpolation();
         ValueVisitor valueVisitor = new ValueVisitor();
         for(int i = 0; i < ctx.value().size(); i++){
-            htmlInterpolation.valueTypes.add(valueVisitor.visitValue(ctx.value(i)));
+            htmlInterpolation.valueTypes.add(valueVisitor.visit(ctx.value(i)));
         }
         return htmlInterpolation;
     }

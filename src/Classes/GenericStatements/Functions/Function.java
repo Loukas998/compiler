@@ -1,6 +1,8 @@
-package Classes.Values.Functions;
+package Classes.GenericStatements.Functions;
 
-public class Function extends FunctionValue {
+import Classes.GenericStatements.GenericStatement;
+
+public class Function extends GenericStatement {
     public String functionName;
     public FunctionStatement functionStatement;
     public Function(){}

@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
        {
            ArrayList<SemError>semanticErrors = new ArrayList<>();
-            AngularParser parser = getParser("tests\\angularTest.txt");
+            AngularParser parser = getParser("tests\\angular.txt");
 
             ParseTree antlrAST = parser.prog();
 
@@ -59,5 +59,8 @@ public class Main {
                 throw new RuntimeException(e);
             }
             return parser;
+        }
+        private void codeGen(Program program){
+        
         }
 }

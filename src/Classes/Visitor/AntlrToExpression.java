@@ -31,22 +31,6 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         this.currId = id;
         this.currentScope = currentScope;
     }
-    public Expression visitExpression(AngularParser.ExpressionContext ctx){
-        if(ctx instanceof AngularParser.ImportContext){
-            return this.visitImport((AngularParser.ImportContext) ctx);
-        }
-        else if(ctx instanceof AngularParser.InterfaceDeclContext){
-            return this.visitInterfaceDecl((AngularParser.InterfaceDeclContext) ctx);
-        }
-        else if(ctx instanceof AngularParser.ComponentContext){
-            return this.visitComponent((AngularParser.ComponentContext) ctx);
-        }
-        else if(ctx instanceof AngularParser.ClassContext){
-            return this.visitClass((AngularParser.ClassContext) ctx);
-        }
-
-        return this.visitGeneric((AngularParser.GenericContext) ctx);
-    }
 
     @Override
     public GenericStatement visitGeneric(AngularParser.GenericContext ctx) {
@@ -55,7 +39,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         genericStatementVisitor.semanticErrors = semanticErrors;
         genericStatementVisitor.currId = this.currId;
       //  genericStatementVisitor.symbolTable = this.symbolTable;
-        GenericStatement generics = genericStatementVisitor.visitGenericStatement(ctx.genericStatement());
+        GenericStatement generics = genericStatementVisitor.visit(ctx.genericStatement());
         // this.symbolTable = genericStatementVisitor.symbolTable;
         return generics;
     }
@@ -186,7 +170,12 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     @Override
     public Classes.Class visitClassStructure(AngularParser.ClassStructureContext ctx) {
         Classes.Class cl=new Class();
-        cl.name = ctx.ID().getText();
+        Classes.Class parentClass = new Class();
+
+        cl.name = ctx.ID(0).getText();
+        if(ctx.ID().size()>1){
+            parentClass.name = ctx.ID(1).getText();
+        }
         Scope scope = new Scope("Class" + cl.name,currId+1,currentScope.peek());
         currentScope.push(scope);
         GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
@@ -195,7 +184,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         genericStatementVisitor.currentScope = currentScope;
         for(int i=0;i<ctx.genericStatement().size();i++){
            // genericStatementVisitor.symbolTable = this.symbolTable;
-            cl.addGenericStatement(genericStatementVisitor.visitGenericStatement(ctx.genericStatement(i)));
+            cl.addGenericStatement(genericStatementVisitor.visit(ctx.genericStatement(i)));
           //  this.symbolTable = genericStatementVisitor.symbolTable;
         }
         return cl;

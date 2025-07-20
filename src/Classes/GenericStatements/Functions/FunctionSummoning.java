@@ -1,4 +1,4 @@
-package Classes.Values.Functions;
+package Classes.GenericStatements.Functions;
 
 import Classes.Values.ValueType;
 

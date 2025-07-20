@@ -1,4 +1,4 @@
-// Generated from D:/Java intellj/compiler-project/src/Angular/AngularParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/LOQ/Documents/Github/compiler/src/Angular/AngularParser.g4 by ANTLR 4.13.2
 package Angular;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -178,17 +178,17 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitValueDotValue(AngularParser.ValueDotValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code FunctionSummoning}
+	 * Enter a parse tree produced by the {@code ThisDotValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	void enterThisDotValue(AngularParser.ThisDotValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code FunctionSummoning}
+	 * Exit a parse tree produced by the {@code ThisDotValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	void exitThisDotValue(AngularParser.ThisDotValueContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code NullableValue}
 	 * labeled alternative in {@link AngularParser#value}.
@@ -202,6 +202,30 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitNullableValue(AngularParser.NullableValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code EllipsisValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterEllipsisValue(AngularParser.EllipsisValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EllipsisValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitEllipsisValue(AngularParser.EllipsisValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ValueAndValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueAndValue(AngularParser.ValueAndValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueAndValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueAndValue(AngularParser.ValueAndValueContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code NullableDotValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -214,29 +238,17 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitNullableDotValue(AngularParser.NullableDotValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Function}
+	 * Enter a parse tree produced by the {@code BracedValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunction(AngularParser.FunctionContext ctx);
+	void enterBracedValue(AngularParser.BracedValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Function}
+	 * Exit a parse tree produced by the {@code BracedValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunction(AngularParser.FunctionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code FunctionStatement}
-	 * labeled alternative in {@link AngularParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionStatement(AngularParser.FunctionStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code FunctionStatement}
-	 * labeled alternative in {@link AngularParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionStatement(AngularParser.FunctionStatementContext ctx);
+	void exitBracedValue(AngularParser.BracedValueContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ValueOrValue}
 	 * labeled alternative in {@link AngularParser#value}.
@@ -380,6 +392,42 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitImportss(AngularParser.ImportssContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction(AngularParser.FunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction(AngularParser.FunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FunctionSummoning}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunctionSummoning}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FunctionStatement}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionStatement(AngularParser.FunctionStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunctionStatement}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionStatement(AngularParser.FunctionStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code VariableDecl}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -451,6 +499,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFor(AngularParser.ForContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code LogicalStatementGen}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code LogicalStatementGen}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ValueType}
 	 * labeled alternative in {@link AngularParser#genericStatement}.

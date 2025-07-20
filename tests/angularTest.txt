@@ -6,8 +6,8 @@ import { NgIf as NF } from '@angular/common';
 @Component({
 selector: 'app-root',
  standalone: true,
-  templateUrl: './app.component.html',
- imports:[CommonModule,NgIf, fjsdjkfn],
+  templateUrl: './product-page.component.html',
+ imports:[CommonModule,NgIf],
  styleUrls : ['app.css']
 })
 export class AppComponent {

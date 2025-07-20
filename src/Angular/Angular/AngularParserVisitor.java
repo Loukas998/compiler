@@ -1,4 +1,4 @@
-// Generated from D:/Java intellj/compiler-project/src/Angular/AngularParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/LOQ/Documents/Github/compiler/src/Angular/AngularParser.g4 by ANTLR 4.13.2
 package Angular;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -111,12 +111,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValueDotValue(AngularParser.ValueDotValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code FunctionSummoning}
+	 * Visit a parse tree produced by the {@code ThisDotValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	T visitThisDotValue(AngularParser.ThisDotValueContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code NullableValue}
 	 * labeled alternative in {@link AngularParser#value}.
@@ -125,6 +125,20 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNullableValue(AngularParser.NullableValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code EllipsisValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEllipsisValue(AngularParser.EllipsisValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueAndValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueAndValue(AngularParser.ValueAndValueContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code NullableDotValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -132,19 +146,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNullableDotValue(AngularParser.NullableDotValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Function}
+	 * Visit a parse tree produced by the {@code BracedValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFunction(AngularParser.FunctionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code FunctionStatement}
-	 * labeled alternative in {@link AngularParser#value}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionStatement(AngularParser.FunctionStatementContext ctx);
+	T visitBracedValue(AngularParser.BracedValueContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ValueOrValue}
 	 * labeled alternative in {@link AngularParser#value}.
@@ -229,6 +236,27 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportss(AngularParser.ImportssContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction(AngularParser.FunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunctionSummoning}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunctionStatement}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionStatement(AngularParser.FunctionStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code VariableDecl}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -270,6 +298,13 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFor(AngularParser.ForContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LogicalStatementGen}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ValueType}
 	 * labeled alternative in {@link AngularParser#genericStatement}.

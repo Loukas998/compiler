@@ -19,7 +19,7 @@ public class ArrayInfoVisitor extends AngularParserBaseVisitor<ArrayInfoValue> {
         valueVisitor.currentScope = currentScope;
         ArrayInfoValue arrayInfoValue=new ArrayInfoValue();
         for(int i=0;i<ctx.value().size();i++){
-            arrayInfoValue.addArrayValue(valueVisitor.visitValue(ctx.value(i)));
+            arrayInfoValue.addArrayValue(valueVisitor.visit(ctx.value(i)));
         }
         for (int i = 0 ; i<arrayInfoValue.arrayValues.size();i++){
             Symbol symbol = new Symbol();

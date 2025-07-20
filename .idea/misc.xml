@@ -6,7 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/Angular/AngularParser.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="D:\Java intellj\compiler-project\src\Angular" />
+          <option name="outputDir" value="C:\Users\LOQ\Documents\Github\compiler\src\Angular" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />
@@ -16,7 +16,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/Angular/AngularLexer.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="D:\Java intellj\compiler-project\src\Angular" />
+          <option name="outputDir" value="C:\Users\LOQ\Documents\Github\compiler\src\Angular" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />
@@ -26,7 +26,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="23" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23 (2)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

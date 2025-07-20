@@ -4,23 +4,16 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.Errors.DuplicateValueError;
 import Classes.Errors.SemError;
-import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
-import Classes.Values.ArrayInfoValue;
+import Classes.Values.*;
 import Classes.Values.Dots.NullableDotValue;
 import Classes.Values.Dots.ValueDotValue;
-import Classes.Values.Functions.Function;
-import Classes.Values.Functions.FunctionStatement;
-import Classes.Values.Functions.FunctionSummoning;
-import Classes.Values.JsonObjectValue;
 import Classes.Values.Simples.DecimalNumberValue;
 import Classes.Values.Simples.NullValue;
 import Classes.Values.Simples.StringValue;
 import Classes.Values.Simples.VariableValue;
-import Classes.Values.ValueOrValue;
-import Classes.Values.ValueType;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -31,7 +24,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public SymbolTable symbolTable = new SymbolTable();
     public int currId;
     public  ArrayList<SemError>semanticErrors = new ArrayList<>();
-    public ValueType visitValue(AngularParser.ValueContext ctx){
+/*    public ValueType visitValue(AngularParser.ValueContext ctx){
        if(ctx instanceof AngularParser.StringValueContext){
 
             return this.visitStringValue((AngularParser.StringValueContext) ctx);
@@ -87,9 +80,9 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
        }
        else if (ctx instanceof AngularParser.FunctionStatementContext){
            return this.visitFunctionStatement((AngularParser.FunctionStatementContext) ctx);
-       }
-       return this.visitHtmlTagValue((AngularParser.HtmlTagValueContext) ctx);
-    }
+       }*/
+    //   return this.visitHtmlTagValue((AngularParser.HtmlTagValueContext) ctx);
+   // }
 
     @Override
     public StringValue visitString(AngularParser.StringContext ctx) {
@@ -140,7 +133,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
         ArrayInfoValue arrayInfoValue=new ArrayInfoValue();
         for(int i=0;i<ctx.value().size();i++){
-            arrayInfoValue.addArrayValue(visitValue(ctx.value(i)));
+            arrayInfoValue.addArrayValue(visit(ctx.value(i)));
         }
         return arrayInfoValue;
     }
@@ -149,78 +142,6 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public ArrayInfoValue visitArrayInfoValue(AngularParser.ArrayInfoValueContext ctx) {
         return this.visitArrayInfo(ctx.arrayInfo());
     }
-
-
-    @Override
-    public Function visitFunction(AngularParser.FunctionContext ctx) {
-        return this.visitFunctionDeclaration(ctx.functionDeclaration());
-    }
-
-    @Override
-    public FunctionSummoning visitFunctionSummoning(AngularParser.FunctionSummoningContext ctx) {
-        return this.visitFunctionCall(ctx.functionCall());
-    }
-
-    @Override
-    public FunctionStatement visitFunctionStatement(AngularParser.FunctionStatementContext ctx) {
-        return this.visitFunctionBody(ctx.functionBody());
-    }
-
-    @Override
-    public Function visitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx) {
-
-        Function function=new Function();
-        function.functionName=ctx.ID().getText();
-        function.functionStatement=this.visitFunctionBody(ctx.functionBody());
-        return function;
-    }
-
-    @Override
-    public FunctionStatement visitFunctionBody(AngularParser.FunctionBodyContext ctx) {
-        Scope scope = new Scope("Function" + currId+1, currId+1,currentScope.peek());
-        currId++;
-        currentScope.push(scope);
-        VariableNamingVisitor variableNamingVisitor=new VariableNamingVisitor();
-        variableNamingVisitor.currScopeStack = currentScope;
-        GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
-        genericStatementVisitor.currentScope = currentScope;
-        FunctionStatement functionStatement=new FunctionStatement();
-        for(int i=0;i<ctx.variableNaming().size();i++){
-            functionStatement.addVariableNamings
-                    (variableNamingVisitor.
-                            visitVariableNaming(ctx.variableNaming(i)));
-        }
-        for (int i=0;i<ctx.genericStatement().size();i++){
-            functionStatement.addGenericStatements(
-                    genericStatementVisitor.visitGenericStatement(ctx.genericStatement(i)));
-        }
-
-
-        for(int i = 0 ; i < functionStatement.variableNamings.size();i++){
-            Symbol paramSymbol = new Symbol();
-            paramSymbol.type = "Function Parameter  " + functionStatement.variableNamings.get(i).type.type;
-            paramSymbol.value = functionStatement.variableNamings.get(i).name;
-            scope.addSymbol( functionStatement.variableNamings.get(i).name,paramSymbol);
-        }
-
-        currentScope.pop();
-        return functionStatement;
-    }
-
-    @Override
-    public FunctionSummoning visitFunctionCall(AngularParser.FunctionCallContext ctx) {
-        FunctionSummoning funCall=new FunctionSummoning();
-        funCall.functionName = ctx.ID().getText();
-        //Row row = new Row();
-       // row.type = "FunctionCall";
-        for(int i=0;i<ctx.value().size();i++){
-            funCall.addArgument(this.visitValue(ctx.value(i)));
-        }
-        //row.value = funCall.functionName;
-        //this.symbolTable.addRow(row);
-        return funCall;
-    }
-
     @Override
     public JsonObjectValue visitJsonObjectValue(AngularParser.JsonObjectValueContext ctx) {
         return this.visitJsonObject(ctx.jsonObject());
@@ -234,7 +155,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         JsonObjectValue jsonObjectValue=new JsonObjectValue();
         for(int i=0;i<ctx.ID().size();i++){
             String name = ctx.ID(i).getText();
-            var valueObject = this.visitValue(ctx.value(i));
+            var valueObject = this.visit(ctx.value(i));
             Symbol symbol = new Symbol();
             symbol.type = ctx.ID(i).getText();
             symbol.value = valueObject;
@@ -256,35 +177,57 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public ValueType visitEventValue(AngularParser.EventValueContext ctx) {
-        return this.visitValue(ctx.value());
+        return this.visit(ctx.value());
     }
 
     @Override
     public ValueType visitNullableValue(AngularParser.NullableValueContext ctx) {
-        return this.visitValue(ctx.value());
+        return this.visit(ctx.value());
+    }
+
+    @Override
+    public ValueType visitEllipsisValue(AngularParser.EllipsisValueContext ctx) {
+        return new EllipsisValue(this.visit(ctx.value()));
+    }
+
+    @Override
+    public ValueType visitValueAndValue(AngularParser.ValueAndValueContext ctx) {
+      var value1 = this.visit(ctx.value(0));
+      var value2 = this.visit(ctx.value(1));
+      return new ValueAndValue(value1,value2);
     }
 
     @Override
     public ValueDotValue visitValueDotValue(AngularParser.ValueDotValueContext ctx) {
         ValueDotValue valueDotValue = new ValueDotValue();
-        valueDotValue.firstValue = visitValue(ctx.value(0));
-        valueDotValue.secondValue = visitValue(ctx.value(1));
+        valueDotValue.firstValue = visit(ctx.value(0));
+        valueDotValue.secondValue = visit(ctx.value(1));
         return valueDotValue;
+    }
+
+    @Override
+    public ValueType visitThisDotValue(AngularParser.ThisDotValueContext ctx) {
+        return super.visitThisDotValue(ctx);
     }
 
     @Override
     public NullableDotValue visitNullableDotValue(AngularParser.NullableDotValueContext ctx) {
         NullableDotValue nullableDotValue = new NullableDotValue();
-        nullableDotValue.firstValue = visitValue(ctx.value(0));
-        nullableDotValue.secondValue = visitValue(ctx.value(1));
+        nullableDotValue.firstValue = visit(ctx.value(0));
+        nullableDotValue.secondValue = visit(ctx.value(1));
         return nullableDotValue;
+    }
+
+    @Override
+    public ValueType visitBracedValue(AngularParser.BracedValueContext ctx) {
+        return this.visit(ctx.value());
     }
 
     @Override
     public ValueOrValue visitValueOrValue(AngularParser.ValueOrValueContext ctx) {
         ValueOrValue valueOrValue = new ValueOrValue();
-        valueOrValue.firstValue = visitValue(ctx.value(0));
-        valueOrValue.secondValue = visitValue(ctx.value(1));
+        valueOrValue.firstValue = visit(ctx.value(0));
+        valueOrValue.secondValue = visit(ctx.value(1));
         return valueOrValue;
     }
 
@@ -292,7 +235,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     public ValueType visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
         HtmlVisitor htmlVisitor=new HtmlVisitor();
         htmlVisitor.currentScope = this.currentScope;
-        htmlVisitor.currId = this.currId;
+       // htmlVisitor.currId = this.currId;
         htmlVisitor.semanticErrors = semanticErrors;
         htmlVisitor.currId = currId;
         ValueType htmlValueType = htmlVisitor.visitHtmlTags(ctx.htmlTags());

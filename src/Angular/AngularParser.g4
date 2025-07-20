@@ -13,7 +13,7 @@ tokenVocab=AngularLexer;
               | genericStatement # Generic
               ;
 
-importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | ID) (As ID)? (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
+importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | ID)(As ID)? (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
 
 interface: Interface ID (OpenBrace|OpenBraceHTML) (variableNaming SemiColon)* (CloseBrace|CloseBraceHTML);
 
@@ -22,6 +22,7 @@ variableNaming: (Let|Var|Const | ID)? ID ((Colon varType)? (BitOr NullLiteral (A
 varType: String
        | Int
        | Boolean
+       | Number
        | Void
        | Any
        | ID
@@ -30,21 +31,23 @@ varType: String
 string: SingleQuote | BackTickQuote| DoubleQuote ;
 
 value:
-     arrayInfo # ArrayInfoValue
-     | functionDeclaration # Function
-     | functionCall # FunctionSummoning
-     | functionBody # FunctionStatement
+       arrayInfo # ArrayInfoValue
      | jsonObject # JsonObjectValue
      | OpenParen value CloseParen # EventValue
      | value Dot value # ValueDotValue
      | value QuestionMarkDot value # NullableDotValue
      | value QuestionMark # NullableValue
      | value Or value # ValueOrValue
+     | value And value # ValueAndValue
+     | Ellipsis value # EllipsisValue
+     | OpenBrace value CloseBrace # BracedValue
+     | thisorId value  # ThisDotValue
      | htmlTags # HtmlTagValue
      | string # StringValue
      | DecimalLiteral # DecimalNumberValue
      | ID # VariableValue
      | NullLiteral # NullValue
+
      ;
 
 componentDeclaration : At Component OpenParen (OpenBrace|OpenBraceHTML) componentInfo (Comma componentInfo )* (CloseBrace|CloseBraceHTML) CloseParen ;
@@ -57,24 +60,28 @@ componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
              ;
 
 genericStatement:
-                 variableDeclaration # VariableDecl
+                 functionDeclaration # Function
+                | functionCall # FunctionSummoning
+                | functionBody # FunctionStatement
+                | variableDeclaration # VariableDecl
                 | arrayDeclaration # ArrayDecl
                 | assignStatement # Assign
                 | returnStatement # Return
                 | ifStatement # If
                 | forLoop # For
-                |value # ValueType
+                | logicalStatement # LogicalStatementGen
+                | value # ValueType
 
                 ;
-classStructure: Export Class ID (OpenBrace|OpenBraceHTML) (genericStatement (SemiColon)?)* (CloseBrace|CloseBraceHTML);
+classStructure: Export Class ID ((Implements|Extends) ID)? (OpenBrace|OpenBraceHTML) (genericStatement (SemiColon)?)* (CloseBrace|CloseBraceHTML);
 
 variableDeclaration: variableNaming (Assign value (BitOr NullLiteral (Assign NullLiteral)?)?)? (SemiColon)?;
 
 arrayDeclaration: variableNaming (OpenBracket CloseBracket)? (Assign arrayInfo*)?(SemiColon)?;
-arrayInfo: OpenBracket value (Comma value)* (Comma)? CloseBracket;
+arrayInfo: OpenBracket (value (Comma value)* (Comma)?)* CloseBracket;
 
-functionDeclaration: ID functionBody;
-functionBody:  OpenParen (variableNaming(Comma variableNaming)*)* CloseParen ARROW? (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML);
+functionDeclaration: (thisorId)?ID functionBody;
+functionBody:  OpenParen ((value | variableNaming | genericStatement)(Comma (value |variableNaming | genericStatement))*)* CloseParen ((Colon varType)?) (ARROW? (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML))?;
 functionCall: ID OpenParen(value (Comma value)*)* CloseParen;
 
 assignStatement:(thisorId)? ID Assign value SemiColon;
@@ -90,7 +97,7 @@ conditionalState: logicalStatement(logicalOp logicalStatement)* # ConditionalSta
 
 logicalOp: LessThanEquals
          | GreaterThanEquals
-         | Equals_
+         | Equals
          | NotEquals
          | IdentityEquals
          | IdentityNotEquals
@@ -101,7 +108,7 @@ logicalOp: LessThanEquals
          | Or
          ;
 
-logicalStatement: (value (logicalOp)value);
+logicalStatement: ((Typeof)?value (logicalOp) (Typeof)?value);
 
 forLoop: For OpenParen Let ID Of ID CloseParen forBody;
 
@@ -109,7 +116,7 @@ forBody: genericStatement # SingleLineForLoop
        | (OpenBrace|OpenBraceHTML) genericStatement+ (CloseBrace|CloseBraceHTML) # MultipleLinesForLoop
        ;
 
-jsonObject:(OpenBrace|OpenBraceHTML) ID Colon value (Comma ID Colon value)* (CloseBrace|CloseBraceHTML);
+jsonObject:(OpenBrace|OpenBraceHTML) ID Colon value (Comma ID Colon value)*(Comma)? (CloseBrace|CloseBraceHTML);
 
 attribute: ngForStatement # NgFor
          | ngIfStatement # NgIf
