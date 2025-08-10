@@ -1,5 +1,7 @@
 package Classes.Values;
 
+import java.io.FileWriter;
+
 public class EventValue extends ValueType{
     public ValueType event;
 
@@ -13,5 +15,10 @@ public class EventValue extends ValueType{
         return "\n EventValue{ " +
                 "\n event: "+ event.toString() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

@@ -1,5 +1,7 @@
 package Classes;
 
+import java.io.FileWriter;
+
 public class Import extends Expression{
     public String type;
     public String altName;
@@ -20,5 +22,9 @@ public class Import extends Expression{
         else if(this.type.equals("NgFor")) return "Import Statement";
         else if(this.type.equals("Component")) return "Import Component ";
         return "Import Statement ";
+    }
+    public void codeGen(String s, FileWriter fw){
+        StringBuilder sb = new StringBuilder();
+
     }
 }

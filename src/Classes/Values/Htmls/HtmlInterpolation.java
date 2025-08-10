@@ -2,6 +2,7 @@ package Classes.Values.Htmls;
 
 import Classes.Values.ValueType;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,5 +21,10 @@ public class HtmlInterpolation extends HtmlTagValue{
         return "\n HtmlInterpolations {"+
                 "\n interpolationValues: " + this.valueTypes.toString() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

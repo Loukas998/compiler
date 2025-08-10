@@ -1,9 +1,12 @@
 package Classes.GenericStatements.Variables;
 
+import Classes.GenericStatements.GenericStatement;
 import Classes.Values.ValueType;
 import Classes.VariableNaming;
 
-public class VariableDecl extends VariableAssignment{
+import java.io.FileWriter;
+
+public class VariableDecl extends GenericStatement {
     public VariableNaming variableNaming;
     public ValueType value;
 
@@ -24,5 +27,15 @@ public class VariableDecl extends VariableAssignment{
         }
         return "\n VariableDecl {" +
                 "\n varName: " + this.variableNaming.toString() ;
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        this.variableNaming.codeGen(s,fw);
+        StringBuilder sb = new StringBuilder(s);
+        if(this.value !=null){
+            sb.append(" = ");
+            this.value.codeGen(s,fw);
+        }
     }
 }

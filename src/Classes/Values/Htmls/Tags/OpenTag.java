@@ -3,6 +3,7 @@ package Classes.Values.Htmls.Tags;
 import Classes.Values.Htmls.HtmlTagValue;
 import Classes.Values.Htmls.Tags.Attributes.Attribute;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,5 +31,10 @@ public class OpenTag extends HtmlTagValue {
                 "\n attributes: " + this.attributes.toString() +
                 "\n }"
                 ;
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

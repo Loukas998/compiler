@@ -1,5 +1,7 @@
 package Classes.GenericStatements.IfStatements;
 
+import java.io.FileWriter;
+
 public class VariableName extends ConditionalState {
     public String variableName;
     public VariableName(){}
@@ -10,5 +12,10 @@ public class VariableName extends ConditionalState {
     public String toString(){
         //return this.variableName;
         return "VariableName ";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

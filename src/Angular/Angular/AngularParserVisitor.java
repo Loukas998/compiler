@@ -160,6 +160,13 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValueOrValue(AngularParser.ValueOrValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code FunctionStatementValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionStatementValue(AngularParser.FunctionStatementValueContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code NullValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -167,12 +174,33 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNullValue(AngularParser.NullValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code FunctionCallValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCallValue(AngularParser.FunctionCallValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ArrayIndexValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayIndexValue(AngularParser.ArrayIndexValueContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code DecimalNumberValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDecimalNumberValue(AngularParser.DecimalNumberValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunctionValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionValue(AngularParser.FunctionValueContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code StringValue}
 	 * labeled alternative in {@link AngularParser#value}.
@@ -378,20 +406,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIfStatement(AngularParser.IfStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ConditionalStatement}
-	 * labeled alternative in {@link AngularParser#conditionalState}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConditionalStatement(AngularParser.ConditionalStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code VariableName}
-	 * labeled alternative in {@link AngularParser#conditionalState}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVariableName(AngularParser.VariableNameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#logicalOp}.
 	 * @param ctx the parse tree

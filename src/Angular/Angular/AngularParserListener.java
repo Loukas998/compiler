@@ -262,6 +262,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitValueOrValue(AngularParser.ValueOrValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code FunctionStatementValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionStatementValue(AngularParser.FunctionStatementValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunctionStatementValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionStatementValue(AngularParser.FunctionStatementValueContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code NullValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -274,6 +286,30 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitNullValue(AngularParser.NullValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code FunctionCallValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCallValue(AngularParser.FunctionCallValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunctionCallValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCallValue(AngularParser.FunctionCallValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ArrayIndexValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayIndexValue(AngularParser.ArrayIndexValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ArrayIndexValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayIndexValue(AngularParser.ArrayIndexValueContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code DecimalNumberValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -285,6 +321,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDecimalNumberValue(AngularParser.DecimalNumberValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FunctionValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionValue(AngularParser.FunctionValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunctionValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionValue(AngularParser.FunctionValueContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code StringValue}
 	 * labeled alternative in {@link AngularParser#value}.
@@ -633,30 +681,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfStatement(AngularParser.IfStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ConditionalStatement}
-	 * labeled alternative in {@link AngularParser#conditionalState}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditionalStatement(AngularParser.ConditionalStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ConditionalStatement}
-	 * labeled alternative in {@link AngularParser#conditionalState}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditionalStatement(AngularParser.ConditionalStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code VariableName}
-	 * labeled alternative in {@link AngularParser#conditionalState}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariableName(AngularParser.VariableNameContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code VariableName}
-	 * labeled alternative in {@link AngularParser#conditionalState}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariableName(AngularParser.VariableNameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#logicalOp}.
 	 * @param ctx the parse tree

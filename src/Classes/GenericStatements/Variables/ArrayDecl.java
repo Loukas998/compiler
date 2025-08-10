@@ -1,12 +1,14 @@
 package Classes.GenericStatements.Variables;
 
+import Classes.GenericStatements.GenericStatement;
 import Classes.Values.ArrayInfoValue;
 import Classes.VariableNaming;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayDecl extends VariableAssignment{
+public class ArrayDecl extends GenericStatement {
     public VariableNaming variableNaming;
     public List<ArrayInfoValue> arrayInfoValues;
 
@@ -27,5 +29,17 @@ public class ArrayDecl extends VariableAssignment{
                 "\n arrayName: " + this.variableNaming.toString() +
                 "\n , arrayValues: " + this.arrayInfoValues.toString() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        this.variableNaming.codeGen(s,fw);
+        StringBuilder sb = new StringBuilder(s);
+        sb.append('[');
+        for(ArrayInfoValue arrVal : arrayInfoValues){
+            arrVal.codeGen(s,fw);
+            sb.append(",");
+        }
+        sb.append("]");
     }
 }

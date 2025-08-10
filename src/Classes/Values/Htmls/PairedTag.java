@@ -3,6 +3,7 @@ package Classes.Values.Htmls;
 import Classes.Values.Htmls.Tags.CloseTag;
 import Classes.Values.Htmls.Tags.OpenTag;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,5 +29,10 @@ public class PairedTag extends HtmlTagValue{
                 "\n innerTags: " + this.htmlTags.toString() + ","+
                 "\n closeTag: " + this.closeTag.toString() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

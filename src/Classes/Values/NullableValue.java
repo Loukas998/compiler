@@ -1,5 +1,7 @@
 package Classes.Values;
 
+import java.io.FileWriter;
+
 public class NullableValue extends ValueType{
     public ValueType nullableValue;
 
@@ -15,5 +17,12 @@ public class NullableValue extends ValueType{
         return "\n NullableValue{" +
                 "\n value: " + this.nullableValue.toString() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        nullableValue.codeGen(s,fw);
+        StringBuilder sb = new StringBuilder(s);
+        sb.append("?");
     }
 }

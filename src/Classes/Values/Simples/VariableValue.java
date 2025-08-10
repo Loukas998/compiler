@@ -2,7 +2,9 @@ package Classes.Values.Simples;
 
 import Classes.Values.ValueType;
 
-public class VariableValue extends ValueType {
+import java.io.FileWriter;
+
+public class  VariableValue extends ValueType {
     public String variableName;
 
     public VariableValue() {}
@@ -14,5 +16,11 @@ public class VariableValue extends ValueType {
     @Override
     public String toString(){
         return this.variableName;
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        StringBuilder sb = new StringBuilder(s);
+        sb.append(variableName);
     }
 }

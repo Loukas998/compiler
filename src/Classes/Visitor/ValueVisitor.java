@@ -232,6 +232,14 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     }
 
     @Override
+    public ValueType visitArrayIndexValue(AngularParser.ArrayIndexValueContext ctx) {
+        ArrayIndexedValue arrayIndexedValue = new ArrayIndexedValue();
+        arrayIndexedValue.value = visit(ctx.value(0));
+        arrayIndexedValue.indexAt = visit(ctx.value(1));
+        return arrayIndexedValue;
+    }
+
+    @Override
     public ValueType visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
         HtmlVisitor htmlVisitor=new HtmlVisitor();
         htmlVisitor.currentScope = this.currentScope;

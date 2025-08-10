@@ -2,6 +2,7 @@ package Classes;
 
 import Classes.GenericStatements.GenericStatement;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +28,12 @@ public class Class extends Expression{
                     "\n}";
         }
         return "";
+    }
+    public void codeGen(String s, FileWriter fw){
+        StringBuilder sb = new StringBuilder(s);
+        for (GenericStatement genericStatement : genericStatements) {
+            genericStatement.codeGen(s, fw);
+            sb.append("\n");
+        }
     }
 }

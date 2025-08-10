@@ -2,6 +2,7 @@ package Classes.GenericStatements.Functions;
 
 import Classes.Values.ValueType;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +28,17 @@ public class FunctionSummoning extends FunctionValue {
                 "\n functionName: " + this.functionName +
                 "\n arguments: " + this.arguments.toString() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        StringBuilder sb = new StringBuilder(s);
+        sb.append(functionName);
+        sb.append("(");
+        for(ValueType argument:arguments){
+            argument.codeGen(s,fw);
+            sb.append(",");
+        }
+        sb.append(")");
     }
 }

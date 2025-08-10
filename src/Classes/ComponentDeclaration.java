@@ -1,5 +1,6 @@
 package Classes;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,5 +20,10 @@ public class ComponentDeclaration extends Expression {
         return "\n ComponentInfo {"
               +"\n ComponentInfoList: " + componentInfoList.toString()
               + "\n}";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

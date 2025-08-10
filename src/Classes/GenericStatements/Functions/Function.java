@@ -1,8 +1,11 @@
 package Classes.GenericStatements.Functions;
 
 import Classes.GenericStatements.GenericStatement;
+import Classes.Values.ValueType;
 
-public class Function extends GenericStatement {
+import java.io.FileWriter;
+
+public class Function extends ValueType {
     public String functionName;
     public FunctionStatement functionStatement;
     public Function(){}
@@ -17,5 +20,18 @@ public class Function extends GenericStatement {
                 "\n functionName: " + this.functionName +
                 "\n functionStatement: " + this.functionStatement+
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        StringBuilder sb = new StringBuilder(s);
+        if(functionName.equals("ngOnInit")){
+            sb.append("init");
+
+        }
+        else{
+            sb.append(functionName);
+        }
+        functionStatement.codeGen(s,fw);
     }
 }

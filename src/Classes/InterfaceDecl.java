@@ -1,5 +1,6 @@
 package Classes;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +24,10 @@ public class InterfaceDecl extends Expression {
                 "\n Interface: " + //this.name +
                 "\n , InterfaceVariables: " + this.variableNamingList.toString() +
                 "\n}";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

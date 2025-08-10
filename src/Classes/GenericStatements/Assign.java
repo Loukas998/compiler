@@ -2,6 +2,8 @@ package Classes.GenericStatements;
 
 import Classes.Values.ValueType;
 
+import java.io.FileWriter;
+
 public class Assign extends GenericStatement{
     public String firstId;
     public String secondId;
@@ -28,5 +30,13 @@ public class Assign extends GenericStatement{
                 "\n variableName =  " + //this.secondId +
                 "\n , newValue  " + //this.valueType.toString() +
                 "\n}";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        StringBuilder sb = new StringBuilder(s);
+        sb.append(firstId);
+        sb.append(" = ");
+        valueType.codeGen(s,fw);
     }
 }

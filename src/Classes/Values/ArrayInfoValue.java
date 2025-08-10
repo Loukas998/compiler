@@ -1,5 +1,6 @@
 package Classes.Values;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,5 +27,18 @@ public class ArrayInfoValue extends ValueType{
         return "\n ArrayInfoValue {" +
                 "\n arrayValues: " + printVals() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+        StringBuilder sb = new StringBuilder(s);
+        sb.append("[");
+        
+        for(ValueType arrayElement : arrayValues){
+            arrayElement.codeGen(s,fw);
+            sb.append(",");
+        }
+        sb.deleteCharAt(s.length()-1);
+        sb.append("]");
     }
 }

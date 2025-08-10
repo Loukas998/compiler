@@ -6,6 +6,8 @@ import Classes.Errors.DuplicateValueError;
 import Classes.Errors.SemError;
 import Classes.GenericStatements.Assign;
 import Classes.GenericStatements.GenericStatement;
+import Classes.GenericStatements.IfStatements.ConditionalStatement;
+import Classes.GenericStatements.Return;
 import Classes.GenericStatements.Variables.ArrayDecl;
 import Classes.GenericStatements.Variables.VariableDecl;
 import Classes.SymbolTable.Scope;
@@ -150,14 +152,40 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
 
     @Override
     public GenericStatement visitReturn(AngularParser.ReturnContext ctx) {
-        return super.visitReturn(ctx);
+        return this.visitReturnStatement(ctx.returnStatement());
     }
 
     @Override
-    public GenericStatement visitIf(AngularParser.IfContext ctx) {
-        return super.visitIf(ctx);
+    public GenericStatement visitReturnStatement(AngularParser.ReturnStatementContext ctx) {
+        Return ret = new Return();
+        if(ctx.thisorId()!=null){
+            ret.id = ctx.thisorId().getText();
+        }
+        ValueVisitor valueVisitor = new ValueVisitor();
+        valueVisitor.currentScope = currentScope;
+        valueVisitor.semanticErrors = this.semanticErrors;
+        ret.valueType = valueVisitor.visit(ctx.value());
+        return ret;
     }
+    @Override
+    public GenericStatement visitIf(AngularParser.IfContext ctx) {
+        return this.visitIfStatement(ctx.ifStatement());
+    }
+    @Override
+    public GenericStatement visitIfStatement(AngularParser.IfStatementContext ctx) {
+        ConditionalStatement ifState = new ConditionalStatement();
+        LogicalStatementVisitor logicalStatementVisitor = new LogicalStatementVisitor();
+        logicalStatementVisitor.currentScope = this.currentScope;
+        logicalStatementVisitor.semanticErrors = this.semanticErrors;
+        for(int i =0;i<ctx.logicalStatement().size();i++){
+            ifState.addLogicalStatements(logicalStatementVisitor.visit(ctx.logicalStatement(i)));
+        }
+        for(int i =0;i<ctx.genericStatement().size();i++){
+            ifState.addGenericStatement(this.visit(ctx.genericStatement(i)));
+        }
+        return ifState;
 
+    }
     @Override
     public GenericStatement visitFor(AngularParser.ForContext ctx) {
         return super.visitFor(ctx);
@@ -227,7 +255,7 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         }
         if(ctx.genericStatement()!=null) {
             for (int i = 0; i < ctx.genericStatement().size(); i++) {
-                functionStatement.addGenericStatements(
+                functionStatement.addFunctionBodyLine(
                         genericStatementVisitor.visit(ctx.genericStatement(i)));
             }
         }

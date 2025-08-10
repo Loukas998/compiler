@@ -3,6 +3,7 @@ package Classes.Values.Htmls;
 import Classes.Values.Htmls.Tags.Attributes.Attribute;
 import Classes.Values.Htmls.Tags.OpenTag;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,5 +30,10 @@ public class UnpairedTag extends HtmlTagValue {
                 "\n tagName: " + this.tagName + "," +
                 "\n attributes: " + this.attributes.toString() +
                 "\n }";
+    }
+
+    @Override
+    public void codeGen(String s, FileWriter fw) {
+
     }
 }

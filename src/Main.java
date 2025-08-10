@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class Main {
                     System.out.println(evaluation);
 
                 } // for printing AST
+
                 System.out.println(progVisitor.globalScope.print());
             }
             else{
@@ -60,7 +62,33 @@ public class Main {
             }
             return parser;
         }
-        private void codeGen(Program program){
-        
+        public void codeGen(Program program) throws IOException {
+        String space = "\t\t";
+        try {
+            FileWriter fw = new FileWriter("GenCode.html");
+            codeGen("!<DOCTYPE html",fw);
+            codeGen("\n<html>",fw);
+            codeGen("\n<head>",fw);
+            codeGen("\n<title>Angular Project</title>",fw);
+            codeGen("\n<link rel = \"stylesheet\" href = \"gen.css\"/>",fw);
+            codeGen("\n</head>",fw);
+            codeGen("\n<body>",fw);
+            codeGen("\n<div id = \"app\"></div>\n\n",fw);
+            codeGen("\n<script>",fw);
+            if(!program.expressionList.isEmpty()) {
+            for(int i = 0 ; i<program.expressionList.size();i++){
+               program.expressionList.get(i).codeGen(space,fw);
+            }
+            codeGen(space,fw);
+            }
+            codeGen("<DOCTYPE html",fw);
         }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+    private  void codeGen(String s,FileWriter fw) throws  IOException{
+        fw.write(s);
+    }
 }

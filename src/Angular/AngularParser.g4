@@ -32,6 +32,9 @@ string: SingleQuote | BackTickQuote| DoubleQuote ;
 
 value:
        arrayInfo # ArrayInfoValue
+      | functionCall # FunctionCallValue
+     |functionDeclaration # FunctionValue
+     | functionBody # FunctionStatementValue
      | jsonObject # JsonObjectValue
      | OpenParen value CloseParen # EventValue
      | value Dot value # ValueDotValue
@@ -39,6 +42,7 @@ value:
      | value QuestionMark # NullableValue
      | value Or value # ValueOrValue
      | value And value # ValueAndValue
+     | value OpenBracket value CloseBracket # ArrayIndexValue
      | Ellipsis value # EllipsisValue
      | OpenBrace value CloseBrace # BracedValue
      | thisorId value  # ThisDotValue
@@ -81,19 +85,15 @@ arrayDeclaration: variableNaming (OpenBracket CloseBracket)? (Assign arrayInfo*)
 arrayInfo: OpenBracket (value (Comma value)* (Comma)?)* CloseBracket;
 
 functionDeclaration: (thisorId)?ID functionBody;
-functionBody:  OpenParen ((value | variableNaming | genericStatement)(Comma (value |variableNaming | genericStatement))*)* CloseParen ((Colon varType)?) (ARROW? (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML))?;
-functionCall: ID OpenParen(value (Comma value)*)* CloseParen;
+functionBody:  OpenParen ((value | variableNaming)(Comma (value |variableNaming))*)* CloseParen ((Colon varType)?) (ARROW? (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML))?;
+functionCall: (thisorId)?ID OpenParen(value (Comma value)*)* CloseParen;
 
 assignStatement:(thisorId)? ID Assign value SemiColon;
 thisorId: ((ID|This) Dot);
 returnStatement: Return (thisorId)?value SemiColon;
 
-ifStatement: If OpenParen  conditionalState CloseParen (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML) (Else genericStatement)*
+ifStatement: If OpenParen  logicalStatement(logicalOp logicalStatement)* CloseParen (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML) (Else genericStatement)*
            ;
-
-conditionalState: logicalStatement(logicalOp logicalStatement)* # ConditionalStatement
-                | ID # VariableName
-                ;
 
 logicalOp: LessThanEquals
          | GreaterThanEquals
