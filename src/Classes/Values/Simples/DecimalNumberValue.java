@@ -16,8 +16,9 @@ public class DecimalNumberValue extends ValueType {
     public String toString(){
         return "NumberValue: " + this.decimalNumberValue;
     }
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
-        sb.append(decimalNumberValue);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
+        sb.append((int)decimalNumberValue);
+        return sb.toString();
     }
 }

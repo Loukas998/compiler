@@ -29,11 +29,12 @@ public class Class extends Expression{
         }
         return "";
     }
-    public void codeGen(String s, FileWriter fw){
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen(){
+        StringBuilder sb = new StringBuilder();
         for (GenericStatement genericStatement : genericStatements) {
-            genericStatement.codeGen(s, fw);
+            sb.append(genericStatement.codeGen());
             sb.append("\n");
         }
+        return sb.toString();
     }
 }

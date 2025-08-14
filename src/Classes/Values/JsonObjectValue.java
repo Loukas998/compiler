@@ -24,15 +24,17 @@ public class JsonObjectValue extends ValueType{
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         sb.append("{");
         for(Map.Entry<String,ValueType>jsonValue:jsons.entrySet()){
             sb.append(jsonValue.getKey());
             sb.append(":");
-            jsonValue.getValue().codeGen(s,fw);
+           sb.append(jsonValue.getValue().codeGen());
             sb.append(",");
+            sb.append("\n");
         }
         sb.append("}");
+        return sb.toString();
     }
 }

@@ -25,9 +25,7 @@ public class VariableNaming {
                 "\n VariableName: " + //this.name +
                 "\n}";
     }
-    public void codeGen(String s, FileWriter fw){
-        StringBuilder sb = new StringBuilder(s);
-        sb.append("let");
-        sb.append(this.name);
+    public String codeGen(){
+        return this.name;
     }
 }

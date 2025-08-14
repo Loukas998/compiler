@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FunctionStatement extends FunctionValue {
-    public List<ValueType> params;
-    public List<VariableNaming>paramVariableNames;
+    public List<ValueType> params = new ArrayList<>();
+    public List<VariableNaming>paramVariableNames=new ArrayList<>();
    /* public List<GenericStatement> paramgenericStatements;*/
-    public List<GenericStatement> functionBodyStatements;
+    public List<GenericStatement> functionBodyStatements = new ArrayList<>();
     public FunctionStatement(){
         this.params = new ArrayList<ValueType>();
         /*this.paramgenericStatements = new ArrayList<GenericStatement>();*/
@@ -61,24 +61,30 @@ public class FunctionStatement extends FunctionValue {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         sb.append("(");
         for(ValueType valueParam:params){
-            valueParam.codeGen(s,fw);
+            sb.append(valueParam.codeGen());
             sb.append(",");
         }
-        sb.deleteCharAt(s.length()-1);
+        if(!params.isEmpty()){
+            sb.deleteCharAt(0);
+        }
         for(VariableNaming variableParam:paramVariableNames){
-            variableParam.codeGen(s,fw);
+            sb.append(variableParam.codeGen());
             sb.append(",");
         }
-        sb.deleteCharAt(s.length()-1);
+        if(!paramVariableNames.isEmpty()){
+            sb.deleteCharAt(0);
+        }
+        sb.append(')');
         sb.append("{");
         for(GenericStatement functionBodyLine:functionBodyStatements){
-            functionBodyLine.codeGen(s,fw);
+            sb.append(functionBodyLine.codeGen());
         }
         sb.append("}");
         sb.append("\n");
+        return sb.toString();
     }
 }

@@ -4,6 +4,9 @@ import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
 import Classes.Errors.DuplicateValueError;
 import Classes.Errors.SemError;
+import Classes.GenericStatements.Functions.Function;
+import Classes.GenericStatements.Functions.FunctionStatement;
+import Classes.GenericStatements.Functions.FunctionSummoning;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
@@ -120,6 +123,10 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public NullValue visitNullValue(AngularParser.NullValueContext ctx) {
+        Symbol sym = new Symbol();
+        sym.type = "nullValue";
+        sym.value = "Null";
+        sym.scope = currentScope.peek();
         return new NullValue();
     }
 
@@ -249,5 +256,76 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         ValueType htmlValueType = htmlVisitor.visitHtmlTags(ctx.htmlTags());
 
         return htmlValueType;
+    }
+    @Override
+    public Function visitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx) {
+
+        Function function=new Function();
+        function.functionName=ctx.ID().getText();
+        function.functionStatement=this.visitFunctionBody(ctx.functionBody());
+        return function;
+    }
+
+    @Override
+    public FunctionStatement visitFunctionBody(AngularParser.FunctionBodyContext ctx) {
+        Scope scope = new Scope("Function" + currId+1, currId+1,currentScope.peek());
+        currId++;
+        currentScope.push(scope);
+        ValueVisitor valueVisitor = new ValueVisitor();
+        valueVisitor.currentScope = currentScope;
+        VariableNamingVisitor variableNamingVisitor = new VariableNamingVisitor();
+        variableNamingVisitor.currScopeStack = currentScope;
+        GenericStatementVisitor genericStatementVisitor=new GenericStatementVisitor();
+        genericStatementVisitor.currentScope = currentScope;
+        FunctionStatement functionStatement=new FunctionStatement();
+        for(int i=0;i<ctx.value().size();i++){
+            functionStatement.addValueType(valueVisitor.visit(ctx.value(i)));
+        }
+        for(int i=0;i<ctx.variableNaming().size();i++){
+            functionStatement.addVariableNamings (variableNamingVisitor.visit(ctx.variableNaming(i)));
+        }
+        if(ctx.genericStatement()!=null) {
+            for (int i = 0; i < ctx.genericStatement().size(); i++) {
+                functionStatement.addFunctionBodyLine(
+                        genericStatementVisitor.visit(ctx.genericStatement(i)));
+            }
+        }
+
+        for(int i = 0 ; i < functionStatement.params.size();i++){
+            Symbol paramSymbol = new Symbol();
+            paramSymbol.type = "Function Parameter  " + functionStatement.params.get(i);
+            paramSymbol.value = functionStatement.params.get(i);
+            scope.addSymbol(functionStatement.params.get(i).toString(),paramSymbol);
+        }
+
+        currentScope.pop();
+        return functionStatement;
+    }
+
+    @Override
+    public ValueType visitFunctionCallValue(AngularParser.FunctionCallValueContext ctx) {
+        return this.visitFunctionCall(ctx.functionCall());
+    }
+
+    @Override
+    public ValueType visitFunctionStatementValue(AngularParser.FunctionStatementValueContext ctx) {
+        return this.visitFunctionBody(ctx.functionBody());
+    }
+
+    @Override
+    public ValueType visitFunctionValue(AngularParser.FunctionValueContext ctx) {
+        return this.visitFunctionDeclaration(ctx.functionDeclaration());
+    }
+
+    @Override
+    public FunctionSummoning visitFunctionCall(AngularParser.FunctionCallContext ctx) {
+        FunctionSummoning funCall=new FunctionSummoning();
+        funCall.functionName = ctx.ID().getText();
+        //Row row = new Row();
+        // row.type = "FunctionCall";
+        for(int i=0;i<ctx.value().size();i++){
+            funCall.addArgument(this.visit(ctx.value(i)));
+        }
+        return funCall;
     }
 }

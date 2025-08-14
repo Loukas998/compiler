@@ -16,8 +16,7 @@ public class NullValue extends ValueType {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
-        sb.append(isNull);
+    public String codeGen() {
+        return isNull;
     }
 }

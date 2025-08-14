@@ -24,10 +24,12 @@ public class LogicalStatement {
                 "\n rightValue: " + this.rightValue.toString() +
                 "\n }";
     }
-    public void codeGen(String s, FileWriter fw){
-        leftValue.codeGen(s,fw);
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(leftValue.codeGen());
+
         sb.append(logicalOp);
-        rightValue.codeGen(s,fw);
+        sb.append(rightValue.codeGen());
+        return sb.toString();
     }
 }

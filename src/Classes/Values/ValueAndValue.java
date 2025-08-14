@@ -22,10 +22,12 @@ public class ValueAndValue extends  ValueType{
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        firstValue.codeGen(s,fw);
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(firstValue.codeGen());
+
         sb.append("&&");
-        secondValue.codeGen(s,fw);
+        sb.append(secondValue.codeGen());
+        return sb.toString();
     }
 }

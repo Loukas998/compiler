@@ -18,9 +18,8 @@ public class EllipsisValue extends  ValueType{
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
-        sb.append("...");
-        value.codeGen(s,fw);
+    public String codeGen() {
+        return "..." +
+                value.codeGen();
     }
 }

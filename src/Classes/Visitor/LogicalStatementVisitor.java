@@ -18,6 +18,8 @@ public class LogicalStatementVisitor extends AngularParserBaseVisitor<LogicalSta
 
         LogicalStatement logicalStatement=new LogicalStatement();
         ValueVisitor valueVisitor=new ValueVisitor();
+        valueVisitor.currentScope = this.currentScope;
+        valueVisitor.semanticErrors = this.semanticErrors;
         logicalStatement.leftValue=valueVisitor.visit(ctx.value(0));
         logicalStatement.logicalOp = ctx.logicalOp().getText();
         logicalStatement.rightValue=valueVisitor.visit(ctx.value(1));

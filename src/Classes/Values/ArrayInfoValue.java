@@ -30,15 +30,16 @@ public class ArrayInfoValue extends ValueType{
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         sb.append("[");
-        
+
         for(ValueType arrayElement : arrayValues){
-            arrayElement.codeGen(s,fw);
+           sb.append(arrayElement.codeGen());
             sb.append(",");
         }
-        sb.deleteCharAt(s.length()-1);
+        sb.deleteCharAt(sb.length()-1);
         sb.append("]");
+        return sb.toString();
     }
 }

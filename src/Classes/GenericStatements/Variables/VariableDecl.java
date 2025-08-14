@@ -30,12 +30,14 @@ public class VariableDecl extends GenericStatement {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        this.variableNaming.codeGen(s,fw);
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("let ");
+        sb.append(this.variableNaming.codeGen());
         if(this.value !=null){
             sb.append(" = ");
-            this.value.codeGen(s,fw);
+            sb.append(this.value.codeGen());
         }
+        return sb.toString();
     }
 }

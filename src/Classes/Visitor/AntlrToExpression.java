@@ -130,7 +130,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
 
             // this.symbolTable = variableNamingVisitor.symbolTable;
         }
-        scope = currentScope.pop();
+       // scope = currentScope.pop();
         /*Row row = new Row();
         row.type = interfaceDecl.name + " variables";
         row.value = interfaceDecl.variableNamingList.toString();

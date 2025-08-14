@@ -37,6 +37,12 @@ public class Main {
                 } // for printing AST
 
                 System.out.println(progVisitor.globalScope.print());
+                try{
+                    codeGen(prog);
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
+                }
             }
             else{
                 for(int i = 0 ; i < semanticErrors.size();i++){
@@ -44,7 +50,7 @@ public class Main {
                     System.out.println();
                 }
             }
-          // progVisitor.symbolTable.printTable(); //For printing symbol table
+
 
         }
     }
@@ -62,11 +68,11 @@ public class Main {
             }
             return parser;
         }
-        public void codeGen(Program program) throws IOException {
-        String space = "\t\t";
+        public static void codeGen(Program program) throws IOException {
+        StringBuilder space = new StringBuilder("\t\t");
         try {
             FileWriter fw = new FileWriter("GenCode.html");
-            codeGen("!<DOCTYPE html",fw);
+            codeGen("<!DOCTYPE html>",fw);
             codeGen("\n<html>",fw);
             codeGen("\n<head>",fw);
             codeGen("\n<title>Angular Project</title>",fw);
@@ -77,18 +83,22 @@ public class Main {
             codeGen("\n<script>",fw);
             if(!program.expressionList.isEmpty()) {
             for(int i = 0 ; i<program.expressionList.size();i++){
-               program.expressionList.get(i).codeGen(space,fw);
+                space.append(program.expressionList.get(i).codeGen());
+
             }
-            codeGen(space,fw);
             }
-            codeGen("<DOCTYPE html",fw);
+            codeGen(space.toString(),fw);
+            codeGen("\n</script>",fw);
+            codeGen("\n</body>",fw);
+           // codeGen("<DOCTYPE html>",fw);
+            fw.close();
         }
         catch (IOException e){
             e.printStackTrace();
         }
 
     }
-    private  void codeGen(String s,FileWriter fw) throws  IOException{
+    private  static void codeGen(String s,FileWriter fw) throws  IOException{
         fw.write(s);
     }
 }

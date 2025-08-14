@@ -32,14 +32,15 @@ public class ArrayDecl extends GenericStatement {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        this.variableNaming.codeGen(s,fw);
-        StringBuilder sb = new StringBuilder(s);
-        sb.append('[');
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.variableNaming.codeGen());
+
         for(ArrayInfoValue arrVal : arrayInfoValues){
-            arrVal.codeGen(s,fw);
+            sb.append(arrVal.codeGen());
             sb.append(",");
+            sb.append("\n");
         }
-        sb.append("]");
+        return sb.toString();
     }
 }

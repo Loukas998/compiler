@@ -23,15 +23,15 @@ public class Function extends ValueType {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         if(functionName.equals("ngOnInit")){
             sb.append("init");
-
         }
-        else{
+        else {
             sb.append(functionName);
         }
-        functionStatement.codeGen(s,fw);
+        sb.append(functionStatement.codeGen());
+        return sb.toString();
     }
 }

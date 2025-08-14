@@ -24,11 +24,13 @@ public class ValueDotValue extends ValueType {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        firstValue.codeGen(s,fw);
-        StringBuilder stringBuilder = new StringBuilder(s);
+    public String  codeGen() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(firstValue.codeGen());
         stringBuilder.append(".");
-        secondValue.codeGen(s,fw);
+        stringBuilder.append(secondValue.codeGen());
         stringBuilder.append("\n");
+        return stringBuilder.toString();
+
     }
 }

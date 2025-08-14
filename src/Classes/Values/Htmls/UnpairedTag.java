@@ -33,7 +33,7 @@ public class UnpairedTag extends HtmlTagValue {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-
+    public String codeGen() {
+        return "";
     }
 }

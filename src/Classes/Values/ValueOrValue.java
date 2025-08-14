@@ -22,10 +22,9 @@ public class ValueOrValue extends ValueType{
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        firstValue.codeGen(s,fw);
-        StringBuilder sb = new StringBuilder(s);
-        sb.append("||");
-        secondValue.codeGen(s,fw);
+    public String codeGen() {
+        return firstValue.codeGen() +
+                "||" +
+                secondValue.codeGen();
     }
 }

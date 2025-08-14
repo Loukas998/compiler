@@ -27,10 +27,9 @@ public class If extends GenericStatement {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
-        sb.append("if (");
-        this.conditionalState.codeGen(s,fw);
-        sb.append(")");
+    public String codeGen() {
+        return "if (" +
+                this.conditionalState.codeGen() +
+                ")";
     }
 }

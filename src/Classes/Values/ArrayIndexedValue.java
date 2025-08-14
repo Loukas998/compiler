@@ -23,7 +23,10 @@ public class ArrayIndexedValue extends  ValueType{
     }
 
 
-    public void codeGen(String s, FileWriter fw) {
-
+    public String codeGen() {
+        return value.codeGen() +
+                "[" +
+                indexAt.codeGen() +
+                "]";
     }
 }

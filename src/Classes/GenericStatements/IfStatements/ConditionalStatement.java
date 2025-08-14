@@ -3,6 +3,7 @@ package Classes.GenericStatements.IfStatements;
 import Classes.GenericStatements.GenericStatement;
 
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConditionalStatement extends ConditionalState {
@@ -10,6 +11,8 @@ public class ConditionalStatement extends ConditionalState {
     List<GenericStatement> genericStatements;
 
     public ConditionalStatement() {
+        logicalStatements = new ArrayList<>();
+        genericStatements = new ArrayList<>();
     }
 
     public ConditionalStatement(List<LogicalStatement> logicalStatements, List<GenericStatement> genericStatements) {
@@ -31,18 +34,18 @@ public class ConditionalStatement extends ConditionalState {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         sb.append("if (");
         for(LogicalStatement logicalStatement : this.logicalStatements){
-            logicalStatement.codeGen(s,fw);
+            sb.append(logicalStatement.codeGen());
         }
         sb.append(")");
         sb.append("{");
         for(GenericStatement genericStatement : this.genericStatements){
-            genericStatement.codeGen(s,fw);
+            sb.append(genericStatement.codeGen());
         }
         sb.append("}");
-
+        return sb.toString();
     }
 }

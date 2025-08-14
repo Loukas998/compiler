@@ -31,14 +31,18 @@ public class FunctionSummoning extends FunctionValue {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         sb.append(functionName);
         sb.append("(");
         for(ValueType argument:arguments){
-            argument.codeGen(s,fw);
+            sb.append(argument.codeGen());
             sb.append(",");
         }
+        if(arguments!=null && !arguments.isEmpty()) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
         sb.append(")");
+        return sb.toString();
     }
 }

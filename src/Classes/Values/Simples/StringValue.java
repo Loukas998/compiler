@@ -16,8 +16,9 @@ public class StringValue extends ValueType {
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         sb.append(stringValue);
+        return sb.toString();
     }
 }

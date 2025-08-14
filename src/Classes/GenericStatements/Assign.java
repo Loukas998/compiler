@@ -33,10 +33,11 @@ public class Assign extends GenericStatement{
     }
 
     @Override
-    public void codeGen(String s, FileWriter fw) {
-        StringBuilder sb = new StringBuilder(s);
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
         sb.append(firstId);
         sb.append(" = ");
-        valueType.codeGen(s,fw);
+        sb.append(valueType.codeGen());
+        return sb.toString();
     }
 }

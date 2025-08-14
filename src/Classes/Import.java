@@ -23,8 +23,7 @@ public class Import extends Expression{
         else if(this.type.equals("Component")) return "Import Component ";
         return "Import Statement ";
     }
-    public void codeGen(String s, FileWriter fw){
-        StringBuilder sb = new StringBuilder();
-
+    public String codeGen(){
+        return "";
     }
 }
