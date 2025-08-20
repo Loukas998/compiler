@@ -58,7 +58,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
     @Override
     public UnpairedTag visitSelfClosingTag(AngularParser.SelfClosingTagContext ctx) {
         UnpairedTag unpairedTag = new UnpairedTag();
-        unpairedTag.tagName = ctx.getChild(2).getText();
+        unpairedTag.tagName = ctx.getChild(1).getText();
         Scope scope;
         if(currentScope.isEmpty()){
             scope = new Scope(unpairedTag.tagName + currId,currId+1);

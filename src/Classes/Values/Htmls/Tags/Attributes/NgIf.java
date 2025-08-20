@@ -37,6 +37,10 @@ public class NgIf extends Attribute{
 
     @Override
     public String codeGen() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("id = \"ngIf");
+        sb.append(this.hashCode());
+        sb.append("\"");
+        return sb.toString();
     }
 }

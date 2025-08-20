@@ -38,6 +38,7 @@ public class VariableDecl extends GenericStatement {
             sb.append(" = ");
             sb.append(this.value.codeGen());
         }
+        sb.append("\n");
         return sb.toString();
     }
 }

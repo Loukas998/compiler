@@ -80,9 +80,12 @@ public class FunctionStatement extends FunctionValue {
             sb.deleteCharAt(sb.length()-1);
         }
         sb.append(')');
+
         if(this.isArrow){
             sb.append("=>");
+
         }
+        sb.append("\n");
         if(!this.isArrow){
             sb.append("{");
         }

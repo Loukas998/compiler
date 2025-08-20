@@ -42,6 +42,7 @@ public class Assign extends GenericStatement{
         sb.append(secondId);
         sb.append(" = ");
         sb.append(valueType.codeGen());
+        sb.append("\n");
         return sb.toString();
     }
 }
