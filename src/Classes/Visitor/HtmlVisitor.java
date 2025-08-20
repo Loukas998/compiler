@@ -12,23 +12,14 @@ import Classes.Values.Htmls.Tags.CloseTag;
 import Classes.Values.Htmls.Tags.OpenTag;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Stack;
 
 public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
     public int currId;
     Stack<Scope> currentScope = new Stack<Scope>();
+    Stack<Scope> openedHtmlTags = new Stack<>();
     ArrayList<SemError>semanticErrors = new ArrayList<>();
-    public HtmlTagValue visitHtmlTags(AngularParser.HtmlTagsContext ctx){
-        if(ctx instanceof AngularParser.PairedTagContext){
-            return this.visitPairedTag((AngularParser.PairedTagContext) ctx);
-        }else if(ctx instanceof AngularParser.UnpairedTagContext){
-            return this.visitUnpairedTag((AngularParser.UnpairedTagContext) ctx);
-        }else if(ctx instanceof AngularParser.NormalHtmlTextContext){
-            return this.visitNormalHtmlText((AngularParser.NormalHtmlTextContext) ctx);
-        }
-        return this.visitHtmlInterpolation((AngularParser.HtmlInterpolationContext) ctx);
-    }
-
 
     @Override
     public PairedTag visitPairedTag(AngularParser.PairedTagContext ctx) {
@@ -36,7 +27,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
         pairedTag.openTag = this.visitOpenTag(ctx.openTag());
         pairedTag.closeTag = this.visitCloseTag(ctx.closeTag());
         for(int i = 0; i < ctx.htmlTags().size(); i++){
-            pairedTag.htmlTags.add(visitHtmlTags(ctx.htmlTags(i)));
+            pairedTag.htmlTags.add(visit(ctx.htmlTags(i)));
         }
         return pairedTag;
     }
@@ -48,14 +39,26 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
 
     @Override
     public CloseTag visitCloseTag(AngularParser.CloseTagContext ctx) {
+        int line,charPos;
+        if(!Objects.equals(ctx.getChild(2).getText(), openedHtmlTags.peek().name)){
+            if(ctx.knownHtmlTags()!=null){
+                line = ctx.knownHtmlTags().getStart().getLine();
+                charPos = ctx.knownHtmlTags().getStart().getCharPositionInLine();
+            }
+            else{
+                line = ctx.ID().getSymbol().getLine();
+                charPos = ctx.ID().getSymbol().getCharPositionInLine();
+            }
+            semanticErrors.add(new SemError("Html Tags not Closed in Order",line,charPos));
+        }
         currentScope.pop();
-        return new CloseTag(ctx.ID().getText());
+        return new CloseTag(ctx.getChild(2).getText());
     }
 
     @Override
     public UnpairedTag visitSelfClosingTag(AngularParser.SelfClosingTagContext ctx) {
         UnpairedTag unpairedTag = new UnpairedTag();
-        unpairedTag.tagName = ctx.ID().getText();
+        unpairedTag.tagName = ctx.getChild(2).getText();
         Scope scope;
         if(currentScope.isEmpty()){
             scope = new Scope(unpairedTag.tagName + currId,currId+1);
@@ -65,6 +68,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
         }
         currId++;
         currentScope.push(scope);
+        openedHtmlTags.push(scope);
         AttributeVisitor attributeVisitor = new AttributeVisitor();
         attributeVisitor.currentScope = this.currentScope;
         attributeVisitor.semanticErrors = semanticErrors;
@@ -73,22 +77,24 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
             unpairedTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
         }
         currentScope.pop();
+        openedHtmlTags.pop();
         return unpairedTag;
     }
 
     @Override
     public OpenTag visitOpenTag(AngularParser.OpenTagContext ctx) {
         OpenTag openTag = new OpenTag();
-        openTag.tagName = ctx.ID().getText();
+        openTag.tagName = ctx.getChild(1).getText();
         Scope scope;
         if(currentScope.isEmpty()){
-            scope = new Scope(openTag.tagName + currId,currId+1);
+            scope = new Scope(openTag.tagName,currId+1);
         }
         else{
-            scope = new Scope(openTag.tagName + currId,currId+1,currentScope.peek());
+            scope = new Scope(openTag.tagName,currId+1,currentScope.peek());
         }
         currId++;
         currentScope.push(scope);
+        openedHtmlTags.push(scope);
         AttributeVisitor attributeVisitor = new AttributeVisitor();
       attributeVisitor.currentScope = currentScope;
       attributeVisitor.semanticErrors = semanticErrors;

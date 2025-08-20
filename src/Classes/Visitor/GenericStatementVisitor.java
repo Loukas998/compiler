@@ -124,11 +124,21 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     }
 
     @Override
+    public GenericStatement visitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx) {
+        LogicalStatementVisitor logSVis = new LogicalStatementVisitor();
+        logSVis.semanticErrors = this.semanticErrors;
+        logSVis.currentScope = this.currentScope;
+        return logSVis.visitLogicalStatement(ctx.logicalStatement());
+    }
+
+    @Override
     public Assign visitAssignStatement(AngularParser.AssignStatementContext ctx) {
         Scope scope = currentScope.peek();
+        int IdPlace = 0;
         Assign assign=new Assign();
         if(ctx.thisorId()!=null){
             assign.firstId=ctx.thisorId().getChild(0).getText();
+
         }
         assign.secondId=ctx.ID().getText();
         ValueVisitor valueVisitor=new ValueVisitor();
@@ -142,6 +152,11 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         }
         else{
             findSym = scope.getSymbol(assign.secondId);
+        }
+        if(findSym == null){
+            findSym = new Symbol();
+            findSym.type = "Unknown";
+            findSym.scope = currentScope.peek();
         }
         symbol.type = findSym.type;
         symbol.value = assign.secondId;
@@ -179,10 +194,21 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         logicalStatementVisitor.semanticErrors = this.semanticErrors;
         for(int i =0;i<ctx.logicalStatement().size();i++){
             ifState.addLogicalStatements(logicalStatementVisitor.visit(ctx.logicalStatement(i)));
+            if(i!=ctx.logicalStatement().size()-1){
+                ifState.addLogicalOp(ctx.logicalOp(i).getText());
+            }
+
         }
         for(int i =0;i<ctx.genericStatement().size();i++){
             ifState.addGenericStatement(this.visit(ctx.genericStatement(i)));
         }
+        if(ctx.elseStatement()!=null){
+            ElseStatementVisitor elseStatementVisitor = new ElseStatementVisitor();
+            elseStatementVisitor.currentScope = this.currentScope;
+            elseStatementVisitor.semanticErrors = this.semanticErrors;
+            ifState.elseStatement = elseStatementVisitor.visit(ctx.elseStatement());
+        }
+
         return ifState;
 
     }
@@ -252,6 +278,10 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         }
         for(int i=0;i<ctx.variableNaming().size();i++){
             functionStatement.addVariableNamings (variableNamingVisitor.visit(ctx.variableNaming(i)));
+        }
+        if(ctx.arrowFunction()!=null){
+            functionStatement.isArrow = true;
+            functionStatement.addFunctionBodyLine(this.visit(ctx.arrowFunction().value()));
         }
         if(ctx.genericStatement()!=null) {
             for (int i = 0; i < ctx.genericStatement().size(); i++) {

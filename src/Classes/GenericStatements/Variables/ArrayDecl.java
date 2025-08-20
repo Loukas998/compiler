@@ -34,11 +34,14 @@ public class ArrayDecl extends GenericStatement {
     @Override
     public String codeGen() {
         StringBuilder sb = new StringBuilder();
+        sb.append("var ");
         sb.append(this.variableNaming.codeGen());
-
+        if(this.arrayInfoValues!=null && !this.arrayInfoValues.isEmpty()){
+            sb.append(" = ");
+        }
         for(ArrayInfoValue arrVal : arrayInfoValues){
+
             sb.append(arrVal.codeGen());
-            sb.append(",");
             sb.append("\n");
         }
         return sb.toString();

@@ -1,10 +1,11 @@
 package Classes.GenericStatements.IfStatements;
 
+import Classes.GenericStatements.GenericStatement;
 import Classes.Values.ValueType;
 
 import java.io.FileWriter;
 
-public class LogicalStatement {
+public class LogicalStatement  extends ConditionalState {
     public ValueType leftValue;
     public String logicalOp;
     public ValueType rightValue;

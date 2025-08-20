@@ -17,4 +17,9 @@ public class QuotedAttribute extends Attribute{
                 "\n attributeValue: " + this.attributeValue +
                 "\n }";
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

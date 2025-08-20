@@ -32,7 +32,7 @@ public class VariableDecl extends GenericStatement {
     @Override
     public String codeGen() {
         StringBuilder sb = new StringBuilder();
-        sb.append("let ");
+        sb.append("var ");
         sb.append(this.variableNaming.codeGen());
         if(this.value !=null){
             sb.append(" = ");

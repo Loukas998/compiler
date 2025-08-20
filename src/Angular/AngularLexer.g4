@@ -150,6 +150,25 @@ Await      : 'await';
 Yield      : 'yield';
 YieldStar  : 'yield*';
 
+
+//known Html Tags
+H1 : 'h1';
+H2 : 'h2';
+H3 : 'h3';
+H4 : 'h4';
+H5 : 'h5';
+H6 : 'h6';
+AnchorTag : 'a';
+Div : 'div';
+ParagprahTag: 'p';
+SpanTag : 'span';
+ImageTag : 'img';
+UnorderedListTag : 'ul';
+OrderedListTag: 'ol';
+ListItemTag : 'li';
+LineBreakTag : 'br';
+StrongTextTag : 'strong'; //boldText
+Button :'button';
 /// Future Reserved Words
 
 Class   : 'class';

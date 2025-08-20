@@ -35,7 +35,11 @@ public class Assign extends GenericStatement{
     @Override
     public String codeGen() {
         StringBuilder sb = new StringBuilder();
-        sb.append(firstId);
+        if(firstId!=null && !this.firstId.equals("this")){
+            sb.append(firstId);
+            sb.append(".");
+        }
+        sb.append(secondId);
         sb.append(" = ");
         sb.append(valueType.codeGen());
         return sb.toString();

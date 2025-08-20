@@ -34,4 +34,9 @@ public class NgIf extends Attribute{
         }
         return " ";
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

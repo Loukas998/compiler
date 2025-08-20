@@ -5,6 +5,7 @@ import java.io.FileWriter;
 public class VariableNaming {
     public VarType type;
     public String name;
+    public boolean isNull = false;
     public VariableNaming(){
 
     }

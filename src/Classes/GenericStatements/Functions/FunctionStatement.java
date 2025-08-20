@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FunctionStatement extends FunctionValue {
+    public boolean isArrow = false;
     public List<ValueType> params = new ArrayList<>();
     public List<VariableNaming>paramVariableNames=new ArrayList<>();
    /* public List<GenericStatement> paramgenericStatements;*/
@@ -68,22 +69,32 @@ public class FunctionStatement extends FunctionValue {
             sb.append(valueParam.codeGen());
             sb.append(",");
         }
-        if(!params.isEmpty()){
-            sb.deleteCharAt(0);
+        if( this.params!=null && !params.isEmpty() ){
+            sb.deleteCharAt(sb.length()-1);
         }
         for(VariableNaming variableParam:paramVariableNames){
             sb.append(variableParam.codeGen());
             sb.append(",");
         }
-        if(!paramVariableNames.isEmpty()){
-            sb.deleteCharAt(0);
+        if(this.paramVariableNames!=null && !paramVariableNames.isEmpty()){
+            sb.deleteCharAt(sb.length()-1);
         }
         sb.append(')');
-        sb.append("{");
-        for(GenericStatement functionBodyLine:functionBodyStatements){
-            sb.append(functionBodyLine.codeGen());
+        if(this.isArrow){
+            sb.append("=>");
         }
-        sb.append("}");
+        if(!this.isArrow){
+            sb.append("{");
+        }
+        sb.append("\n");
+        if(this.functionBodyStatements!=null && !this.functionBodyStatements.isEmpty()) {
+            for (GenericStatement functionBodyLine : functionBodyStatements) {
+                sb.append(functionBodyLine.codeGen());
+            }
+        }
+        if(!this.isArrow){
+            sb.append("}");
+        }
         sb.append("\n");
         return sb.toString();
     }

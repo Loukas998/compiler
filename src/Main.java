@@ -3,6 +3,7 @@ import Angular.AngularParser;
 import Classes.Errors.SemError;
 import Classes.ExpressionProcessor;
 import Classes.Program;
+import Classes.Values.Htmls.HtmlTagValue;
 import Classes.Visitor.AntlrToProgram;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.CharStream;
@@ -70,6 +71,7 @@ public class Main {
         }
         public static void codeGen(Program program) throws IOException {
         StringBuilder space = new StringBuilder("\t\t");
+        StringBuilder htmlSpace = new StringBuilder("\t\t");
         try {
             FileWriter fw = new FileWriter("GenCode.html");
             codeGen("<!DOCTYPE html>",fw);
@@ -77,18 +79,28 @@ public class Main {
             codeGen("\n<head>",fw);
             codeGen("\n<title>Angular Project</title>",fw);
             codeGen("\n<link rel = \"stylesheet\" href = \"gen.css\"/>",fw);
-            codeGen("\n</head>",fw);
-            codeGen("\n<body>",fw);
-            codeGen("\n<div id = \"app\"></div>\n\n",fw);
             codeGen("\n<script>",fw);
             if(!program.expressionList.isEmpty()) {
-            for(int i = 0 ; i<program.expressionList.size();i++){
-                space.append(program.expressionList.get(i).codeGen());
+                for(int i = 0 ; i<program.expressionList.size();i++){
+                    if(!(program.expressionList.get(i)instanceof HtmlTagValue)) {
+                        space.append(program.expressionList.get(i).codeGen());
+                    }
 
-            }
+                }
             }
             codeGen(space.toString(),fw);
             codeGen("\n</script>",fw);
+            codeGen("\n</head>",fw);
+            codeGen("\n<body>",fw);
+            codeGen("\n<div id = \"app\"></div>\n\n",fw);
+           if(!program.expressionList.isEmpty()){
+               for(int i = 0;i<program.expressionList.size();i++){
+                   if(program.expressionList.get(i) instanceof HtmlTagValue){
+                       htmlSpace.append(program.expressionList.get(i).codeGen());
+                   }
+               }
+           }
+           codeGen(htmlSpace.toString(),fw);
             codeGen("\n</body>",fw);
            // codeGen("<DOCTYPE html>",fw);
             fw.close();

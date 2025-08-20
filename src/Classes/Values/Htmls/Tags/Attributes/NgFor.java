@@ -21,4 +21,9 @@ public class NgFor extends Attribute{
                 "\n }"
                 ;
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

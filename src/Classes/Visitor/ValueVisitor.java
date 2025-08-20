@@ -19,6 +19,7 @@ import Classes.Values.Simples.StringValue;
 import Classes.Values.Simples.VariableValue;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Stack;
 
 public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
@@ -253,7 +254,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
        // htmlVisitor.currId = this.currId;
         htmlVisitor.semanticErrors = semanticErrors;
         htmlVisitor.currId = currId;
-        ValueType htmlValueType = htmlVisitor.visitHtmlTags(ctx.htmlTags());
+        ValueType htmlValueType = htmlVisitor.visit(ctx.htmlTags());
 
         return htmlValueType;
     }
@@ -264,6 +265,13 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         function.functionName=ctx.ID().getText();
         function.functionStatement=this.visitFunctionBody(ctx.functionBody());
         return function;
+    }
+
+    @Override
+    public ValueType visitTypeOfValue(AngularParser.TypeOfValueContext ctx) {
+        TypeofValue typeofValue = new TypeofValue();
+        typeofValue.valueType = this.visit(ctx.value());
+        return typeofValue;
     }
 
     @Override
@@ -283,6 +291,10 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
         }
         for(int i=0;i<ctx.variableNaming().size();i++){
             functionStatement.addVariableNamings (variableNamingVisitor.visit(ctx.variableNaming(i)));
+        }
+        if(ctx.arrowFunction()!=null){
+            functionStatement.isArrow = true;
+            functionStatement.addFunctionBodyLine(this.visit(ctx.arrowFunction().value()));
         }
         if(ctx.genericStatement()!=null) {
             for (int i = 0; i < ctx.genericStatement().size(); i++) {
@@ -320,7 +332,14 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     @Override
     public FunctionSummoning visitFunctionCall(AngularParser.FunctionCallContext ctx) {
         FunctionSummoning funCall=new FunctionSummoning();
-        funCall.functionName = ctx.ID().getText();
+        funCall.functionName = "" ;
+        if(ctx.thisorId()!=null){
+            if(!Objects.equals(ctx.thisorId().getText(), "this")){
+                funCall.functionName+=ctx.thisorId().getChild(0).getText();
+                funCall.functionName+=".";
+            }
+        }
+        funCall.functionName += ctx.ID().getText();
         //Row row = new Row();
         // row.type = "FunctionCall";
         for(int i=0;i<ctx.value().size();i++){

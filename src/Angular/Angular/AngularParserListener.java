@@ -214,6 +214,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitEllipsisValue(AngularParser.EllipsisValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code TypeOfValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeOfValue(AngularParser.TypeOfValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TypeOfValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeOfValue(AngularParser.TypeOfValueContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ValueAndValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -632,6 +644,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitFunctionBody(AngularParser.FunctionBodyContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AngularParser#arrowFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrowFunction(AngularParser.ArrowFunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#arrowFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrowFunction(AngularParser.ArrowFunctionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngularParser#functionCall}.
 	 * @param ctx the parse tree
 	 */
@@ -681,6 +703,30 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfStatement(AngularParser.IfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SingleLineElse}
+	 * labeled alternative in {@link AngularParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSingleLineElse(AngularParser.SingleLineElseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SingleLineElse}
+	 * labeled alternative in {@link AngularParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSingleLineElse(AngularParser.SingleLineElseContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MultipleLineElse}
+	 * labeled alternative in {@link AngularParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultipleLineElse(AngularParser.MultipleLineElseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MultipleLineElse}
+	 * labeled alternative in {@link AngularParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultipleLineElse(AngularParser.MultipleLineElseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#logicalOp}.
 	 * @param ctx the parse tree
@@ -883,6 +929,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInterpolation(AngularParser.InterpolationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#knownHtmlTags}.
+	 * @param ctx the parse tree
+	 */
+	void enterKnownHtmlTags(AngularParser.KnownHtmlTagsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#knownHtmlTags}.
+	 * @param ctx the parse tree
+	 */
+	void exitKnownHtmlTags(AngularParser.KnownHtmlTagsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#openTag}.
 	 * @param ctx the parse tree

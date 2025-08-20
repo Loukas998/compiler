@@ -35,7 +35,12 @@ public class OpenTag extends HtmlTagValue {
 
     @Override
     public String codeGen() {
-
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("<");
+        sb.append(tagName);
+        for(Attribute attribute : this.attributes){
+            sb.append(attribute.codeGen());
+        }
+        return " ";
     }
 }

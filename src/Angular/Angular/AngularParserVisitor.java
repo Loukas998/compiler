@@ -132,6 +132,13 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEllipsisValue(AngularParser.EllipsisValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code TypeOfValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeOfValue(AngularParser.TypeOfValueContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ValueAndValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -377,6 +384,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionBody(AngularParser.FunctionBodyContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#arrowFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrowFunction(AngularParser.ArrowFunctionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -406,6 +419,20 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIfStatement(AngularParser.IfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SingleLineElse}
+	 * labeled alternative in {@link AngularParser#elseStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSingleLineElse(AngularParser.SingleLineElseContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultipleLineElse}
+	 * labeled alternative in {@link AngularParser#elseStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultipleLineElse(AngularParser.MultipleLineElseContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#logicalOp}.
 	 * @param ctx the parse tree
@@ -525,6 +552,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInterpolation(AngularParser.InterpolationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#knownHtmlTags}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKnownHtmlTags(AngularParser.KnownHtmlTagsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#openTag}.
 	 * @param ctx the parse tree

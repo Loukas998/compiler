@@ -17,7 +17,7 @@ importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | I
 
 interface: Interface ID (OpenBrace|OpenBraceHTML) (variableNaming SemiColon)* (CloseBrace|CloseBraceHTML);
 
-variableNaming: (Let|Var|Const | ID)? ID ((Colon varType)? (BitOr NullLiteral (Assign NullLiteral )?)? )? ;
+variableNaming: (Let|Var|Const | ID)? ID ((Colon varType)? (BitOr NullLiteral)? )? ;
 
 varType: String
        | Int
@@ -28,7 +28,7 @@ varType: String
        | ID
        ;
 
-string: SingleQuote | BackTickQuote| DoubleQuote ;
+string:  SingleQuote | BackTickQuote| DoubleQuote ;
 
 value:
        arrayInfo # ArrayInfoValue
@@ -44,6 +44,7 @@ value:
      | value And value # ValueAndValue
      | value OpenBracket value CloseBracket # ArrayIndexValue
      | Ellipsis value # EllipsisValue
+     | Typeof value # TypeOfValue
      | OpenBrace value CloseBrace # BracedValue
      | thisorId value  # ThisDotValue
      | htmlTags # HtmlTagValue
@@ -58,6 +59,7 @@ componentDeclaration : At Component OpenParen (OpenBrace|OpenBraceHTML) componen
 
 componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
              | TemplateUrl Colon (SingleQuote | BackTickQuote) # TempUrl
+             //| Template Colon (SingleQuotationMark  | BackTickQuotationMark) htmlTags* (SingleQuotationMark  | BackTickQuotationMark) # HtmlTemplate
              | StyleUrls Colon OpenBracket (SingleQuote | BackTickQuote)(Comma(SingleQuote | BackTickQuote))* CloseBracket # Styles
              | Standalone Colon BooleanLiteral # StandaloneStatus
              | Imports Colon OpenBracket ((NgFor|NgIf|ID) (Comma (NgFor|NgIf|ID))*)? CloseBracket # Importss
@@ -85,15 +87,24 @@ arrayDeclaration: variableNaming (OpenBracket CloseBracket)? (Assign arrayInfo*)
 arrayInfo: OpenBracket (value (Comma value)* (Comma)?)* CloseBracket;
 
 functionDeclaration: (thisorId)?ID functionBody;
-functionBody:  OpenParen ((value | variableNaming)(Comma (value |variableNaming))*)* CloseParen ((Colon varType)?) (ARROW? (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML))?;
+functionBody:  OpenParen ((value | variableNaming)(Comma (value |variableNaming))*)* CloseParen ((Colon varType)?)
+(
+((OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML))?
+|(genericStatement)?
+|arrowFunction
+);
+arrowFunction : (ARROW value);
 functionCall: (thisorId)?ID OpenParen(value (Comma value)*)* CloseParen;
 
 assignStatement:(thisorId)? ID Assign value SemiColon;
 thisorId: ((ID|This) Dot);
 returnStatement: Return (thisorId)?value SemiColon;
 
-ifStatement: If OpenParen  logicalStatement(logicalOp logicalStatement)* CloseParen (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML) (Else genericStatement)*
+ifStatement: If OpenParen logicalStatement(logicalOp logicalStatement)* CloseParen (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML) elseStatement?
            ;
+elseStatement :(Else genericStatement) #SingleLineElse
+              | (Else ((OpenBrace|OpenBraceHTML) genericStatement*(CloseBrace|CloseBraceHTML))) #MultipleLineElse;
+
 
 logicalOp: LessThanEquals
          | GreaterThanEquals
@@ -108,7 +119,7 @@ logicalOp: LessThanEquals
          | Or
          ;
 
-logicalStatement: ((Typeof)?value (logicalOp) (Typeof)?value);
+logicalStatement: (value (logicalOp) value);
 
 forLoop: For OpenParen Let ID Of ID CloseParen forBody;
 
@@ -138,9 +149,32 @@ htmlTags: openTag (htmlTags)* closeTag # PairedTag
         ;
 
 interpolation: (OpenBrace|OpenBraceHTML)(OpenBrace|OpenBraceHTML) (value)* (CloseBrace|CloseBraceHTML)(CloseBrace|CloseBraceHTML);
-openTag: (LessThan |OpenTag) ID (attribute)* (MoreThan|CloseTag);
-closeTag: (LessThan |OpenTag) Divide ID (MoreThan|CloseTag);
-selfClosingTag:(LessThan |OpenTag) ID (attribute)* Divide (MoreThan|CloseTag);
+
+
+knownHtmlTags:H1 |
+              H2 |
+              H3 |
+              H4 |
+              H5 |
+              H6 |
+              AnchorTag |
+              Div |
+              ParagprahTag|
+              SpanTag |
+              ImageTag |
+              UnorderedListTag |
+              OrderedListTag |
+              ListItemTag |
+              LineBreakTag |
+              Button |
+              StrongTextTag;
+
+
+
+
+openTag: (LessThan |OpenTag) (knownHtmlTags|ID) (attribute)* (MoreThan|CloseTag);
+closeTag: (LessThan |OpenTag) Divide (knownHtmlTags|ID)  (MoreThan|CloseTag);
+selfClosingTag:(LessThan |OpenTag) (knownHtmlTags|ID)  (attribute)* Divide (MoreThan|CloseTag);
 
 // fix html tags rules from lexer
 // ability to write html in the template url

@@ -155,7 +155,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         componentInfoVisitor.currentScopeStack = currentScope;
         for(int i=0;i<ctx.componentInfo().size();i++){
             //componentInfoVisitor.symbolTable = this.symbolTable;
-            componentDeclaration.addComponentInfo(componentInfoVisitor.visitComponentInfo(ctx.componentInfo(i)));
+            componentDeclaration.addComponentInfo(componentInfoVisitor.visit(ctx.componentInfo(i)));
            // this.symbolTable = componentInfoVisitor.symbolTable;
         }
         currentScope.pop();

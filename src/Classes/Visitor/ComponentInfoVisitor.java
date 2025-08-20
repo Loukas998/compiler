@@ -18,21 +18,6 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
     public Stack<Scope> currentScopeStack = new Stack<>();
     ArrayList<SemError> semanticErrors = new ArrayList<>();
 
-    public ComponentInfo visitComponentInfo(AngularParser.ComponentInfoContext ctx){
-        if(ctx instanceof AngularParser.SelectContext){
-            return visitSelect((AngularParser.SelectContext) ctx);
-        }
-        else if( ctx instanceof AngularParser.StylesContext){
-            return visitStyles((AngularParser.StylesContext) ctx);
-        }
-        else if( ctx instanceof AngularParser.TempUrlContext){
-            return visitTempUrl((AngularParser.TempUrlContext) ctx);
-        }
-        else if( ctx instanceof AngularParser.ImportssContext){
-            return visitImportss((AngularParser.ImportssContext) ctx);
-        }
-       return visitStandaloneStatus((AngularParser.StandaloneStatusContext) ctx);
-    }
     @Override
     public Select visitSelect(AngularParser.SelectContext ctx) {
         var scope = currentScopeStack.peek();

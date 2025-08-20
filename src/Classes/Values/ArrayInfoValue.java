@@ -33,7 +33,7 @@ public class ArrayInfoValue extends ValueType{
     public String codeGen() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-
+        sb.append("\n");
         for(ValueType arrayElement : arrayValues){
            sb.append(arrayElement.codeGen());
             sb.append(",");
