@@ -9,10 +9,7 @@ import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
 import Classes.SymbolTable.Symbol;
 import Classes.SymbolTable.SymbolTable;
-import Classes.Values.Htmls.Tags.Attributes.Attribute;
-import Classes.Values.Htmls.Tags.Attributes.NgFor;
-import Classes.Values.Htmls.Tags.Attributes.NgIf;
-import Classes.Values.Htmls.Tags.Attributes.QuotedAttribute;
+import Classes.Values.Htmls.Tags.Attributes.*;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -71,8 +68,8 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
     }
 
     @Override
-    public QuotedAttribute visitOpenBracketAttribute(AngularParser.OpenBracketAttributeContext ctx) {
-        QuotedAttribute quotedAttribute = new QuotedAttribute();
+    public PropertyBindAttribute visitOpenBracketAttribute(AngularParser.OpenBracketAttributeContext ctx) {
+        PropertyBindAttribute quotedAttribute = new PropertyBindAttribute();
         int line;
         int charPos;
         if(ctx.ID() != null){
@@ -84,7 +81,12 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
             line = ctx.Class().getSymbol().getLine();
             charPos = ctx.Class().getSymbol().getCharPositionInLine();
         }
-        quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        if(ctx.DoubleQuote()!=null){
+            quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        }
+       else{
+            quotedAttribute.attributeValue = ctx.TripleQuote().getText();
+        }
         Scope scope = currentScope.peek();
         if(scope.exists(quotedAttribute.attributeName)!=null){
             semanticErrors.add(new HtmlError(line,charPos));

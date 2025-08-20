@@ -1,25 +1,30 @@
 package Classes.Values.Htmls.Tags.Attributes;
 
-public class QuotedAttribute extends Attribute{
+public class PropertyBindAttribute extends Attribute{
     public String attributeName;
     public String attributeValue;
-    public QuotedAttribute(){}
+    public PropertyBindAttribute(){}
 
-    public QuotedAttribute(String attributeName, String attributeValue) {
+    public PropertyBindAttribute(String attributeName, String attributeValue) {
         this.attributeName = attributeName;
         this.attributeValue = attributeValue;
     }
 
     @Override
     public String toString(){
-        return "\n QuotedAttribute{" +
+        return "\n PropertyBindAttribute{" +
                 "\n attributeName: " + this.attributeName + "," +
                 "\n attributeValue: " + this.attributeValue +
                 "\n }";
     }
-
     @Override
     public String codeGen() {
-        return " " + this.attributeName.replace("\"","")+" = "+this.attributeValue+" ";
+        StringBuilder sb = new StringBuilder();
+        sb.append("id = \" ");
+        sb.append(this.attributeName);
+        sb.append("_");
+        sb.append(this.hashCode());
+        sb.append("\"");
+        return sb.toString();
     }
 }

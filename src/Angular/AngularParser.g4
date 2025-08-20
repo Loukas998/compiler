@@ -132,7 +132,7 @@ jsonObject:(OpenBrace|OpenBraceHTML) ID Colon value (Comma ID Colon value)*(Comm
 attribute: ngForStatement # NgFor
          | ngIfStatement # NgIf
          | (ID|Class) Assign DoubleQuote # DoubleQuotedAttribute
-         | OpenBracket (ID|Class) CloseBracket Assign DoubleQuote # OpenBracketAttribute // [src]
+         | OpenBracket (ID|Class) CloseBracket Assign (DoubleQuote | TripleQuote) # OpenBracketAttribute // [src]
          | OpenParen (ID|Class) CloseParen Assign DoubleQuote # OpenParenAttribute // (click)
          ;
 

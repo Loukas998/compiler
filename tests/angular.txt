@@ -56,3 +56,10 @@ ngOnInit(): void {
   }
 }
 }
+<img
+        id = "specId"
+        *ngIf=selectedProduct
+        [src]="selectedProduct.image"
+        alt="صورة المنتج"
+        class="product-image"
+      />

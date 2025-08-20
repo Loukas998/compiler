@@ -35,6 +35,7 @@ DoubleQuotationMark        :'"';
 MultiLineComment           :'/*' .*? '*/'             -> channel(HIDDEN);
 SingleLineComment          :'//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
 SingleQuote                : '\'' ( ESC | ~['\\\r\n] )* '\'';
+TripleQuote                : '"' '\'' ~[ESC<'\n\t"]* '\'' '"';
 DoubleQuote                :'"' ~[ESC<'\n\t"]* '"';
 BackTickQuote              :'`' ~[ESC<'\n\t]* '`';
 OpenBracket                : '[';
