@@ -1,84 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Angular Project</title>
-	<link rel = "stylesheet" href = "gen.css"/>
-	<script>		var defaultProducts = [
-{id:'Product one',
-name:'منتجات غذائية',
-image:'assets/food products.png',
-details:'لدينا أفضل النتجات الغذائية و بأفضل الاسعار من أفضل الماركات العالمية والمحلية',
-},{id:'Product two',
-name:'منتجات تجميلية',
-image:'assets/cosmetic products.png',
-details:'أفضل أنواع العطورات والمنتجات التجميلية رائحة ونعومة معاً',
-},{id:'Product three',
-name:'بيتزا الكوخ',
-image:'assets/pizza.png',
-details:'بيتزا خضار مع الدجاج جميع الاحجام وحسب الطلب',
-},{id:'Product four',
-name:'سلطة خضار',
-image:'assets/salad.png',
-details:'سلطات خضار مع الزيت البلدي',
-},{id:'Product five',
-name:'سندويش',
-image:'assets/sandwich.png',
-details:'لدينا كل أنواع السندويش غربي وشرقي وجاهزون لكافة الطلبات أهلا بكم في مطعمكم',
-},{id:'Product Six',
-name:'حساء',
-image:'assets/soup.png',
-details:'حساء بجميع أنواعه وحسب الطلب',
-}]
-
-var products = []
-
-var selectedProduct = null
-
-function selectProduct (product)
-{
-selectedProduct = product
-}
-
-
-function init ()
-{
-if (typeof window!=='undefined'&&typeof localStorage!=='undefined'){var saved = JSON.parse(localStorage.getItem('products')||'[]')
-var validSaved = saved.filter((pp)=>
-
-pp?.id&&pp?.name&&pp?.image&&pp?.details
-)
-products = [
-...defaultProducts,...validSaved]
-}else {
-products = [
-...defaultProducts]
-
-}}
-
-document.addEventListener("DOMContentLoaded",init)
-
-	</script>
+<title>Angular Project</title>
+<link rel = "stylesheet" href = "gen.css"/>
+<script>		
+</script>
 </head>
 <body>
 <div id = "app"></div>
 
-<img  id = "specId"  alt = "صورة المنتج"  class = "product-image"  />
+		<input  class = "text" id = "ngModel_1419810764"/> 
 <script>
-	const el = document.getElementById('specId')
-    let lastsrc = ''
-
-     const originalDisplay = window.getComputedStyle(el).display;
-    function update_specId()
-    {
-    if (!(selectedProduct)){
-    el.style.display = 'none';
-    }
-     else {el.style.display = originalDisplay; }
-    const newsrc= selectedProduct.image
-    if (newsrc!== lastsrc)
-    {el.src = selectedProduct.image
-    lastsrc = selectedProduct.image
-    }}
-    setInterval(update_specId,100)
+const el = document.getElementById('ngModel_1419810764') 
+function update_ngModel_1419810764() 
+{
+} 
+setInterval(update_ngModel_1419810764,100)
+</script><script>
+const ngmel = document.getElementById('ngModel_1419810764') 
+ngmel.value = product.detailsngmel.addEventListener("input", e => { 
+product.details = e.target.value; 
+ }); 
+setInterval(() => {
+if (document.activeElement !== ngmel && ngmel.value !== product.details) { 
+ngmel.value = product.details
+ } 
+ }, 100); 
 </script>
 </body>

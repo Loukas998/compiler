@@ -19,19 +19,6 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
     Stack<Scope>currentScope = new Stack<>();
     public  int currId;
     ArrayList<SemError>semanticErrors = new ArrayList<>();
-    public Attribute visitAttribute(AngularParser.AttributeContext ctx){
-        if(ctx instanceof AngularParser.NgForContext){
-            return this.visitNgFor((AngularParser.NgForContext) ctx);
-        }else if(ctx instanceof AngularParser.NgIfContext){
-            return this.visitNgIf((AngularParser.NgIfContext) ctx);
-        }else if(ctx instanceof AngularParser.DoubleQuotedAttributeContext){
-            return this.visitDoubleQuotedAttribute((AngularParser.DoubleQuotedAttributeContext) ctx);
-        }else if(ctx instanceof AngularParser.OpenBracketAttributeContext){
-            return this.visitOpenBracketAttribute((AngularParser.OpenBracketAttributeContext) ctx);
-        }
-        return this.visitOpenParenAttribute((AngularParser.OpenParenAttributeContext) ctx);
-    }
-
     @Override
     public NgFor visitNgFor(AngularParser.NgForContext ctx) {
         return this.visitNgForStatement(ctx.ngForStatement());
@@ -154,4 +141,9 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
         }
         return ngIf;
     }
+    @Override
+    public NgModel visitNgModelAttribute(AngularParser.NgModelAttributeContext ctx) {
+        return new NgModel(ctx.DoubleQuote().getText());
+    }
+
 }

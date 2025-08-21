@@ -852,6 +852,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitOpenParenAttribute(AngularParser.OpenParenAttributeContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code NgModelAttribute}
+	 * labeled alternative in {@link AngularParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterNgModelAttribute(AngularParser.NgModelAttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code NgModelAttribute}
+	 * labeled alternative in {@link AngularParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitNgModelAttribute(AngularParser.NgModelAttributeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngularParser#ngForStatement}.
 	 * @param ctx the parse tree
 	 */

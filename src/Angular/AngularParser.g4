@@ -13,7 +13,7 @@ tokenVocab=AngularLexer;
               | genericStatement # Generic
               ;
 
-importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | ID)(As ID)? (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
+importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | ID |Router)(As ID)? (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
 
 interface: Interface ID (OpenBrace|OpenBraceHTML) (variableNaming SemiColon)* (CloseBrace|CloseBraceHTML);
 
@@ -62,7 +62,7 @@ componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
              //| Template Colon (SingleQuotationMark  | BackTickQuotationMark) htmlTags* (SingleQuotationMark  | BackTickQuotationMark) # HtmlTemplate
              | StyleUrls Colon OpenBracket (SingleQuote | BackTickQuote)(Comma(SingleQuote | BackTickQuote))* CloseBracket # Styles
              | Standalone Colon BooleanLiteral # StandaloneStatus
-             | Imports Colon OpenBracket ((NgFor|NgIf|ID) (Comma (NgFor|NgIf|ID))*)? CloseBracket # Importss
+             | Imports Colon OpenBracket ((NgFor|NgIf|ID|Router) (Comma (NgFor|NgIf|ID|Router))*)? CloseBracket # Importss
              ;
 
 genericStatement:
@@ -95,7 +95,6 @@ functionBody:  OpenParen ((value | variableNaming)(Comma (value |variableNaming)
 );
 arrowFunction : (ARROW value);
 functionCall: (thisorId)?ID OpenParen(value (Comma value)*)* CloseParen;
-
 assignStatement:(thisorId)? ID Assign value SemiColon;
 thisorId: ((ID|This) Dot);
 returnStatement: Return (thisorId)?value SemiColon;
@@ -134,6 +133,7 @@ attribute: ngForStatement # NgFor
          | (ID|Class) Assign DoubleQuote # DoubleQuotedAttribute
          | OpenBracket (ID|Class) CloseBracket Assign (DoubleQuote | TripleQuote) # OpenBracketAttribute // [src]
          | OpenParen (ID|Class) CloseParen Assign DoubleQuote # OpenParenAttribute // (click)
+         | OpenBracket OpenParen NgModel CloseParen CloseBracket Assign DoubleQuote # NgModelAttribute // [(ngModel)]
          ;
 
 ngForStatement: Multiply NgFor Assign (Let ID Of ID)
@@ -167,6 +167,7 @@ knownHtmlTags:H1 |
               ListItemTag |
               LineBreakTag |
               Button |
+              Input |
               StrongTextTag;
 
 

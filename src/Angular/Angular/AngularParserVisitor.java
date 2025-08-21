@@ -507,6 +507,13 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOpenParenAttribute(AngularParser.OpenParenAttributeContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code NgModelAttribute}
+	 * labeled alternative in {@link AngularParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNgModelAttribute(AngularParser.NgModelAttributeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#ngForStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

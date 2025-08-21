@@ -1,10 +1,7 @@
 package Classes.Values.Htmls;
 
 import Classes.GenericStatements.IfStatements.LogicalStatement;
-import Classes.Values.Htmls.Tags.Attributes.Attribute;
-import Classes.Values.Htmls.Tags.Attributes.NgIf;
-import Classes.Values.Htmls.Tags.Attributes.PropertyBindAttribute;
-import Classes.Values.Htmls.Tags.Attributes.QuotedAttribute;
+import Classes.Values.Htmls.Tags.Attributes.*;
 import Classes.Values.Htmls.Tags.OpenTag;
 import org.w3c.dom.Attr;
 
@@ -40,6 +37,8 @@ public class UnpairedTag extends HtmlTagValue {
 
     @Override
     public String codeGen() {
+        boolean hasNgModel = false;
+        String ngModelValue = "";
         boolean hasNgIf = false;
         boolean IdTaken = false;
         int propertyBindCount = 0;
@@ -94,6 +93,16 @@ public class UnpairedTag extends HtmlTagValue {
                    NgIfId = propertyId.replace("id = ", "");
                    IdTaken = true;
 
+                }
+            }
+            else if (attribute instanceof NgModel){
+                hasNgModel = true;
+                ngModelValue = ((NgModel) attribute).assignedValue;
+                String codeGenerated = attribute.codeGen();
+                if(!IdTaken) {
+                    sb.append(codeGenerated);
+                    NgIfId = codeGenerated.replace("id = ","");
+                    IdTaken = true;
                 }
             }
             else {
@@ -178,6 +187,29 @@ public class UnpairedTag extends HtmlTagValue {
         sb.append(",100)");
         sb.append("\n");
         sb.append("</script>");
+        if(hasNgModel)
+        {
+            ngModelValue = ngModelValue.replace("\"","");
+            sb.append("<script>");
+            sb.append("\n");
+            sb.append("const ngmel = ");
+            sb.append("document.getElementById('");
+            sb.append(NgIfId);
+            sb.append("') \n");
+            sb.append("ngmel.value = ");
+            sb.append(ngModelValue).append("\n");
+            sb.append("ngmel.addEventListener(\"input\", e => { \n");
+            sb.append(ngModelValue);
+            sb.append(" = e.target.value; \n");
+            sb.append(" }); \n");
+            sb.append("setInterval(() => {\n" +
+                    "if (document.activeElement !== ngmel && ngmel.value !== ");
+            sb.append(ngModelValue);
+            sb.append(") { \n");
+            sb.append("ngmel.value = ").append(ngModelValue);
+            sb.append("\n } \n }, 100); \n");
+            sb.append("</script>");
+        }
         return sb.toString();
 
     }

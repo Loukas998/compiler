@@ -905,6 +905,18 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNgModelAttribute(AngularParser.NgModelAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNgModelAttribute(AngularParser.NgModelAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNgForStatement(AngularParser.NgForStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}

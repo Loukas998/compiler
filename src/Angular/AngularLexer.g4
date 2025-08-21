@@ -4,6 +4,7 @@ lexer grammar AngularLexer;
 Component:'Component';
 NgFor: 'NgFor' | 'ngFor' | 'ngfor';
 NgIf:  'NgIf' | 'ngIf' | 'ngif';
+NgModel : 'ngModel' | 'NgModel'|'ngmodel';
 Selector: 'selector';
 TemplateUrl:'templateUrl';
 Template:'template';
@@ -12,6 +13,7 @@ StyleUrl: 'styleUrl';
 Styles:'styles';
 Imports:'imports';
 Standalone:'standalone';
+Router : 'Router'|'router';
 Get : 'get';
 //HTML
 HTML_COMMENT: '<!--' .*? '-->';
@@ -170,6 +172,7 @@ ListItemTag : 'li';
 LineBreakTag : 'br';
 StrongTextTag : 'strong'; //boldText
 Button :'button';
+Input :'input';
 /// Future Reserved Words
 
 Class   : 'class';

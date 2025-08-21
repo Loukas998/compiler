@@ -74,7 +74,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
         attributeVisitor.semanticErrors = semanticErrors;
         attributeVisitor.currId = this.currId;
         for (int i = 0 ; i < ctx.attribute().size(); i++){
-            unpairedTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
+            unpairedTag.attributes.add(attributeVisitor.visit(ctx.attribute(i)));
         }
         currentScope.pop();
         openedHtmlTags.pop();
@@ -99,7 +99,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
       attributeVisitor.currentScope = currentScope;
       attributeVisitor.semanticErrors = semanticErrors;
         for (int i = 0 ; i < ctx.attribute().size(); i++){
-            openTag.attributes.add(attributeVisitor.visitAttribute(ctx.attribute(i)));
+            openTag.attributes.add(attributeVisitor.visit(ctx.attribute(i)));
         }
         return openTag;
     }

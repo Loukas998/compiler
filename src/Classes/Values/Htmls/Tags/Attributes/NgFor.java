@@ -24,6 +24,6 @@ public class NgFor extends Attribute{
 
     @Override
     public String codeGen() {
-        return "";
+        return "<div id = \"ngFor" +this.hashCode()+"\"" ;
     }
 }
