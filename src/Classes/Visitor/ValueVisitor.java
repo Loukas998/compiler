@@ -215,7 +215,10 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public ValueType visitThisDotValue(AngularParser.ThisDotValueContext ctx) {
-        return super.visitThisDotValue(ctx);
+      ValueDotValue valueDotValue = new ValueDotValue();
+      valueDotValue.firstValue =new VariableValue(ctx.thisorId().getChild(0).getText());
+      valueDotValue.secondValue = this.visit(ctx.value());
+      return valueDotValue;
     }
 
     @Override
@@ -234,6 +237,13 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     @Override
     public ValueOrValue visitValueOrValue(AngularParser.ValueOrValueContext ctx) {
         ValueOrValue valueOrValue = new ValueOrValue();
+        valueOrValue.firstValue = visit(ctx.value(0));
+        valueOrValue.secondValue = visit(ctx.value(1));
+        return valueOrValue;
+    }
+    @Override
+    public ValueIdentityNotEqualsValue visitValueIdentityNotEqualsValue(AngularParser.ValueIdentityNotEqualsValueContext ctx) {
+        ValueIdentityNotEqualsValue valueOrValue = new ValueIdentityNotEqualsValue();
         valueOrValue.firstValue = visit(ctx.value(0));
         valueOrValue.secondValue = visit(ctx.value(1));
         return valueOrValue;

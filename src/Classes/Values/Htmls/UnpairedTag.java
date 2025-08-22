@@ -4,6 +4,7 @@ import Classes.GenericStatements.IfStatements.LogicalStatement;
 import Classes.Values.Htmls.Tags.Attributes.*;
 import Classes.Values.Htmls.Tags.OpenTag;
 import org.w3c.dom.Attr;
+import org.w3c.dom.events.Event;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -42,11 +43,13 @@ public class UnpairedTag extends HtmlTagValue {
         boolean hasNgIf = false;
         boolean IdTaken = false;
         int propertyBindCount = 0;
+        int eventBindCount = 0;
        // ArrayList<String>propertyIds = new ArrayList<String>();
         String NgIfId = "";
         String conditionalVariable = "";
         LogicalStatement logicalStatement = null;
         ArrayList<String>propNames = new ArrayList<>();
+        ArrayList<String>eventNames = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         sb.append("<");
         sb.append(tagName);
@@ -60,6 +63,7 @@ public class UnpairedTag extends HtmlTagValue {
             if(Objects.equals(attribute1.attributeName, "id")){
                 NgIfId = attribute1.attributeValue;
                 IdTaken = true;
+
             }
         }
         for(Attribute attribute:attributes) {
@@ -95,6 +99,17 @@ public class UnpairedTag extends HtmlTagValue {
 
                 }
             }
+            else if(attribute instanceof EventBindingAttribute){
+                eventBindCount++;
+                eventNames.add(((EventBindingAttribute)attribute).attributeName);
+                        if(!IdTaken){
+                            String eventId = attribute.codeGen();
+                            sb.append(eventId);
+                            NgIfId = eventId.replace("id = ", "");
+                            IdTaken = true;
+                        }
+
+            }
             else if (attribute instanceof NgModel){
                 hasNgModel = true;
                 ngModelValue = ((NgModel) attribute).assignedValue;
@@ -113,7 +128,7 @@ public class UnpairedTag extends HtmlTagValue {
         NgIfId = NgIfId.replace("\"","");
         sb.append("<script>");
         sb.append("\n");
-        sb.append("const el = ");
+        sb.append("const el"+this.hashCode()+" = ");
         sb.append("document.getElementById('");
         sb.append(NgIfId);
         sb.append("') \n");
@@ -126,7 +141,7 @@ public class UnpairedTag extends HtmlTagValue {
             }
         }
         if(hasNgIf) {
-            sb.append(" \n const originalDisplay = window.getComputedStyle(el).display; \n");
+            sb.append(" \n const originalDisplay = window.getComputedStyle(el"+this.hashCode()+").display; \n");
         }
         sb.append("function update_");
         sb.append(NgIfId);
@@ -143,10 +158,10 @@ public class UnpairedTag extends HtmlTagValue {
 //                }
                 sb.append("))");
                 sb.append("{ \n");
-                sb.append("el.style.display = 'none';\n");
+                sb.append("el"+this.hashCode()+".style.display = 'none';\n");
                 sb.append("}");
                 sb.append("\n else {");
-                sb.append("el.style.display = originalDisplay; ");
+                sb.append("el"+this.hashCode()+".style.display = originalDisplay; ");
                 sb.append("} \n");
 
             }
@@ -166,7 +181,7 @@ public class UnpairedTag extends HtmlTagValue {
                         sb.append(prat.attributeName);
                         sb.append(") \n");
                         sb.append("{");
-                        sb.append("el.");
+                        sb.append("el"+this.hashCode()+".");
                         sb.append(((PropertyBindAttribute) att).attributeName);
                         sb.append(" = ");
                         sb.append(prat.attributeValue.replace("\"",""));
@@ -177,6 +192,15 @@ public class UnpairedTag extends HtmlTagValue {
                         sb.append(prat.attributeValue.replace("\"",""));
                         sb.append("\n");
                         sb.append("}");
+                    }
+                }
+            }
+            if(eventBindCount>0){
+                for(Attribute att:attributes){
+                    if(att instanceof EventBindingAttribute eba){
+                        sb.append("document.addEventListener(\"").append(eba.attributeName);
+                        sb.append("\", ()=>{ \n");
+                        sb.append(eba.attributeValue).append("\n } \n");
                     }
                 }
             }
@@ -196,17 +220,17 @@ public class UnpairedTag extends HtmlTagValue {
             sb.append("document.getElementById('");
             sb.append(NgIfId);
             sb.append("') \n");
-            sb.append("ngmel.value = ");
+            sb.append("ngmel"+this.hashCode()+".value = ");
             sb.append(ngModelValue).append("\n");
             sb.append("ngmel.addEventListener(\"input\", e => { \n");
             sb.append(ngModelValue);
             sb.append(" = e.target.value; \n");
             sb.append(" }); \n");
             sb.append("setInterval(() => {\n" +
-                    "if (document.activeElement !== ngmel && ngmel.value !== ");
+                    "if (document.activeElement !== ngmel"+this.hashCode()+" && ngmel"+this.hashCode()+".value !== ");
             sb.append(ngModelValue);
             sb.append(") { \n");
-            sb.append("ngmel.value = ").append(ngModelValue);
+            sb.append("ngmel"+this.hashCode()+".value = ").append(ngModelValue);
             sb.append("\n } \n }, 100); \n");
             sb.append("</script>");
         }

@@ -3,6 +3,7 @@ package Classes.Values.Dots;
 import Classes.Values.ValueType;
 
 import java.io.FileWriter;
+import java.util.Objects;
 
 public class ValueDotValue extends ValueType {
     public ValueType firstValue;
@@ -26,8 +27,13 @@ public class ValueDotValue extends ValueType {
     @Override
     public String  codeGen() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(firstValue.codeGen());
-        stringBuilder.append(".");
+        String first = firstValue.codeGen();
+        if(!Objects.equals(first, "this")){
+            stringBuilder.append(first);
+
+            stringBuilder.append(".");
+        }
+
         stringBuilder.append(secondValue.codeGen());
         stringBuilder.append("\n");
         return stringBuilder.toString();

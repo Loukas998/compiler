@@ -209,6 +209,13 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionValue(AngularParser.FunctionValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ValueIdentityNotEqualsValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueIdentityNotEqualsValue(AngularParser.ValueIdentityNotEqualsValueContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code StringValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -271,19 +278,19 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportss(AngularParser.ImportssContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Function}
-	 * labeled alternative in {@link AngularParser#genericStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunction(AngularParser.FunctionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code FunctionSummoning}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction(AngularParser.FunctionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code FunctionStatement}
 	 * labeled alternative in {@link AngularParser#genericStatement}.

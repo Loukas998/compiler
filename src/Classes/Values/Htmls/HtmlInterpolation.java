@@ -25,7 +25,11 @@ public class HtmlInterpolation extends HtmlTagValue{
 
     @Override
     public String codeGen() {
-
-        return "";
+        StringBuilder sb = new StringBuilder();
+        for(ValueType interpolated:valueTypes){
+            sb.append(interpolated.codeGen());
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

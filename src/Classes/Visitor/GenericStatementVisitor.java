@@ -304,9 +304,14 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     @Override
     public FunctionSummoning visitFunctionCall(AngularParser.FunctionCallContext ctx) {
         FunctionSummoning funCall=new FunctionSummoning();
-        funCall.functionName = ctx.ID().getText();
-        //Row row = new Row();
-        // row.type = "FunctionCall";
+        funCall.functionName = "";
+        if(ctx.thisorId()!=null){
+            if(!Objects.equals(ctx.thisorId().getText(), "this")){
+                funCall.functionName+=ctx.thisorId().getChild(0).getText();
+                funCall.functionName+=".";
+            }
+        }
+        funCall.functionName += ctx.ID().getText();
         for(int i=0;i<ctx.value().size();i++){
             funCall.addArgument(this.visitValue(ctx.value(i)));
         }

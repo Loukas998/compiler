@@ -20,7 +20,7 @@ public class PropertyBindAttribute extends Attribute{
     @Override
     public String codeGen() {
         StringBuilder sb = new StringBuilder();
-        sb.append("id = \" ");
+        sb.append("id = \"");
         sb.append(this.attributeName);
         sb.append("_");
         sb.append(this.hashCode());

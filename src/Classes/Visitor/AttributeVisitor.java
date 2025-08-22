@@ -38,7 +38,12 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
             line = ctx.Class().getSymbol().getLine();
             charPos = ctx.Class().getSymbol().getCharPositionInLine();
         }
-        quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        if(ctx.DoubleQuote()!=null) {
+            quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        }
+        else{
+            quotedAttribute.attributeValue = ctx.SingleQuote().getText().replace("'","");
+        }
         Scope scope = currentScope.peek();
         if(scope.exists(quotedAttribute.attributeName)!=null){
             semanticErrors.add(new HtmlError(line,charPos));
@@ -72,7 +77,7 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
             quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
         }
        else{
-            quotedAttribute.attributeValue = ctx.TripleQuote().getText();
+            quotedAttribute.attributeValue = ctx.TripleQuote().getText().replace("'","");
         }
         Scope scope = currentScope.peek();
         if(scope.exists(quotedAttribute.attributeName)!=null){
@@ -89,8 +94,8 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
     }
 
     @Override
-    public QuotedAttribute visitOpenParenAttribute(AngularParser.OpenParenAttributeContext ctx) {
-        QuotedAttribute quotedAttribute = new QuotedAttribute();
+    public EventBindingAttribute visitOpenParenAttribute(AngularParser.OpenParenAttributeContext ctx) {
+        EventBindingAttribute quotedAttribute = new EventBindingAttribute();
         int line;
         int charPos;
         if(ctx.ID() != null){
@@ -102,7 +107,12 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
             line = ctx.Class().getSymbol().getLine();
             charPos = ctx.Class().getSymbol().getCharPositionInLine();
         }
-        quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        if(ctx.DoubleQuote()!=null) {
+            quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
+        }
+        else{
+            quotedAttribute.attributeValue = ctx.SingleQuote().getText().replace("'","");
+        }
         Scope scope = currentScope.peek();
         if(scope.exists(quotedAttribute.attributeName)!=null){
             semanticErrors.add(new HtmlError(line,charPos));

@@ -42,6 +42,7 @@ value:
      | value QuestionMark # NullableValue
      | value Or value # ValueOrValue
      | value And value # ValueAndValue
+     | value IdentityNotEquals value # ValueIdentityNotEqualsValue
      | value OpenBracket value CloseBracket # ArrayIndexValue
      | Ellipsis value # EllipsisValue
      | Typeof value # TypeOfValue
@@ -66,8 +67,8 @@ componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
              ;
 
 genericStatement:
-                 functionDeclaration # Function
-                | functionCall # FunctionSummoning
+                 functionCall # FunctionSummoning
+                | functionDeclaration # Function
                 | functionBody # FunctionStatement
                 | variableDeclaration # VariableDecl
                 | arrayDeclaration # ArrayDecl
@@ -130,10 +131,10 @@ jsonObject:(OpenBrace|OpenBraceHTML) ID Colon value (Comma ID Colon value)*(Comm
 
 attribute: ngForStatement # NgFor
          | ngIfStatement # NgIf
-         | (ID|Class) Assign DoubleQuote # DoubleQuotedAttribute
+         | (ID|Class) Assign (DoubleQuote|SingleQuote) # DoubleQuotedAttribute
          | OpenBracket (ID|Class) CloseBracket Assign (DoubleQuote | TripleQuote) # OpenBracketAttribute // [src]
-         | OpenParen (ID|Class) CloseParen Assign DoubleQuote # OpenParenAttribute // (click)
-         | OpenBracket OpenParen NgModel CloseParen CloseBracket Assign DoubleQuote # NgModelAttribute // [(ngModel)]
+         | OpenParen (ID|Class) CloseParen Assign (DoubleQuote|SingleQuote) # OpenParenAttribute // (click)
+         | OpenBracket OpenParen NgModel CloseParen CloseBracket Assign (DoubleQuote|SingleQuote) # NgModelAttribute // [(ngModel)]
          ;
 
 ngForStatement: Multiply NgFor Assign (Let ID Of ID)

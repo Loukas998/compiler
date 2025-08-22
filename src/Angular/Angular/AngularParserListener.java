@@ -346,6 +346,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitFunctionValue(AngularParser.FunctionValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code ValueIdentityNotEqualsValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueIdentityNotEqualsValue(AngularParser.ValueIdentityNotEqualsValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueIdentityNotEqualsValue}
+	 * labeled alternative in {@link AngularParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueIdentityNotEqualsValue(AngularParser.ValueIdentityNotEqualsValueContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code StringValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -452,18 +464,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitImportss(AngularParser.ImportssContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Function}
-	 * labeled alternative in {@link AngularParser#genericStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunction(AngularParser.FunctionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Function}
-	 * labeled alternative in {@link AngularParser#genericStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunction(AngularParser.FunctionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code FunctionSummoning}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -475,6 +475,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionSummoning(AngularParser.FunctionSummoningContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction(AngularParser.FunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction(AngularParser.FunctionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code FunctionStatement}
 	 * labeled alternative in {@link AngularParser#genericStatement}.

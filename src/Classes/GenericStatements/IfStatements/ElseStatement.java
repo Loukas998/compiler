@@ -28,13 +28,15 @@ public class ElseStatement {
     }
     public String codeGen(){
         StringBuilder sb = new StringBuilder();
-        sb.append("else { ");
-        sb.append("\n");
-        for (GenericStatement genericStatement: genericStatementList){
-            sb.append(genericStatement.codeGen());
+        if(!this.genericStatementList.isEmpty()) {
+            sb.append("else { ");
             sb.append("\n");
+            for (GenericStatement genericStatement : genericStatementList) {
+                sb.append(genericStatement.codeGen());
+                sb.append("\n");
+            }
+            sb.append("}");
         }
-        sb.append("}");
         return sb.toString();
     }
 }

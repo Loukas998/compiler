@@ -18,6 +18,6 @@ public class NormalHtmlText extends HtmlTagValue {
 
     @Override
     public String codeGen() {
-        return "";
+        return htmlNormalText;
     }
 }

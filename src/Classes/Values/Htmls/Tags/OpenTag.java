@@ -1,11 +1,13 @@
 package Classes.Values.Htmls.Tags;
 
+import Classes.GenericStatements.IfStatements.LogicalStatement;
 import Classes.Values.Htmls.HtmlTagValue;
-import Classes.Values.Htmls.Tags.Attributes.Attribute;
+import Classes.Values.Htmls.Tags.Attributes.*;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class OpenTag extends HtmlTagValue {
     public String tagName;
@@ -35,12 +37,180 @@ public class OpenTag extends HtmlTagValue {
 
     @Override
     public String codeGen() {
+        boolean hasNgModel = false;
+        String ngModelValue = "";
+        boolean hasNgIf = false;
+        boolean IdTaken = false;
+        int propertyBindCount = 0;
+        // ArrayList<String>propertyIds = new ArrayList<String>();
+        String NgIfId = "";
+        String conditionalVariable = "";
+        LogicalStatement logicalStatement = null;
+        ArrayList<String>propNames = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         sb.append("<");
         sb.append(tagName);
-        for(Attribute attribute : this.attributes){
+        sb.append(" ");
+        for (Attribute attribute:attributes){
+            if(!(attribute instanceof QuotedAttribute)){
+                continue;
+            }
             sb.append(attribute.codeGen());
+            QuotedAttribute attribute1 = (QuotedAttribute) attribute;
+            if(Objects.equals(attribute1.attributeName, "id")){
+                NgIfId = attribute1.attributeValue;
+                IdTaken = true;
+            }
         }
-        return " ";
+        for(Attribute attribute:attributes) {
+            if(attribute instanceof QuotedAttribute){
+                continue;
+            }
+            if (attribute instanceof NgIf) {
+                hasNgIf = true;
+                String codeGenerated = attribute.codeGen();
+                if(!IdTaken){
+                    sb.append(codeGenerated);
+                    NgIfId = codeGenerated.replace("id = ", "");
+                    IdTaken = true;
+                }
+
+                sb.append(" ");
+                NgIf cond = (NgIf) attribute;
+                if (cond.conditionalVariable != null) {
+                    conditionalVariable = cond.conditionalVariable;
+                }
+                if (cond.logicalStatement != null) {
+                    logicalStatement = cond.logicalStatement;
+                }
+            }
+            else if(attribute instanceof PropertyBindAttribute){
+                propertyBindCount++;
+                propNames.add(((PropertyBindAttribute) attribute).attributeName);
+                if(!IdTaken){
+                    String propertyId = attribute.codeGen();
+                    sb.append(propertyId);
+                    NgIfId = propertyId.replace("id = ", "");
+                    IdTaken = true;
+
+                }
+            }
+            else if (attribute instanceof NgModel){
+                hasNgModel = true;
+                ngModelValue = ((NgModel) attribute).assignedValue;
+                String codeGenerated = attribute.codeGen();
+                if(!IdTaken) {
+                    sb.append(codeGenerated);
+                    NgIfId = codeGenerated.replace("id = ","");
+                    IdTaken = true;
+                }
+            }
+            else {
+                sb.append(attribute.codeGen());
+            }
+        }
+        sb.append("> \n");
+        NgIfId = NgIfId.replace("\"","");
+        sb.append("<script>");
+        sb.append("\n");
+        sb.append("const el"+this.hashCode()+" = ");
+        sb.append("document.getElementById('");
+        sb.append(NgIfId);
+        sb.append("') \n");
+        if(!propNames.isEmpty()){
+            for (String propName : propNames) {
+                sb.append("let last");
+                sb.append(propName);
+                sb.append(" = ''");
+                sb.append("\n");
+            }
+        }
+        if(hasNgIf) {
+            sb.append(" \n const originalDisplay = window.getComputedStyle(el).display; \n");
+        }
+        sb.append("function update_");
+        sb.append(NgIfId);
+        sb.append("() \n");
+        sb.append("{");
+        sb.append("\n");
+        if(hasNgIf){
+            sb.append("if (!(");
+            if(!conditionalVariable.isEmpty()){
+                sb.append(conditionalVariable);
+            }
+//                else if(logicalStatement!=null){
+//
+//                }
+            sb.append("))");
+            sb.append("{ \n");
+            sb.append("el"+this.hashCode()+".style.display = 'none';\n");
+            sb.append("}");
+            sb.append("\n else {");
+            sb.append("el.style.display = originalDisplay; ");
+            sb.append("} \n");
+
+        }
+        if(propertyBindCount>0){
+            for(Attribute att : attributes){
+                if(att instanceof  PropertyBindAttribute){
+                    PropertyBindAttribute prat = (PropertyBindAttribute)att;
+                    prat.attributeValue = prat.attributeValue.replace("\"","");
+                    sb.append("const new");
+                    sb.append(prat.attributeName);
+                    sb.append( "= ");
+                    sb.append(prat.attributeValue);
+                    sb.append("\n");
+                    sb.append("if (new");
+                    sb.append(prat.attributeName);
+                    sb.append("!== last");
+                    sb.append(prat.attributeName);
+                    sb.append(") \n");
+                    sb.append("{");
+                    sb.append("el"+this.hashCode()+".");
+                    sb.append(((PropertyBindAttribute) att).attributeName);
+                    sb.append(" = ");
+                    sb.append(prat.attributeValue.replace("\"",""));
+                    sb.append("\n");
+                    sb.append("last");
+                    sb.append(((PropertyBindAttribute) att).attributeName);
+                    sb.append(" = ");
+                    sb.append(prat.attributeValue.replace("\"",""));
+                    sb.append("\n");
+                    sb.append("}");
+                }
+            }
+        }
+
+        sb.append("} \n");
+        sb.append("setInterval(update_");
+        sb.append(NgIfId);
+        sb.append(",100)");
+        sb.append("\n");
+        sb.append("</script>");
+        if(hasNgModel)
+        {
+            ngModelValue = ngModelValue.replace("\"","");
+            sb.append("<script>");
+            sb.append("\n");
+            sb.append("const ngmel = ");
+            sb.append("document.getElementById('");
+            sb.append(NgIfId);
+            sb.append("') \n");
+            sb.append("ngmel.value = ");
+            sb.append(ngModelValue).append("\n");
+            sb.append("ngmel.addEventListener(\"input\", e => { \n");
+            sb.append(ngModelValue);
+            sb.append(" = e.target.value; \n");
+            sb.append(" }); \n");
+            sb.append("setInterval(() => {\n" +
+                    "if (document.activeElement !== ngmel && ngmel.value !== ");
+            sb.append(ngModelValue);
+            sb.append(") { \n");
+            sb.append("ngmel.value = ").append(ngModelValue);
+            sb.append("\n } \n }, 100); \n");
+            sb.append("</script>");
+        }
+        return sb.toString();
+
     }
 }
