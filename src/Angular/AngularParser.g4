@@ -137,8 +137,8 @@ attribute: ngForStatement # NgFor
          | OpenBracket OpenParen NgModel CloseParen CloseBracket Assign (DoubleQuote|SingleQuote) # NgModelAttribute // [(ngModel)]
          ;
 
-ngForStatement: Multiply NgFor Assign (Let ID Of ID)
-              ;
+ngForStatement: Multiply NgFor Assign (Let ID Of ID) (SemiColon)?(Let ID Assign ID)?;
+
 
 ngIfStatement: Multiply NgIf Assign (ID | logicalStatement)
              ;
