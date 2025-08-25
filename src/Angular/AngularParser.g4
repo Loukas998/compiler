@@ -13,7 +13,8 @@ tokenVocab=AngularLexer;
               | genericStatement # Generic
               ;
 
-importStatement: Import (OpenBrace |OpenBraceHTML) (Component | NgFor | NgIf | ID |Router)(As ID)? (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
+importStatement: Import (OpenBrace |OpenBraceHTML)
+(Component | NgFor | NgIf | ID |Router)(As ID)? (CloseBrace|CloseBraceHTML) From SingleQuote SemiColon ;
 
 interface: Interface ID (OpenBrace|OpenBraceHTML) (variableNaming SemiColon)* (CloseBrace|CloseBraceHTML);
 
@@ -56,14 +57,16 @@ value:
 
      ;
 
-componentDeclaration : At Component OpenParen (OpenBrace|OpenBraceHTML) componentInfo (Comma componentInfo )* (CloseBrace|CloseBraceHTML) CloseParen ;
+componentDeclaration : At Component OpenParen (OpenBrace|OpenBraceHTML) componentInfo (Comma componentInfo )*
+(CloseBrace|CloseBraceHTML) CloseParen ;
 
 componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
              | TemplateUrl Colon (SingleQuote | BackTickQuote) # TempUrl
-             //| Template Colon (SingleQuotationMark  | BackTickQuotationMark) htmlTags* (SingleQuotationMark  | BackTickQuotationMark) # HtmlTemplate
-             | StyleUrls Colon OpenBracket (SingleQuote | BackTickQuote)(Comma(SingleQuote | BackTickQuote))* CloseBracket # Styles
+             | StyleUrls Colon OpenBracket (SingleQuote | BackTickQuote)
+             (Comma(SingleQuote | BackTickQuote))* CloseBracket # Styles
              | Standalone Colon BooleanLiteral # StandaloneStatus
-             | Imports Colon OpenBracket ((NgFor|NgIf|ID|Router) (Comma (NgFor|NgIf|ID|Router))*)? CloseBracket # Importss
+             | Imports Colon OpenBracket ((NgFor|NgIf|ID|Router)
+             (Comma (NgFor|NgIf|ID|Router))*)? CloseBracket # Importss
              ;
 
 genericStatement:
@@ -80,7 +83,8 @@ genericStatement:
                 | value # ValueType
 
                 ;
-classStructure: Export Class ID ((Implements|Extends) ID)? (OpenBrace|OpenBraceHTML) (genericStatement (SemiColon)?)* (CloseBrace|CloseBraceHTML);
+classStructure: Export Class ID ((Implements|Extends) ID)? (OpenBrace|OpenBraceHTML)
+(genericStatement (SemiColon)?)* (CloseBrace|CloseBraceHTML);
 
 variableDeclaration: variableNaming (Assign value (BitOr NullLiteral (Assign NullLiteral)?)?)? (SemiColon)?;
 
@@ -100,7 +104,8 @@ assignStatement:(thisorId)? ID Assign value SemiColon;
 thisorId: ((ID|This) Dot);
 returnStatement: Return (thisorId)?value SemiColon;
 
-ifStatement: If OpenParen logicalStatement(logicalOp logicalStatement)* CloseParen (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML) elseStatement?
+ifStatement: If OpenParen logicalStatement(logicalOp logicalStatement)*
+CloseParen (OpenBrace|OpenBraceHTML) genericStatement* (CloseBrace|CloseBraceHTML) elseStatement?
            ;
 elseStatement :(Else genericStatement) #SingleLineElse
               | (Else ((OpenBrace|OpenBraceHTML) genericStatement*(CloseBrace|CloseBraceHTML))) #MultipleLineElse;
@@ -149,7 +154,8 @@ htmlTags: openTag (htmlTags)* closeTag # PairedTag
         | interpolation # HtmlInterpolation
         ;
 
-interpolation: (OpenBrace|OpenBraceHTML)(OpenBrace|OpenBraceHTML) (value)* (CloseBrace|CloseBraceHTML)(CloseBrace|CloseBraceHTML);
+interpolation: (OpenBrace|OpenBraceHTML)(OpenBrace|OpenBraceHTML) (value)*
+(CloseBrace|CloseBraceHTML)(CloseBrace|CloseBraceHTML);
 
 
 knownHtmlTags:H1 |
@@ -177,10 +183,3 @@ knownHtmlTags:H1 |
 openTag: (LessThan |OpenTag) (knownHtmlTags|ID) (attribute)* (MoreThan|CloseTag);
 closeTag: (LessThan |OpenTag) Divide (knownHtmlTags|ID)  (MoreThan|CloseTag);
 selfClosingTag:(LessThan |OpenTag) (knownHtmlTags|ID)  (attribute)* Divide (MoreThan|CloseTag);
-
-// fix html tags rules from lexer
-// ability to write html in the template url
-// fix symbol table (hash map)
-
-
-// css: flex box

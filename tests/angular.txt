@@ -87,10 +87,32 @@ export class ProductPageComponent implements OnInit {
     }
    }
   }
-<img
-        *ngIf=selectedProduct
-        [src]="'selectedProduct.image'"
-        alt='صورة المنتج'
-        class='product-image'
-        (click) = 'deleteProduct()'
-      />
+ <div>
+   <button routerLink='/add' class='add-button'>Add New Product</button>
+
+   <div class='container'>
+     <div class='main-product'>
+       <h3>{{ selectedProduct?.id }}</h3>
+       <h3>{{ selectedProduct?.name }}</h3>
+       <img
+         *ngIf=selectedProduct
+         [src]="'selectedProduct.image'"
+         alt='صورة المنتج'
+         class='product-image'
+       />
+       <p>{{ selectedProduct?.details }}</p>
+     </div>
+
+     <div class='side-products'>
+       <div
+         class='side-product'
+         *ngFor=let product of products; let i = index
+         (click)='selectProduct(product)'
+       >
+         <h4>{{ product.name }}</h4>
+         <img [src]="'product.image'" alt='صورة المنتج' class='product-image' />
+         <button (click)='deleteProduct(i); $event.stopPropagation()' class='delete-button' > Delete </button>
+       </div>
+     </div>
+   </div>
+ </div>

@@ -78,27 +78,160 @@ localStorage.setItem('products',JSON.stringify(UpdatedSaved))}}
 <body>
 <div id = "app"></div>
 
-		<img  alt = "صورة المنتج" class = "product-image"id = "ngIf2115087165" /> 
-<script>
-const el1604616170 = document.getElementById('ngIf2115087165') 
-let lastsrc = ''
- 
- const originalDisplay = window.getComputedStyle(el1604616170).display; 
-function update_ngIf2115087165() 
+		<div id = "div1590129041"> 
+
+<button  routerLink = "/add" class = "add-button"id = "button1178777373"> 
+
+Add
+
+New
+
+Product
+</button><script>
+const el340789130 = document.getElementById('button1178777373') 
+function update_button1178777373() 
 {
-if (!(selectedProduct)){ 
-el1604616170.style.display = 'none';
-}
- else {el1604616170.style.display = originalDisplay; } 
-const newsrc= selectedProduct.image
-if (newsrc!== lastsrc) 
-{el1604616170.src = selectedProduct.image
-lastsrc = selectedProduct.image
-}document.addEventListener("click", ()=>{ 
-deleteProduct()
- } 
 } 
-setInterval(update_ngIf2115087165,100)
+setInterval(update_button1178777373,100)
 </script>
 
+<div  class = "container"id = "div208184824"> 
+
+<div  class = "main-product"id = "div1774589469"> 
+
+<h3 id = "h3988786279"> 
+</h3><script>
+const el773296871 = document.getElementById('h3988786279') 
+function update_h3988786279() 
+{
+} 
+setInterval(update_h3988786279,100)
+</script><script>
+const int773296871=document.getElementById('h3988786279') 
+let lastInter7732968710= ''
+function updateInter773296871(){
+let newInter7732968710= selectedProduct?.id
+if (newInter7732968710!== lastInter7732968710)
+{
+newInter7732968710=selectedProduct?.id
+lastInter7732968710=selectedProduct?.id
+int773296871.textContent = selectedProduct?.id
+}}setInterval(updateInter773296871,100)</script>
+
+<h3 id = "h31729734072"> 
+</h3><script>
+const el1052127672 = document.getElementById('h31729734072') 
+function update_h31729734072() 
+{
+} 
+setInterval(update_h31729734072,100)
+</script><script>
+const int1052127672=document.getElementById('h31729734072') 
+let lastInter10521276720= ''
+function updateInter1052127672(){
+let newInter10521276720= selectedProduct?.name
+if (newInter10521276720!== lastInter10521276720)
+{
+newInter10521276720=selectedProduct?.name
+lastInter10521276720=selectedProduct?.name
+int1052127672.textContent = selectedProduct?.name
+}}setInterval(updateInter1052127672,100)</script>
+
+<img  alt = "صورة المنتج" class = "product-image"id = "ngIf2037202079" /> 
+<script>
+const el1811880447 = document.getElementById('ngIf2037202079') 
+let lastsrc = ''
+ 
+ const originalDisplay = window.getComputedStyle(el1811880447).display; 
+function update_ngIf2037202079() 
+{
+if (!(selectedProduct)){ 
+el1811880447.style.display = 'none';
+}
+ else {el1811880447.style.display = originalDisplay; } 
+const newsrc= selectedProduct.image
+if (newsrc!== lastsrc) 
+{el1811880447.src = selectedProduct.image
+lastsrc = selectedProduct.image
+}} 
+setInterval(update_ngIf2037202079,100)
+</script>
+
+<p id = "p1105282397"> 
+</p><script>
+const el1314228008 = document.getElementById('p1105282397') 
+function update_p1105282397() 
+{
+} 
+setInterval(update_p1105282397,100)
+</script><script>
+const int1314228008=document.getElementById('p1105282397') 
+let lastInter13142280080= ''
+function updateInter1314228008(){
+let newInter13142280080= selectedProduct?.details
+if (newInter13142280080!== lastInter13142280080)
+{
+newInter13142280080=selectedProduct?.details
+lastInter13142280080=selectedProduct?.details
+int1314228008.textContent = selectedProduct?.details
+}}setInterval(updateInter1314228008,100)</script>
+</div><script>
+const el1590481849 = document.getElementById('div1774589469') 
+function update_div1774589469() 
+{
+} 
+setInterval(update_div1774589469,100)
+</script>
+
+<div  class = "side-products"id = "div1299126654"> 
+
+<div id="ngForSpecific116356643" >
+<script>
+const productList = document.getElementById('ngForSpecific116356643')
+function renderProducts() {
+    productList.innerHTML = ""; 
+products.forEach((product,i) => { 
+ const div = document.createElement("div");
+div.className = "side-product"; div.addEventListener("click", () => selectProduct(product))
+const h4 = document.createElement("h4");
+h4.textContent =product.name;
+div.appendChild(h4);
+const img = document.createElement("img");
+img.src =product.image;
+img.alt = "صورة المنتج";
+img.className = "product-image";
+div.appendChild(img);const btn = document.createElement("button");
+btn.className = "delete-button";
+btn.textContent = "Delete";
+btn.addEventListener("click", (event) => {
+event.stopPropagation();
+deleteProduct(i);
+renderProducts();
+});
+div.appendChild(btn);
+
+
+productList.appendChild(div);
+})};document.addEventListener("DOMContentLoaded",renderProducts)</script></div>
+</div><script>
+const el1692523793 = document.getElementById('div1299126654') 
+function update_div1299126654() 
+{
+} 
+setInterval(update_div1299126654,100)
+</script>
+</div><script>
+const el1544067887 = document.getElementById('div208184824') 
+function update_div208184824() 
+{
+} 
+setInterval(update_div208184824,100)
+</script>
+</div><script>
+const el1771687225 = document.getElementById('div1590129041') 
+function update_div1590129041() 
+{
+} 
+setInterval(update_div1590129041,100)
+</script>
 </body>

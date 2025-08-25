@@ -1,4 +1,4 @@
-lexer grammar AngularLexer;
+lexer grammar CssLexer;
 
 //ANGULARSPECIFIC
 Component:'Component';
@@ -29,6 +29,9 @@ DTD: '<!' .*? '>';
 SCRIPTLET: '<?' .*? '?>' | '<%' .*? '%>';
 
 SEA_WS: (' ' | '\t' | '\r'? '\n')+->skip;
+
+//TAG_OPEN: '<' -> pushMode(TAG);
+
 //TYPE SCRIPT
 DoubleQuotationMark        :'"';
 MultiLineComment           :'/*' .*? '*/'             -> channel(HIDDEN);
@@ -42,7 +45,9 @@ CloseBracket               : ']';
 OpenParen                  : '(';
 CloseParen                 : ')';
 OpenBrace                  : '{' ;
+DoubleOpenBrace            : '{{' ;
 CloseBrace                 : '}' ;
+DoubleCloseBrace           : '}}' ;
 SemiColon                  : ';';
 Comma                      : ',';
 Assign                     : '=';
@@ -59,13 +64,17 @@ BitNot                     : '~';
 Not                        : '!';
 Multiply                   : '*';
 Divide                     : '/';
-Modulus                    : '%';
+Percent                    : '%';
 Power                      : '**';
 NullCoalesce               : '??';
 Hashtag                    : '#';
 LeftShiftArithmetic        : '<<';
+// We can't match these in the lexer because it would cause issues when parsing
+// types like Map<string, Map<string, string>>
+// RightShiftArithmetic       : '>>';
+// RightShiftLogical          : '>>>';
 LessThan                   : '<';
-MoreThan                   : '>' ->pushMode(HTML_TEXT_MODE);
+MoreThan                   : '>';
 
 LessThanEquals             : '<=';
 GreaterThanEquals          : '>=';
@@ -92,6 +101,7 @@ BitOrAssign                : '|=';
 PowerAssign                : '**=';
 NullishCoalescingAssign    : '??=';
 ARROW                      : '=>';
+HEXCHAR                    : '#'[0-9a-fA-F]+;
 
 /// Null Literals
 
@@ -109,7 +119,7 @@ DecimalLiteral:
     | DecimalIntegerLiteral ExponentPart?
 ;
 BigDecimalIntegerLiteral : DecimalIntegerLiteral 'n';
-fragment DecimalIntegerLiteral: '0' | [1-9] [0-9_]*;
+DecimalIntegerLiteral: '0' | [1-9] [0-9_]*;
 fragment ExponentPart: [eE] [+-]? [0-9_]+;
 /// Keywords
 
@@ -147,44 +157,6 @@ Await      : 'await';
 Yield      : 'yield';
 YieldStar  : 'yield*';
 
-/// Future Reserved Words
-Class   : 'class';
-Enum    : 'enum';
-Extends : 'extends';
-Super   : 'super';
-Const   : 'const';
-Export  : 'export';
-Import  : 'import';
-Implements : 'implements';
-Let        : 'let';
-Private    : 'private';
-Public     : 'public';
-Interface  : 'interface';
-Package    : 'package';
-Protected  : 'protected';
-Static     : 'static';
-Any        : 'any';
-Number     : 'number';
-Never      : 'never';
-Boolean    : 'boolean';
-String     : 'string';
-Int        : 'int';
-Unique     : 'unique';
-Symbol     : 'symbol';
-Undefined  : 'undefined';
-Object     : 'object';
-Of      : 'of';
-KeyOf   : 'keyof';
-TypeAlias: 'type';
-Constructor : 'constructor';
-Namespace   : 'namespace';
-Require     : 'require';
-Module      : 'module';
-Declare     : 'declare';
-Abstract    : 'abstract';
-Is          : 'is';
-At          : '@';
-
 
 //known Html Tags
 H1 : 'h1';
@@ -205,6 +177,110 @@ LineBreakTag : 'br';
 StrongTextTag : 'strong'; //boldText
 Button :'button';
 Input :'input';
+Label : 'label';
+
+//Css Features
+Row: 'row';
+Column :'column';
+Auto :'auto';
+Pointer:'pointer';
+Border_Box:'border-box';
+Center :'center';
+Solid:'solid';
+Display:'display';
+Flex_Direction:'flex-direction';
+Gap:'gap';
+Padding :'padding';
+Box_Size:'box-sizing';
+Flex :'flex';
+Border:'border';
+Text_Align:'text-align';
+Max_With:'max-width';
+Height :'height';
+Width :'width';
+Cursor :'cursor';
+Transition :'transition';
+Color :'color';
+Font_Size :'font-size';
+Margin :'margin';
+Background_Color :'background-color';
+Textarea :'textarea';
+//size unit
+// Absolute units
+PX      : 'px';
+CM      : 'cm';
+MM      : 'mm';
+PT      : 'pt';
+PC      : 'pc';
+
+// Relative units
+EM      : 'em';
+REM     : 'rem';
+EX      : 'ex';
+CH      : 'ch';
+
+// Viewport units
+VW      : 'vw';
+VH      : 'vh';
+VMIN    : 'vmin';
+VMAX    : 'vmax';
+
+// Container query units (modern CSS)
+CQW     : 'cqw';
+CQH     : 'cqh';
+CQI     : 'cqi';
+CQB     : 'cqb';
+CQMIN   : 'cqmin';
+CQMAX   : 'cqmax';
+
+/// Future Reserved Words
+
+Class   : 'class';
+Enum    : 'enum';
+Extends : 'extends';
+Super   : 'super';
+Const   : 'const';
+Export  : 'export';
+Import  : 'import';
+
+/// The following tokens are also considered to be FutureReservedWords
+/// when parsing strict mode
+
+Implements : 'implements';
+Let        : 'let';
+Private    : 'private';
+Public     : 'public';
+Interface  : 'interface';
+Package    : 'package';
+Protected  : 'protected';
+Static     : 'static';
+
+//keywords:
+Any        : 'any';
+Number     : 'number';
+Never      : 'never';
+Boolean    : 'boolean';
+String     : 'string';
+Int        : 'int';
+Unique     : 'unique';
+Symbol     : 'symbol';
+Undefined  : 'undefined';
+Object     : 'object';
+
+Of      : 'of';
+KeyOf   : 'keyof';
+
+TypeAlias: 'type';
+
+Constructor : 'constructor';
+Namespace   : 'namespace';
+Require     : 'require';
+Module      : 'module';
+Declare     : 'declare';
+Abstract    : 'abstract';
+Is          : 'is';
+At          : '@';
+
 WhiteSpaces: [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
 /// Comments
 Comment             : '//' ~([\n\t\r])*     -> channel(HIDDEN);
@@ -213,10 +289,3 @@ CDataComment        : '<![CDATA[' .*? ']]>' -> channel(HIDDEN);
 ID  : [a-zA-Z_] [a-zA-Z0-9_-]*;
 // Fragment rules
 fragment ESC: '\\' [nrt'\\];
-mode HTML_TEXT_MODE;
-OpenTag : '<'->popMode;
-CloseTag : '>' ->popMode;
-OpenBraceHTML: '{' ->popMode;
-CloseBraceHTML: '}' ->popMode;
-TEXT: (ESC | ~[<> {}])+;
-WS: (' ' | '\t' | '\r'? '\n')+->skip;
