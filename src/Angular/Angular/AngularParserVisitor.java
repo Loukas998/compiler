@@ -90,13 +90,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEventValue(AngularParser.EventValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code HtmlTagValue}
-	 * labeled alternative in {@link AngularParser#value}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code VariableValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -348,6 +341,20 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code HtmlTagValue}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CssElementStatement}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCssElementStatement(AngularParser.CssElementStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ValueType}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -590,4 +597,85 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSelfClosingTag(AngularParser.SelfClosingTagContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#cssElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCssElement(AngularParser.CssElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#selector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSelector(AngularParser.SelectorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#simpleSelector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleSelector(AngularParser.SimpleSelectorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#cssProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCssProperty(AngularParser.CssPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#css}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCss(AngularParser.CssContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#cssValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCssValue(AngularParser.CssValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code UnitNumberList}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnitNumberList(AngularParser.UnitNumberListContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code UnitSolidColor}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnitSolidColor(AngularParser.UnitSolidColorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BackgroundColorUnit}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBackgroundColorUnit(AngularParser.BackgroundColorUnitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#decimalLiteralUnit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecimalLiteralUnit(AngularParser.DecimalLiteralUnitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#tagName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTagName(AngularParser.TagNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#eos}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEos(AngularParser.EosContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#unit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnit(AngularParser.UnitContext ctx);
 }

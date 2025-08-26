@@ -7,4 +7,9 @@ public class Css extends CssGeneric{
     public String toString() {
         return this.cssPropertyName;
     }
+
+    @Override
+    public String codeGen() {
+        return cssPropertyName;
+    }
 }

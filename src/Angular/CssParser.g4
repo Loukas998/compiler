@@ -2,8 +2,7 @@ parser grammar CssParser;
 options{
 tokenVocab = CssLexer;
 }
-cssFile :
-cssElement* EOF;
+
 
 cssElement
     : (tagName)? (Comma tagName)* selector* OpenBrace cssProperty* CloseBrace

@@ -44,4 +44,9 @@ public class UnitNumberList extends DecimalLiteral_UNIT{
 
 
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

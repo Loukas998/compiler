@@ -88,8 +88,7 @@ export class ProductPageComponent implements OnInit {
    }
   }
  <div>
-   <button routerLink='/add' class='add-button'>Add New Product</button>
-
+  <button routerLink='/add' class='add-button'>Add New Product</button>
    <div class='container'>
      <div class='main-product'>
        <h3>{{ selectedProduct?.id }}</h3>
@@ -116,3 +115,5 @@ export class ProductPageComponent implements OnInit {
      </div>
    </div>
  </div>
+
+

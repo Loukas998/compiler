@@ -1,10 +1,13 @@
 import Angular.AngularLexer;
 import Angular.AngularParser;
+import Classes.CSS.CssGeneric;
+import Classes.CSS.Visitor.CssVisitor;
 import Classes.Errors.SemError;
 import Classes.ExpressionProcessor;
 import Classes.Program;
 import Classes.Values.Htmls.HtmlTagValue;
 import Classes.Visitor.AntlrToProgram;
+import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -24,9 +27,7 @@ public class Main {
        {
            ArrayList<SemError>semanticErrors = new ArrayList<>();
             AngularParser parser = getParser("tests\\angular.txt");
-
             ParseTree antlrAST = parser.prog();
-
             AntlrToProgram progVisitor = new AntlrToProgram();
             progVisitor.semanticErrors = semanticErrors;
             Program prog = progVisitor.visit(antlrAST);
@@ -40,6 +41,7 @@ public class Main {
                 System.out.println(progVisitor.globalScope.print());
                 try{
                     codeGen(prog);
+                    //cssGen(prog);
                 }
                 catch (Exception ex){
                     ex.printStackTrace();
@@ -82,7 +84,8 @@ public class Main {
             codeGen("\n<script>",fw);
             if(!program.expressionList.isEmpty()) {
                 for(int i = 0 ; i<program.expressionList.size();i++){
-                    if(!(program.expressionList.get(i)instanceof HtmlTagValue)) {
+                    if((!(program.expressionList.get(i)instanceof HtmlTagValue)) &&(!(program.expressionList.get(i) instanceof CssGeneric)))
+                    {
                         space.append(program.expressionList.get(i).codeGen());
                     }
 
@@ -110,6 +113,26 @@ public class Main {
         }
 
     }
+        public static void cssGen(Program program)throws IOException{
+            StringBuilder space = new StringBuilder("\t\t");
+            try{
+                FileWriter fw1 = new FileWriter("gen.css");
+                if(!program.expressionList.isEmpty()) {
+                    for(int i = 0 ; i<program.expressionList.size();i++){
+                        if(((program.expressionList.get(i) instanceof CssGeneric)))
+                        {
+                            space.append(program.expressionList.get(i).codeGen());
+                        }
+
+                    }
+                    codeGen(space.toString(),fw1);
+                }
+                fw1.close();
+            }
+            catch (IOException ex){
+                ex.printStackTrace();
+            }
+        }
     private  static void codeGen(String s,FileWriter fw) throws  IOException{
         fw.write(s);
     }

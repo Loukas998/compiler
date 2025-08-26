@@ -38,4 +38,9 @@ public class UnitSolidColor extends DecimalLiteral_UNIT{
                 "decimalLiteralUnit=" + decimalLiteralUnit
                 ;
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

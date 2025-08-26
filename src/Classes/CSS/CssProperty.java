@@ -29,4 +29,9 @@ public class CssProperty extends CssGeneric{
         return  '\n'+"property=" + css
                 ;
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

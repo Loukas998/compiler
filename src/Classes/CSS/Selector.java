@@ -44,4 +44,9 @@ public class Selector extends CssGeneric{
 
                 ;
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

@@ -1,4 +1,6 @@
 package Classes.CSS;
 
-public abstract class CssGeneric {
+import Classes.GenericStatements.GenericStatement;
+
+public abstract class CssGeneric extends GenericStatement {
 }

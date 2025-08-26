@@ -16,4 +16,9 @@ public class DecimalLiteralUnit extends DecimalLiteral_UNIT {
         return '\n'+"decimalLiteral_UNIT=" + DecimalLiteral_UNIT
                 ;
     }
+
+    @Override
+    public String codeGen() {
+        return getDecimalLiteral_UNIT();
+    }
 }

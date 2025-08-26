@@ -142,18 +142,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitEventValue(AngularParser.EventValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code HtmlTagValue}
-	 * labeled alternative in {@link AngularParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void enterHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code HtmlTagValue}
-	 * labeled alternative in {@link AngularParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void exitHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code VariableValue}
 	 * labeled alternative in {@link AngularParser#value}.
 	 * @param ctx the parse tree
@@ -584,6 +572,30 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code HtmlTagValue}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code HtmlTagValue}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code CssElementStatement}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterCssElementStatement(AngularParser.CssElementStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CssElementStatement}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitCssElementStatement(AngularParser.CssElementStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ValueType}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -993,4 +1005,140 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSelfClosingTag(AngularParser.SelfClosingTagContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#cssElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterCssElement(AngularParser.CssElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#cssElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitCssElement(AngularParser.CssElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#selector}.
+	 * @param ctx the parse tree
+	 */
+	void enterSelector(AngularParser.SelectorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#selector}.
+	 * @param ctx the parse tree
+	 */
+	void exitSelector(AngularParser.SelectorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#simpleSelector}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleSelector(AngularParser.SimpleSelectorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#simpleSelector}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleSelector(AngularParser.SimpleSelectorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#cssProperty}.
+	 * @param ctx the parse tree
+	 */
+	void enterCssProperty(AngularParser.CssPropertyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#cssProperty}.
+	 * @param ctx the parse tree
+	 */
+	void exitCssProperty(AngularParser.CssPropertyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#css}.
+	 * @param ctx the parse tree
+	 */
+	void enterCss(AngularParser.CssContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#css}.
+	 * @param ctx the parse tree
+	 */
+	void exitCss(AngularParser.CssContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#cssValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterCssValue(AngularParser.CssValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#cssValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitCssValue(AngularParser.CssValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code UnitNumberList}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnitNumberList(AngularParser.UnitNumberListContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code UnitNumberList}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnitNumberList(AngularParser.UnitNumberListContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code UnitSolidColor}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnitSolidColor(AngularParser.UnitSolidColorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code UnitSolidColor}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnitSolidColor(AngularParser.UnitSolidColorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code BackgroundColorUnit}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 */
+	void enterBackgroundColorUnit(AngularParser.BackgroundColorUnitContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code BackgroundColorUnit}
+	 * labeled alternative in {@link AngularParser#decimalLiteral_UNIT}.
+	 * @param ctx the parse tree
+	 */
+	void exitBackgroundColorUnit(AngularParser.BackgroundColorUnitContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#decimalLiteralUnit}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecimalLiteralUnit(AngularParser.DecimalLiteralUnitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#decimalLiteralUnit}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecimalLiteralUnit(AngularParser.DecimalLiteralUnitContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#tagName}.
+	 * @param ctx the parse tree
+	 */
+	void enterTagName(AngularParser.TagNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#tagName}.
+	 * @param ctx the parse tree
+	 */
+	void exitTagName(AngularParser.TagNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#eos}.
+	 * @param ctx the parse tree
+	 */
+	void enterEos(AngularParser.EosContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#eos}.
+	 * @param ctx the parse tree
+	 */
+	void exitEos(AngularParser.EosContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#unit}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnit(AngularParser.UnitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#unit}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnit(AngularParser.UnitContext ctx);
 }

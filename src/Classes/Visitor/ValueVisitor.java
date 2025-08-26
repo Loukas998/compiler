@@ -258,17 +258,6 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
     }
 
     @Override
-    public ValueType visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
-        HtmlVisitor htmlVisitor=new HtmlVisitor();
-        htmlVisitor.currentScope = this.currentScope;
-       // htmlVisitor.currId = this.currId;
-        htmlVisitor.semanticErrors = semanticErrors;
-        htmlVisitor.currId = currId;
-        ValueType htmlValueType = htmlVisitor.visit(ctx.htmlTags());
-
-        return htmlValueType;
-    }
-    @Override
     public Function visitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx) {
 
         Function function=new Function();

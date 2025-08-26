@@ -2,6 +2,9 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.CSS.CssElement;
+import Classes.CSS.CssGeneric;
+import Classes.CSS.Visitor.CssVisitor;
 import Classes.Errors.DuplicateValueError;
 import Classes.Errors.SemError;
 import Classes.GenericStatements.Assign;
@@ -25,36 +28,6 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     public Stack<Scope> currentScope = new Stack<>();
     public int currId;
     public ArrayList<SemError>semanticErrors = new ArrayList<>();
-    // public SymbolTable symbolTable = new SymbolTable();
-
-    /*public GenericStatement visitGenericStatement(AngularParser.GenericStatementContext ctx){
-        if(ctx instanceof AngularParser.VariableDeclContext){
-
-            return this.visitVariableDecl((AngularParser.VariableDeclContext) ctx);
-
-        }else if(ctx instanceof AngularParser.ArrayDeclContext){
-
-            return this.visitArrayDecl((AngularParser.ArrayDeclContext) ctx);
-
-        }else if(ctx instanceof AngularParser.AssignContext) {
-
-            return this.visitAssign((AngularParser.AssignContext) ctx);
-
-        }else if(ctx instanceof AngularParser.ReturnContext){
-
-            return this.visitReturn((AngularParser.ReturnContext) ctx);
-
-        }else if(ctx instanceof AngularParser.IfContext){
-
-            return this.visitIf((AngularParser.IfContext) ctx);
-
-        }else if(ctx instanceof AngularParser.ForContext){
-
-            return this.visitFor((AngularParser.ForContext) ctx);
-
-        }
-        return this.visitValueType((AngularParser.ValueTypeContext) ctx);
-    }*/
 
     @Override
     public VariableDecl visitVariableDecl(AngularParser.VariableDeclContext ctx) {
@@ -320,4 +293,20 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         return funCall;
     }
 
+    @Override
+    public GenericStatement visitCssElementStatement(AngularParser.CssElementStatementContext ctx) {
+        CssVisitor cssVisitor = new CssVisitor();
+        return cssVisitor.visit(ctx.cssElement());
+    }
+    @Override
+    public GenericStatement visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
+        HtmlVisitor htmlVisitor=new HtmlVisitor();
+        htmlVisitor.currentScope = this.currentScope;
+        // htmlVisitor.currId = this.currId;
+        htmlVisitor.semanticErrors = semanticErrors;
+        htmlVisitor.currId = currId;
+        GenericStatement htmlValueType = htmlVisitor.visit(ctx.htmlTags());
+
+        return htmlValueType;
+    }
 }

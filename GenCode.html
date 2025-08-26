@@ -78,116 +78,112 @@ localStorage.setItem('products',JSON.stringify(UpdatedSaved))}}
 <body>
 <div id = "app"></div>
 
-		<div id = "div1590129041"> 
+		<div id = "div15094126"> 
 
-<button  routerLink = "/add" class = "add-button"id = "button1178777373"> 
+<button onClick = "window.location.href='/add'" class = "add-button"id = "button1843743552"> 
 
-Add
-
-New
-
-Product
+Add New Product
 </button><script>
-const el340789130 = document.getElementById('button1178777373') 
-function update_button1178777373() 
+const el1139609587 = document.getElementById('button1843743552') 
+function update_button1843743552() 
 {
 } 
-setInterval(update_button1178777373,100)
+setInterval(update_button1843743552,100)
 </script>
 
-<div  class = "container"id = "div208184824"> 
+<div  class = "container"id = "div948960194"> 
 
-<div  class = "main-product"id = "div1774589469"> 
+<div  class = "main-product"id = "div173060252"> 
 
-<h3 id = "h3988786279"> 
+<h3 id = "h31302877661"> 
 </h3><script>
-const el773296871 = document.getElementById('h3988786279') 
-function update_h3988786279() 
+const el1720797452 = document.getElementById('h31302877661') 
+function update_h31302877661() 
 {
 } 
-setInterval(update_h3988786279,100)
+setInterval(update_h31302877661,100)
 </script><script>
-const int773296871=document.getElementById('h3988786279') 
-let lastInter7732968710= ''
-function updateInter773296871(){
-let newInter7732968710= selectedProduct?.id
-if (newInter7732968710!== lastInter7732968710)
+const int1720797452=document.getElementById('h31302877661') 
+let lastInter17207974520= ''
+function updateInter1720797452(){
+let newInter17207974520= selectedProduct?.id
+if (newInter17207974520!== lastInter17207974520)
 {
-newInter7732968710=selectedProduct?.id
-lastInter7732968710=selectedProduct?.id
-int773296871.textContent = selectedProduct?.id
-}}setInterval(updateInter773296871,100)</script>
+newInter17207974520=selectedProduct?.id
+lastInter17207974520=selectedProduct?.id
+int1720797452.textContent = selectedProduct?.id
+}}setInterval(updateInter1720797452,100)</script>
 
-<h3 id = "h31729734072"> 
+<h3 id = "h3562561015"> 
 </h3><script>
-const el1052127672 = document.getElementById('h31729734072') 
-function update_h31729734072() 
+const el777813771 = document.getElementById('h3562561015') 
+function update_h3562561015() 
 {
 } 
-setInterval(update_h31729734072,100)
+setInterval(update_h3562561015,100)
 </script><script>
-const int1052127672=document.getElementById('h31729734072') 
-let lastInter10521276720= ''
-function updateInter1052127672(){
-let newInter10521276720= selectedProduct?.name
-if (newInter10521276720!== lastInter10521276720)
+const int777813771=document.getElementById('h3562561015') 
+let lastInter7778137710= ''
+function updateInter777813771(){
+let newInter7778137710= selectedProduct?.name
+if (newInter7778137710!== lastInter7778137710)
 {
-newInter10521276720=selectedProduct?.name
-lastInter10521276720=selectedProduct?.name
-int1052127672.textContent = selectedProduct?.name
-}}setInterval(updateInter1052127672,100)</script>
+newInter7778137710=selectedProduct?.name
+lastInter7778137710=selectedProduct?.name
+int777813771.textContent = selectedProduct?.name
+}}setInterval(updateInter777813771,100)</script>
 
-<img  alt = "صورة المنتج" class = "product-image"id = "ngIf2037202079" /> 
+<img  alt = "صورة المنتج" class = "product-image"id = "ngIf567656864" /> 
 <script>
-const el1811880447 = document.getElementById('ngIf2037202079') 
+const el1306535359 = document.getElementById('ngIf567656864') 
 let lastsrc = ''
  
- const originalDisplay = window.getComputedStyle(el1811880447).display; 
-function update_ngIf2037202079() 
+ const originalDisplay = window.getComputedStyle(el1306535359).display; 
+function update_ngIf567656864() 
 {
 if (!(selectedProduct)){ 
-el1811880447.style.display = 'none';
+el1306535359.style.display = 'none';
 }
- else {el1811880447.style.display = originalDisplay; } 
+ else {el1306535359.style.display = originalDisplay; } 
 const newsrc= selectedProduct.image
 if (newsrc!== lastsrc) 
-{el1811880447.src = selectedProduct.image
+{el1306535359.src = selectedProduct.image
 lastsrc = selectedProduct.image
 }} 
-setInterval(update_ngIf2037202079,100)
+setInterval(update_ngIf567656864,100)
 </script>
 
-<p id = "p1105282397"> 
+<p id = "p1401295795"> 
 </p><script>
-const el1314228008 = document.getElementById('p1105282397') 
-function update_p1105282397() 
+const el519019247 = document.getElementById('p1401295795') 
+function update_p1401295795() 
 {
 } 
-setInterval(update_p1105282397,100)
+setInterval(update_p1401295795,100)
 </script><script>
-const int1314228008=document.getElementById('p1105282397') 
-let lastInter13142280080= ''
-function updateInter1314228008(){
-let newInter13142280080= selectedProduct?.details
-if (newInter13142280080!== lastInter13142280080)
+const int519019247=document.getElementById('p1401295795') 
+let lastInter5190192470= ''
+function updateInter519019247(){
+let newInter5190192470= selectedProduct?.details
+if (newInter5190192470!== lastInter5190192470)
 {
-newInter13142280080=selectedProduct?.details
-lastInter13142280080=selectedProduct?.details
-int1314228008.textContent = selectedProduct?.details
-}}setInterval(updateInter1314228008,100)</script>
+newInter5190192470=selectedProduct?.details
+lastInter5190192470=selectedProduct?.details
+int519019247.textContent = selectedProduct?.details
+}}setInterval(updateInter519019247,100)</script>
 </div><script>
-const el1590481849 = document.getElementById('div1774589469') 
-function update_div1774589469() 
+const el288919635 = document.getElementById('div173060252') 
+function update_div173060252() 
 {
 } 
-setInterval(update_div1774589469,100)
+setInterval(update_div173060252,100)
 </script>
 
-<div  class = "side-products"id = "div1299126654"> 
+<div  class = "side-products"id = "div1572442646"> 
 
-<div id="ngForSpecific116356643" >
+<div id="ngForSpecific1052842393" >
 <script>
-const productList = document.getElementById('ngForSpecific116356643')
+const productList = document.getElementById('ngForSpecific1052842393')
 function renderProducts() {
     productList.innerHTML = ""; 
 products.forEach((product,i) => { 
@@ -214,24 +210,27 @@ div.appendChild(btn);
 productList.appendChild(div);
 })};document.addEventListener("DOMContentLoaded",renderProducts)</script></div>
 </div><script>
-const el1692523793 = document.getElementById('div1299126654') 
-function update_div1299126654() 
+const el1545327692 = document.getElementById('div1572442646') 
+function update_div1572442646() 
 {
 } 
-setInterval(update_div1299126654,100)
+setInterval(update_div1572442646,100)
 </script>
 </div><script>
-const el1544067887 = document.getElementById('div208184824') 
-function update_div208184824() 
+const el167013780 = document.getElementById('div948960194') 
+function update_div948960194() 
 {
 } 
-setInterval(update_div208184824,100)
+setInterval(update_div948960194,100)
 </script>
 </div><script>
-const el1771687225 = document.getElementById('div1590129041') 
-function update_div1590129041() 
+const el416049054 = document.getElementById('div15094126') 
+function update_div15094126() 
 {
 } 
-setInterval(update_div1590129041,100)
+setInterval(update_div15094126,100)
 </script>
+
+
+
 </body>

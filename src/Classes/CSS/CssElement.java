@@ -14,7 +14,7 @@ public class CssElement extends CssGeneric{
     public String toString() {
         if (tagName!=null){
             return "cssElement=" +
-                    '\n'+"selectorName=" + tagName +
+                    '\n'+"selectorName=" + tagName.toString()+
                     '\n'+"Properties=" + cssProperty + '\n'
                     ;
         }
@@ -27,5 +27,24 @@ public class CssElement extends CssGeneric{
         return "cssElement=" +
                 '\n'+"Properties=" + cssProperty + '\n'
                 ;
+    }
+
+    @Override
+    public String codeGen() {
+        StringBuilder sb = new StringBuilder();
+        for(TagName tagName1 : tagName){
+            sb.append(tagName1.codeGen());
+            sb.append(",");
+        }
+        for(Selector select : selector){
+            sb.append(select.codeGen()).append(" ");
+        }
+        sb.append("{");
+        for(CssProperty prop : cssProperty){
+            sb.append(prop.codeGen()).append(";\n");
+        }
+        sb.append("}");
+        return sb.toString();
+
     }
 }

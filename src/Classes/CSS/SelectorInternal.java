@@ -16,4 +16,9 @@ public class SelectorInternal extends CssGeneric {
         return '\n'+ STRING + '\n'
                 ;
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

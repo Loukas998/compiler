@@ -64,7 +64,14 @@ public class PairedTag extends HtmlTagValue{
             if(!(attribute instanceof QuotedAttribute)){
                 continue;
             }
-            sb.append(attribute.codeGen());
+            String attributeGen = attribute.codeGen();
+            if(Objects.equals(((QuotedAttribute) attribute).attributeName, "routerLink")){
+                sb.append("onClick = \"window.location.href='").append(((QuotedAttribute) attribute).attributeValue)
+                        .append("'\"");
+            }
+            else {
+                sb.append(attributeGen);
+            }
             QuotedAttribute attribute1 = (QuotedAttribute) attribute;
             if(Objects.equals(attribute1.attributeName, "id")){
                 NgIfId = attribute1.attributeValue;

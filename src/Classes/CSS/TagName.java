@@ -18,4 +18,9 @@ public class TagName extends CssGeneric{
     public String toString(){
         return tagName;
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }

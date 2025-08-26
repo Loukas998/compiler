@@ -42,7 +42,9 @@ CloseBracket               : ']';
 OpenParen                  : '(';
 CloseParen                 : ')';
 OpenBrace                  : '{' ;
+DoubleOpenBrace            : '{{' ;
 CloseBrace                 : '}' ;
+DoubleCloseBrace           : '}}' ;
 SemiColon                  : ';';
 Comma                      : ',';
 Assign                     : '=';
@@ -92,6 +94,7 @@ BitOrAssign                : '|=';
 PowerAssign                : '**=';
 NullishCoalescingAssign    : '??=';
 ARROW                      : '=>';
+HEXCHAR                    : '#'[0-9a-fA-F]+;
 
 /// Null Literals
 
@@ -205,6 +208,65 @@ LineBreakTag : 'br';
 StrongTextTag : 'strong'; //boldText
 Button :'button';
 Input :'input';
+Label : 'label';
+
+
+//Css Features
+Row: 'row';
+Column :'column';
+Auto :'auto';
+Pointer:'pointer';
+Border_Box:'border-box';
+Center :'center';
+Solid:'solid';
+Display:'display';
+Flex_Direction:'flex-direction';
+Gap:'gap';
+Padding :'padding';
+Box_Size:'box-sizing';
+Flex :'flex';
+Border:'border';
+Text_Align:'text-align';
+Max_With:'max-width';
+Height :'height';
+Width :'width';
+Cursor :'cursor';
+Transition :'transition';
+Color :'color';
+Font_Size :'font-size';
+Margin :'margin';
+Background_Color :'background-color';
+Textarea :'textarea';
+//size unit
+// Absolute units
+PX      : 'px';
+CM      : 'cm';
+MM      : 'mm';
+PT      : 'pt';
+PC      : 'pc';
+
+// Relative units
+EM      : 'em';
+REM     : 'rem';
+EX      : 'ex';
+CH      : 'ch';
+
+// Viewport units
+VW      : 'vw';
+VH      : 'vh';
+VMIN    : 'vmin';
+VMAX    : 'vmax';
+
+// Container query units (modern CSS)
+CQW     : 'cqw';
+CQH     : 'cqh';
+CQI     : 'cqi';
+CQB     : 'cqb';
+CQMIN   : 'cqmin';
+CQMAX   : 'cqmax';
+
+
+
 WhiteSpaces: [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
 /// Comments
 Comment             : '//' ~([\n\t\r])*     -> channel(HIDDEN);
@@ -218,5 +280,7 @@ OpenTag : '<'->popMode;
 CloseTag : '>' ->popMode;
 OpenBraceHTML: '{' ->popMode;
 CloseBraceHTML: '}' ->popMode;
+DoubleOpenBraceHtml   : '{{'->popMode ;
+DoubleCloseBraceHtml  : '}}'->popMode ;
 TEXT: (ESC | ~[<> {}])+;
 WS: (' ' | '\t' | '\r'? '\n')+->skip;

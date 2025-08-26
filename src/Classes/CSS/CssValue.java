@@ -19,4 +19,9 @@ public class CssValue extends CssGeneric{
         }
         return "CssValue" +valueName;
     }
+
+    @Override
+    public String codeGen() {
+        return "";
+    }
 }
