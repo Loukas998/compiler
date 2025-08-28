@@ -22,6 +22,9 @@ public class CssValue extends CssGeneric{
 
     @Override
     public String codeGen() {
-        return "";
+        if(decimalLiteral_UNIT!=null){
+            return decimalLiteral_UNIT.codeGen();
+        }
+        return valueName;
     }
 }

@@ -21,6 +21,6 @@ public class TagName extends CssGeneric{
 
     @Override
     public String codeGen() {
-        return "";
+        return tagName;
     }
 }

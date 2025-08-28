@@ -28,9 +28,22 @@ public class Main {
        {
            File dir = new File("html");
            if(!dir.exists()){
-               dir.mkdir();
+               boolean success = dir.mkdir();
+               if(!success){
+                   System.out.println("Failed");
+                   return;
+               }
            }
-           programRun("tests\\angular.txt","html\\index.html");
+           programRun("tests\\angular.txt","html\\");
+           File addDir = new File("html\\add");
+           if(!addDir.exists()){
+               boolean success = addDir.mkdir();
+               if(!success){
+                   System.out.println("Failed");
+                   return;
+               }
+           }
+           programRun("tests\\addProductTest.txt","html\\add\\");
         }
     }
 
@@ -50,9 +63,9 @@ public class Main {
         public static void codeGen(Program program,String outputPath) throws IOException {
         StringBuilder space = new StringBuilder("\t\t");
         StringBuilder htmlSpace = new StringBuilder("\t\t");
+        StringBuilder cssSpace = new StringBuilder("\t\t");
         try {
-            outputPath +=".html";
-            FileWriter fw = new FileWriter(outputPath);
+            FileWriter fw = new FileWriter(outputPath+"\\index.html");
             codeGen("<!DOCTYPE html>",fw);
             codeGen("\n<html>",fw);
             codeGen("\n<head>",fw);
@@ -90,10 +103,10 @@ public class Main {
         }
 
     }
-        public static void cssGen(Program program)throws IOException{
+        public static void cssGen(Program program,String outputPath)throws IOException{
             StringBuilder space = new StringBuilder("\t\t");
             try{
-                FileWriter fw1 = new FileWriter("gen.css");
+                FileWriter fw1 = new FileWriter(outputPath+"\\gen.css");
                 if(!program.expressionList.isEmpty()) {
                     for(int i = 0 ; i<program.expressionList.size();i++){
                         if(((program.expressionList.get(i) instanceof CssGeneric)))
@@ -127,7 +140,7 @@ public class Main {
                 System.out.println(progVisitor.globalScope.print());
                 try{
                     codeGen(prog,outputPath);
-                    cssGen(prog);
+                    cssGen(prog,outputPath);
                 }
                 catch (Exception ex){
                     ex.printStackTrace();

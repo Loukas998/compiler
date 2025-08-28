@@ -41,6 +41,10 @@ public class UnitSolidColor extends DecimalLiteral_UNIT{
 
     @Override
     public String codeGen() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(decimalLiteralUnit.codeGen());
+        sb.append(" solid ");
+        sb.append(getHEXCHAR());
+        return sb.toString();
     }
 }

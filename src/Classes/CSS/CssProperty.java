@@ -32,6 +32,12 @@ public class CssProperty extends CssGeneric{
 
     @Override
     public String codeGen() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(css.codeGen());
+        sb.append(":");
+        for(CssValue cssValue1 :cssValue){
+            sb.append(cssValue1.codeGen()).append(" ");
+        }
+        return sb.toString();
     }
 }

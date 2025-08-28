@@ -38,7 +38,7 @@ public class BackgroundColorUnit extends DecimalLiteral_UNIT{
     @Override
     public String codeGen() {
         StringBuilder sb = new StringBuilder();
-        sb.append(css.codeGen()).append(":");
+        sb.append(css.codeGen()).append(" ");
         sb.append(decimalLiteralUnit.codeGen());
         return sb.toString();
     }

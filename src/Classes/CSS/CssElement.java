@@ -36,6 +36,9 @@ public class CssElement extends CssGeneric{
             sb.append(tagName1.codeGen());
             sb.append(",");
         }
+        if(tagName.size()>=1) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
         for(Selector select : selector){
             sb.append(select.codeGen()).append(" ");
         }

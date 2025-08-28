@@ -24,6 +24,29 @@ export class AddProductComponent {
     this.router.navigate(['/'])
   }
 }
+.form-container {
+  max-width: 400px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, textarea {
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+button {
+  background-color: #28a745;
+  color: white;
+  padding: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
 
 <div class='form-container'>
   <h2>Add Product</h2>

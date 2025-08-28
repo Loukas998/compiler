@@ -2,8 +2,6 @@ package Classes.CSS.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
-import Angular.CssParser;
-import Angular.CssParserBaseVisitor;
 import Classes.CSS.*;
 
 public class CssVisitor extends AngularParserBaseVisitor<CssGeneric> {
@@ -65,7 +63,7 @@ public class CssVisitor extends AngularParserBaseVisitor<CssGeneric> {
         DecimalLiteralUnit decimalLiteralUnit = new DecimalLiteralUnit();
         decimalLiteralUnit.setDecimalLiteral_UNIT(ctx.getChild(0).getText());
         if(ctx.unit()!=null){
-            decimalLiteralUnit.DecimalLiteral_UNIT+=" "+ctx.unit().getChild(0).getText();
+            decimalLiteralUnit.DecimalLiteral_UNIT+=ctx.unit().getChild(0).getText();
         }
         return decimalLiteralUnit;
     }
@@ -107,6 +105,10 @@ public class CssVisitor extends AngularParserBaseVisitor<CssGeneric> {
 
     @Override
     public CssGeneric visitTagName(AngularParser.TagNameContext ctx) {
+        if(ctx.ID()!=null){
+            String tagName = "."+ctx.ID().getText();
+            return new TagName(tagName);
+        }
         return new TagName(ctx.getChild(0).getText());
     }
 

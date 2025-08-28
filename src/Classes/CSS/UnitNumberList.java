@@ -47,6 +47,11 @@ public class UnitNumberList extends DecimalLiteral_UNIT{
 
     @Override
     public String codeGen() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(decimalLiteralUnit.codeGen()).append(" ");
+        for(Double d : decimalLiteral){
+            sb.append(d).append(" ");
+        }
+        return sb.toString();
     }
 }

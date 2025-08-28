@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Angular Project</title>
+<link rel = "stylesheet" href = "gen.css"/>
+<script>		var product = {id:'',
+name:'',
+image:'',
+details:'',
+}
+
+function addProduct ()
+{
+var storedProducts = JSON.parse(localStorage.getItem('products')||'[]')
+
+storedProducts.push({...product
+})
+localStorage.setItem('products',JSON.stringify(storedProducts))
+window.location.href = '/'
+}
+
+
+
+</script>
+</head>
+<body>
+<div id = "app"></div>
+
+		<div  class = "form-container"id = "div622820646"> 
+
+<h2 id = "h22008159348"> 
+
+Add
+
+Product
+</h2><script>
+const el1389432760 = document.getElementById('h22008159348') 
+function update_h22008159348() 
+{
+} 
+setInterval(update_h22008159348,100)
+</script>
+
+<label id = "label1103132232"> 
+
+Product
+
+number
+</label><script>
+const el535352603 = document.getElementById('label1103132232') 
+function update_label1103132232() 
+{
+} 
+setInterval(update_label1103132232,100)
+</script>
+
+<input  type = "text"id = "ngModel_2015261478"/> 
+<script>
+const el577245010 = document.getElementById('ngModel_2015261478') 
+function update_ngModel_2015261478() 
+{
+} 
+setInterval(update_ngModel_2015261478,100)
+</script><script>
+let ngmel577245010 = document.getElementById('ngModel_2015261478') 
+ngmel577245010.value = product.id
+ngmel577245010.addEventListener("input", e => { 
+product.id = e.target.value; 
+ }); 
+setInterval(() => {
+if (document.activeElement !== ngmel577245010 && ngmel577245010.value !== product.id) { 
+ngmel577245010.value = product.id
+ } 
+ }, 100); 
+</script>
+
+<label id = "label758465579"> 
+
+Prodect
+
+name
+</label><script>
+const el670689666 = document.getElementById('label758465579') 
+function update_label758465579() 
+{
+} 
+setInterval(update_label758465579,100)
+</script>
+
+<input  type = "text"id = "ngModel_1167327028"/> 
+<script>
+const el936628786 = document.getElementById('ngModel_1167327028') 
+function update_ngModel_1167327028() 
+{
+} 
+setInterval(update_ngModel_1167327028,100)
+</script><script>
+let ngmel936628786 = document.getElementById('ngModel_1167327028') 
+ngmel936628786.value = product.name
+ngmel936628786.addEventListener("input", e => { 
+product.name = e.target.value; 
+ }); 
+setInterval(() => {
+if (document.activeElement !== ngmel936628786 && ngmel936628786.value !== product.name) { 
+ngmel936628786.value = product.name
+ } 
+ }, 100); 
+</script>
+
+<label id = "label817941759"> 
+
+Image
+
+link
+</label><script>
+const el1478334108 = document.getElementById('label817941759') 
+function update_label817941759() 
+{
+} 
+setInterval(update_label817941759,100)
+</script>
+
+<input  type = "text"id = "ngModel_36550900"/> 
+<script>
+const el726051009 = document.getElementById('ngModel_36550900') 
+function update_ngModel_36550900() 
+{
+} 
+setInterval(update_ngModel_36550900,100)
+</script><script>
+let ngmel726051009 = document.getElementById('ngModel_36550900') 
+ngmel726051009.value = product.image
+ngmel726051009.addEventListener("input", e => { 
+product.image = e.target.value; 
+ }); 
+setInterval(() => {
+if (document.activeElement !== ngmel726051009 && ngmel726051009.value !== product.image) { 
+ngmel726051009.value = product.image
+ } 
+ }, 100); 
+</script>
+
+<label id = "label492252770"> 
+
+Description
+</label><script>
+const el701166114 = document.getElementById('label492252770') 
+function update_label492252770() 
+{
+} 
+setInterval(update_label492252770,100)
+</script>
+
+<input  type = "text"id = "ngModel_1187972599"/> 
+<script>
+const el1481751887 = document.getElementById('ngModel_1187972599') 
+function update_ngModel_1187972599() 
+{
+} 
+setInterval(update_ngModel_1187972599,100)
+</script><script>
+let ngmel1481751887 = document.getElementById('ngModel_1187972599') 
+ngmel1481751887.value = product.details
+ngmel1481751887.addEventListener("input", e => { 
+product.details = e.target.value; 
+ }); 
+setInterval(() => {
+if (document.activeElement !== ngmel1481751887 && ngmel1481751887.value !== product.details) { 
+ngmel1481751887.value = product.details
+ } 
+ }, 100); 
+</script>
+
+<button id = "click_2094115865"> 
+
+Add
+</button><script>
+const el49547843 = document.getElementById('click_2094115865') 
+function update_click_2094115865() 
+{
+el49547843.addEventListener("click", ()=>{ 
+addProduct()
+ }) 
+} 
+update_click_2094115865</script>
+
+
+
+</div><script>
+const el1017792343 = document.getElementById('div622820646') 
+function update_div622820646() 
+{
+} 
+setInterval(update_div622820646,100)
+</script>
+
+</body>

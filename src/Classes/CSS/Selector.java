@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Selector extends CssGeneric{
     //STRING IMG_? selectorInternal*
-   public String STRING;
+   public String STRING="";
     public List<SelectorInternal> selectorInternal=new ArrayList< SelectorInternal>();
     public String Textarea;
 
@@ -47,6 +47,14 @@ public class Selector extends CssGeneric{
 
     @Override
     public String codeGen() {
-        return "";
+        if(this.getTextarea()!=null){
+            return this.getTextarea();
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(STRING);
+        for(SelectorInternal selectorInternal1 : selectorInternal){
+            sb.append(selectorInternal1.codeGen()).append(" ");
+        }
+        return sb.toString();
     }
 }
