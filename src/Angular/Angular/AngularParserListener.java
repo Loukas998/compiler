@@ -452,6 +452,18 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitImportss(AngularParser.ImportssContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code RouterCall}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRouterCall(AngularParser.RouterCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code RouterCall}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRouterCall(AngularParser.RouterCallContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code FunctionSummoning}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -572,17 +584,17 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code HtmlTagValue}
+	 * Enter a parse tree produced by the {@code HtmlTagStatement}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
+	void enterHtmlTagStatement(AngularParser.HtmlTagStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code HtmlTagValue}
+	 * Exit a parse tree produced by the {@code HtmlTagStatement}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
+	void exitHtmlTagStatement(AngularParser.HtmlTagStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code CssElementStatement}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
@@ -687,6 +699,36 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionCall(AngularParser.FunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#routerFunctionCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterRouterFunctionCall(AngularParser.RouterFunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#routerFunctionCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitRouterFunctionCall(AngularParser.RouterFunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#routerFunctionParams}.
+	 * @param ctx the parse tree
+	 */
+	void enterRouterFunctionParams(AngularParser.RouterFunctionParamsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#routerFunctionParams}.
+	 * @param ctx the parse tree
+	 */
+	void exitRouterFunctionParams(AngularParser.RouterFunctionParamsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#routerFunctionQueryParams}.
+	 * @param ctx the parse tree
+	 */
+	void enterRouterFunctionQueryParams(AngularParser.RouterFunctionQueryParamsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#routerFunctionQueryParams}.
+	 * @param ctx the parse tree
+	 */
+	void exitRouterFunctionQueryParams(AngularParser.RouterFunctionQueryParamsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#assignStatement}.
 	 * @param ctx the parse tree

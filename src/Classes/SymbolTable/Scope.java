@@ -13,7 +13,7 @@ public class Scope {
     public int id;
     public ArrayList<Scope>childrenScopes = new ArrayList<>();
     public Map<String, Symbol> variables = new LinkedHashMap<String, Symbol>();
-    public Map<String, Symbol> functions = new LinkedHashMap<String,Symbol>();
+    //public Map<String, Symbol> functions = new LinkedHashMap<String,Symbol>();
 
     public Scope(String name, int id)
     {
@@ -50,26 +50,6 @@ public class Scope {
     {
         return variables.get(symbolName);
     }
-
-    public Symbol getFunctions(String functionName)
-    {
-        Symbol symbol = functions.get(functionName);
-        if (symbol != null)
-        {
-            return symbol;
-        }
-        if (parent != null)
-        {
-            return parent.getFunctions(functionName);
-        }
-        return null;
-    }
-
-    public Symbol functionExists(String functionName)
-    {
-        return functions.get(functionName);
-    }
-
     public boolean addSymbol(String name, Symbol symbol)
     {
         if(variables.containsKey(name))
@@ -80,13 +60,13 @@ public class Scope {
         return true;
     }
 
-    public boolean addFunction(String name, Symbol symbol) {
-        if (functions.containsKey(name)) {
-            return false;
-        }
-        functions.put(name, symbol);
-        return true;
-    }
+//    public boolean addFunction(String name, Symbol symbol) {
+//        if (functions.containsKey(name)) {
+//            return false;
+//        }
+//        functions.put(name, symbol);
+//        return true;
+//    }
     public String printVars(){
         ArrayList<String> ans = new ArrayList<>();
        variables.forEach((k,v)->{

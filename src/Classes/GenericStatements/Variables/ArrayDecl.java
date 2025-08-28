@@ -36,13 +36,14 @@ public class ArrayDecl extends GenericStatement {
         StringBuilder sb = new StringBuilder();
         sb.append("var ");
         sb.append(this.variableNaming.codeGen());
-        if(this.arrayInfoValues!=null && !this.arrayInfoValues.isEmpty()){
+        if(this.arrayInfoValues!=null && !this.arrayInfoValues.isEmpty()) {
             sb.append(" = ");
-        }
-        for(ArrayInfoValue arrVal : arrayInfoValues){
 
-            sb.append(arrVal.codeGen());
-            sb.append("\n");
+            for (ArrayInfoValue arrVal : arrayInfoValues) {
+
+                sb.append(arrVal.codeGen());
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

@@ -92,7 +92,7 @@ public class FunctionStatement extends FunctionValue {
         sb.append("\n");
         if(this.functionBodyStatements!=null && !this.functionBodyStatements.isEmpty()) {
             for (GenericStatement functionBodyLine : functionBodyStatements) {
-                sb.append(functionBodyLine.codeGen());
+                sb.append(functionBodyLine.codeGen()).append("\n");
             }
         }
         if(!this.isArrow){

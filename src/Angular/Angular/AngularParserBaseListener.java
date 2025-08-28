@@ -473,6 +473,18 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRouterCall(AngularParser.RouterCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRouterCall(AngularParser.RouterCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctionSummoning(AngularParser.FunctionSummoningContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -593,13 +605,13 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHtmlTagValue(AngularParser.HtmlTagValueContext ctx) { }
+	@Override public void enterHtmlTagStatement(AngularParser.HtmlTagStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) { }
+	@Override public void exitHtmlTagStatement(AngularParser.HtmlTagStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -720,6 +732,42 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctionCall(AngularParser.FunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRouterFunctionCall(AngularParser.RouterFunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRouterFunctionCall(AngularParser.RouterFunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRouterFunctionParams(AngularParser.RouterFunctionParamsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRouterFunctionParams(AngularParser.RouterFunctionParamsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRouterFunctionQueryParams(AngularParser.RouterFunctionQueryParamsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRouterFunctionQueryParams(AngularParser.RouterFunctionQueryParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

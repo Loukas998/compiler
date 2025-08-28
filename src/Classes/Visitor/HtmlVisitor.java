@@ -2,6 +2,7 @@ package Classes.Visitor;
 
 import Angular.AngularParser;
 import Angular.AngularParserBaseVisitor;
+import Classes.Errors.HtmlTagsOrderError;
 import Classes.Errors.SemError;
 import Classes.SymbolTable.Row;
 import Classes.SymbolTable.Scope;
@@ -49,7 +50,7 @@ public class HtmlVisitor extends AngularParserBaseVisitor<HtmlTagValue> {
                 line = ctx.ID().getSymbol().getLine();
                 charPos = ctx.ID().getSymbol().getCharPositionInLine();
             }
-            semanticErrors.add(new SemError("Html Tags not Closed in Order",line,charPos));
+            semanticErrors.add(new HtmlTagsOrderError(openedHtmlTags.peek().name,ctx.getChild(2).getText(),line,charPos));
         }
         currentScope.pop();
         return new CloseTag(ctx.getChild(2).getText());

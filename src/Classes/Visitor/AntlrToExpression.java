@@ -21,9 +21,7 @@ import java.util.Stack;
 public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
     public int currId;
     ArrayList<SemError> semanticErrors = new ArrayList<>();
-    //public Scope scope;
     public Stack<Scope> currentScope;
-    public SymbolTable symbolTable = new SymbolTable();
     public AntlrToExpression(){
 
     }
@@ -66,21 +64,6 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
             altNameSymbol.type = "Alt Name for Import";
             altNameSymbol.value = imp.altName;
             scope.addSymbol(imp.altName,altNameSymbol);
-        }
-        var existComponent = scope.exists("Component");
-        if(existComponent == null){
-            int line = 1 , charPos = 8;
-            if(ctx.NgFor()!=null){
-                line = ctx.NgFor().getSymbol().getLine();
-                charPos = ctx.NgFor().getSymbol().getCharPositionInLine();
-            }
-            else if(ctx.NgIf()!=null){
-                line = ctx.NgIf().getSymbol().getLine();
-                charPos = ctx.NgIf().getSymbol().getCharPositionInLine();
-            } else if (ctx.ID().size() == 2){
-                line = ctx.ID(0).getSymbol().getLine();
-                charPos = ctx.ID(0).getSymbol().getCharPositionInLine();}
-            semanticErrors.add(new ComponentImportNotExists(line,charPos));
         }
         return imp;
     }
@@ -145,6 +128,7 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
 
     @Override
     public ComponentDeclaration visitComponentDeclaration(AngularParser.ComponentDeclarationContext ctx) {
+
         //Scope scope = currentScope.peek();
         Scope scope = new Scope("ComponentDeclaration",currId+1,currentScope.peek());
         currId++;
@@ -153,6 +137,12 @@ public class AntlrToExpression extends AngularParserBaseVisitor<Expression> {
         ComponentInfoVisitor componentInfoVisitor = new ComponentInfoVisitor();
         componentInfoVisitor.semanticErrors = this.semanticErrors;
         componentInfoVisitor.currentScopeStack = currentScope;
+        var existComponent = scope.getSymbol("Component");
+        if(existComponent == null){
+            int line = ctx.getStart().getLine();
+            int charPos = ctx.getStart().getCharPositionInLine();
+            semanticErrors.add(new ComponentImportNotExists(line,charPos));
+        }
         for(int i=0;i<ctx.componentInfo().size();i++){
             //componentInfoVisitor.symbolTable = this.symbolTable;
             componentDeclaration.addComponentInfo(componentInfoVisitor.visit(ctx.componentInfo(i)));

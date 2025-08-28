@@ -145,23 +145,24 @@ public class PairedTag extends HtmlTagValue{
         NgIfId = NgIfId.replace("\"","");
         if(hasNgModel) {
             ngModelValue = ngModelValue.replace("\"","");
+            ngModelValue = ngModelValue.replace("'","");
             sb.append("<script>");
             sb.append("\n");
-            sb.append("const ngmel = ");
+            sb.append("let ngmel"+this.hashCode()+" = ");
             sb.append("document.getElementById('");
             sb.append(NgIfId);
             sb.append("') \n");
             sb.append("ngmel"+this.hashCode()+".value = ");
-            sb.append(ngModelValue).append("\n");
-            sb.append("ngmel.addEventListener(\"input\", e => { \n");
-            sb.append(ngModelValue);
+            sb.append(ngModelValue.replace("'","")).append("\n");
+            sb.append("ngmel"+this.hashCode()+".addEventListener(\"input\", e => { \n");
+            sb.append(ngModelValue.replace("'",""));
             sb.append(" = e.target.value; \n");
             sb.append(" }); \n");
             sb.append("setInterval(() => {\n" +
                     "if (document.activeElement !== ngmel"+this.hashCode()+" && ngmel"+this.hashCode()+".value !== ");
-            sb.append(ngModelValue);
+            sb.append(ngModelValue.replace("'",""));
             sb.append(") { \n");
-            sb.append("ngmel"+this.hashCode()+".value = ").append(ngModelValue);
+            sb.append("ngmel"+this.hashCode()+".value = ").append(ngModelValue.replace("'",""));
             sb.append("\n } \n }, 100); \n");
             sb.append("</script>");
         }
@@ -246,18 +247,23 @@ public class PairedTag extends HtmlTagValue{
         if(eventBindCount>0){
             for(Attribute att: openTag.attributes){
                 if(att instanceof EventBindingAttribute eba){
-                    sb.append("document.addEventListener(\"").append(eba.attributeName);
+                    sb.append("el"+this.hashCode()+".addEventListener(\"").append(eba.attributeName);
                     sb.append("\", ()=>{ \n");
-                    sb.append(eba.attributeValue).append("\n } \n");
+                    sb.append(eba.attributeValue).append("\n }) \n");
                 }
             }
         }
-
         sb.append("} \n");
-        sb.append("setInterval(update_");
-        sb.append(NgIfId);
-        sb.append(",100)");
-        sb.append("\n");
+        if(eventBindCount==0) {
+            sb.append("setInterval(update_");
+            sb.append(NgIfId);
+            sb.append(",100)");
+            sb.append("\n");
+        }
+        if(eventBindCount>0){
+            sb.append("update_");
+            sb.append(NgIfId);
+        }
         sb.append("</script>");
         for(HtmlTagValue tagValue :htmlTags){
             if(!(tagValue instanceof HtmlInterpolation valueInter)){

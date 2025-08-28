@@ -1,12 +1,14 @@
 package Classes.CSS.Visitor;
 
+import Angular.AngularParser;
+import Angular.AngularParserBaseVisitor;
 import Angular.CssParser;
 import Angular.CssParserBaseVisitor;
 import Classes.CSS.*;
 
-public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
+public class CssVisitor extends AngularParserBaseVisitor<CssGeneric> {
     @Override
-    public CssGeneric visitBackgroundColorUnit(CssParser.BackgroundColorUnitContext ctx) {
+    public CssGeneric visitBackgroundColorUnit(AngularParser.BackgroundColorUnitContext ctx) {
         BackgroundColorUnit bgColorUnit = new BackgroundColorUnit();
         bgColorUnit.setCss((Css) this.visit(ctx.css()));
         bgColorUnit.setDecimalLiteralUnit((DecimalLiteralUnit) this.visit(ctx.decimalLiteralUnit()));
@@ -14,7 +16,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitCss(CssParser.CssContext ctx) {
+    public CssGeneric visitCss(AngularParser.CssContext ctx) {
         Css css = new Css();
         css.cssPropertyName = ctx.getChild(0).getText();
         return css;
@@ -22,7 +24,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitCssElement(CssParser.CssElementContext ctx) {
+    public CssGeneric visitCssElement(AngularParser.CssElementContext ctx) {
        CssElement cssElement = new CssElement();
        for(int i =0;i<ctx.tagName().size();i++){
            cssElement.tagName.add((TagName) this.visit(ctx.tagName(i)));
@@ -37,7 +39,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitCssProperty(CssParser.CssPropertyContext ctx) {
+    public CssGeneric visitCssProperty(AngularParser.CssPropertyContext ctx) {
         CssProperty cssProperty = new CssProperty();
         cssProperty.setCss((Css)this.visit(ctx.css()));
         for(int i=0;i<ctx.cssValue().size();i++){
@@ -47,7 +49,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitCssValue(CssParser.CssValueContext ctx) {
+    public CssGeneric visitCssValue(AngularParser.CssValueContext ctx) {
         CssValue value = new CssValue();
         if(ctx.decimalLiteral_UNIT()!=null){
             value.setDecimalLiteral_UNIT((DecimalLiteral_UNIT) this.visit(ctx.decimalLiteral_UNIT()));
@@ -59,7 +61,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitDecimalLiteralUnit(CssParser.DecimalLiteralUnitContext ctx) {
+    public CssGeneric visitDecimalLiteralUnit(AngularParser.DecimalLiteralUnitContext ctx) {
         DecimalLiteralUnit decimalLiteralUnit = new DecimalLiteralUnit();
         decimalLiteralUnit.setDecimalLiteral_UNIT(ctx.getChild(0).getText());
         if(ctx.unit()!=null){
@@ -74,7 +76,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
 //    }
 
     @Override
-    public CssGeneric visitSelector(CssParser.SelectorContext ctx) {
+    public CssGeneric visitSelector(AngularParser.SelectorContext ctx) {
         Selector selector = new Selector();
         if(ctx.Textarea()!=null){
             selector.setTextarea(ctx.Textarea().getText());
@@ -92,7 +94,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitSimpleSelector(CssParser.SimpleSelectorContext ctx) {
+    public CssGeneric visitSimpleSelector(AngularParser.SimpleSelectorContext ctx) {
         SelectorInternal selectorInternal = new SelectorInternal();
         if(ctx.Colon()!=null){
             selectorInternal.setSTRING(":"+ctx.ID().getText());
@@ -104,7 +106,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitTagName(CssParser.TagNameContext ctx) {
+    public CssGeneric visitTagName(AngularParser.TagNameContext ctx) {
         return new TagName(ctx.getChild(0).getText());
     }
 
@@ -114,7 +116,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
 //    }
 
     @Override
-    public CssGeneric visitUnitNumberList(CssParser.UnitNumberListContext ctx) {
+    public CssGeneric visitUnitNumberList(AngularParser.UnitNumberListContext ctx) {
       UnitNumberList unitNumberList = new UnitNumberList();
       unitNumberList.decimalLiteralUnit = (DecimalLiteralUnit) this.visitDecimalLiteralUnit(ctx.decimalLiteralUnit());
       for(int i=0;i<ctx.DecimalLiteral().size();i++){
@@ -124,7 +126,7 @@ public class CssVisitor extends CssParserBaseVisitor<CssGeneric> {
     }
 
     @Override
-    public CssGeneric visitUnitSolidColor(CssParser.UnitSolidColorContext ctx) {
+    public CssGeneric visitUnitSolidColor(AngularParser.UnitSolidColorContext ctx) {
         UnitSolidColor unitSolidColor =new UnitSolidColor();
         unitSolidColor.Solid = ctx.Solid().getText();
         unitSolidColor.setHEXCHAR(ctx.HEXCHAR().getText());

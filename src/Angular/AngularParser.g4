@@ -59,17 +59,18 @@ value:
 componentDeclaration : At Component OpenParen (OpenBrace|OpenBraceHTML) componentInfo (Comma componentInfo )*
 (CloseBrace|CloseBraceHTML) CloseParen ;
 
-componentInfo: Selector Colon (SingleQuote | BackTickQuote) # Select
-             | TemplateUrl Colon (SingleQuote | BackTickQuote) # TempUrl
-             | StyleUrls Colon OpenBracket (SingleQuote | BackTickQuote)
-             (Comma(SingleQuote | BackTickQuote))* CloseBracket # Styles
+componentInfo: Selector Colon (SingleQuote ) # Select
+             | TemplateUrl Colon (SingleQuote ) # TempUrl
+             | StyleUrls Colon OpenBracket (SingleQuote)
+             (Comma(SingleQuote))* CloseBracket # Styles
              | Standalone Colon BooleanLiteral # StandaloneStatus
              | Imports Colon OpenBracket ((NgFor|NgIf|ID|Router)
              (Comma (NgFor|NgIf|ID|Router))*)? CloseBracket # Importss
              ;
 
 genericStatement:
-                 functionCall # FunctionSummoning
+                 routerFunctionCall #RouterCall
+                | functionCall # FunctionSummoning
                 | functionDeclaration # Function
                 | functionBody # FunctionStatement
                 | variableDeclaration # VariableDecl
@@ -101,6 +102,10 @@ functionBody:  OpenParen ((value | variableNaming)(Comma (value |variableNaming)
 );
 arrowFunction : (ARROW value);
 functionCall: (thisorId)?ID OpenParen(value (Comma value)*)* CloseParen;
+routerFunctionCall :thisorId?(Router(Dot ID)?)OpenParen OpenBracket (SingleQuote)CloseBracket
+((Comma (routerFunctionParams|routerFunctionQueryParams))*)CloseParen;
+routerFunctionParams : (ID|IntegerNumber|SingleQuote);
+routerFunctionQueryParams:OpenBrace QueryParams Colon jsonObject CloseBrace;
 assignStatement:(thisorId)? ID Assign value SemiColon;
 thisorId: ((ID|This) Dot);
 returnStatement: Return (thisorId)?value SemiColon;
@@ -137,10 +142,10 @@ jsonObject:(OpenBrace|OpenBraceHTML) ID Colon value (Comma ID Colon value)*(Comm
 
 attribute: ngForStatement # NgFor
          | ngIfStatement # NgIf
-         | (ID|Class) Assign (DoubleQuote|SingleQuote) # DoubleQuotedAttribute
-         | OpenBracket (ID|Class) CloseBracket Assign (DoubleQuote | TripleQuote) # OpenBracketAttribute // [src]
-         | OpenParen (ID|Class) CloseParen Assign (DoubleQuote|SingleQuote) # OpenParenAttribute // (click)
-         | OpenBracket OpenParen NgModel CloseParen CloseBracket Assign (DoubleQuote|SingleQuote) # NgModelAttribute // [(ngModel)]
+         | (ID|Class|TypeAlias) Assign (DoubleQuote|SingleQuote) # DoubleQuotedAttribute
+         | OpenBracket (ID|Class|TypeAlias) CloseBracket Assign (DoubleQuote | TripleQuote) # OpenBracketAttribute // [src]
+         | OpenParen (ID|Class|TypeAlias) CloseParen Assign (DoubleQuote|SingleQuote) # OpenParenAttribute // (click)
+         | OpenBracket OpenParen NgModel CloseParen CloseBracket Assign (SingleQuote) # NgModelAttribute // [(ngModel)]
          ;
 
 ngForStatement: Multiply NgFor Assign (Let ID Of ID) (SemiColon)?(Let ID Assign ID)?;
@@ -176,6 +181,7 @@ knownHtmlTags:H1 |
               LineBreakTag |
               Button |
               Input |
+              Label |
               StrongTextTag;
 
 

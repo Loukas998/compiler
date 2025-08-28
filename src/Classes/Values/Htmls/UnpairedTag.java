@@ -206,29 +206,36 @@ public class UnpairedTag extends HtmlTagValue {
             }
 
         sb.append("} \n");
-        sb.append("setInterval(update_");
-        sb.append(NgIfId);
-        sb.append(",100)");
-        sb.append("\n");
+            if(eventBindCount==0) {
+                sb.append("setInterval(update_");
+                sb.append(NgIfId);
+                sb.append(",100)");
+                sb.append("\n");
+            }
+        if(eventBindCount>0){
+            sb.append("update_");
+            sb.append(NgIfId);
+        }
         sb.append("</script>");
         if(hasNgModel)
         {
             ngModelValue = ngModelValue.replace("\"","");
+            ngModelValue = ngModelValue.replace("'","");
             sb.append("<script>");
             sb.append("\n");
-            sb.append("const ngmel = ");
+            sb.append("let ngmel"+this.hashCode()+" = ");
             sb.append("document.getElementById('");
             sb.append(NgIfId);
             sb.append("') \n");
             sb.append("ngmel"+this.hashCode()+".value = ");
-            sb.append(ngModelValue).append("\n");
-            sb.append("ngmel.addEventListener(\"input\", e => { \n");
-            sb.append(ngModelValue);
+            sb.append(ngModelValue.replace("'","")).append("\n");
+            sb.append("ngmel"+this.hashCode()+".addEventListener(\"input\", e => { \n");
+            sb.append(ngModelValue.replace("'",""));
             sb.append(" = e.target.value; \n");
             sb.append(" }); \n");
             sb.append("setInterval(() => {\n" +
                     "if (document.activeElement !== ngmel"+this.hashCode()+" && ngmel"+this.hashCode()+".value !== ");
-            sb.append(ngModelValue);
+            sb.append(ngModelValue.replace("'",""));
             sb.append(") { \n");
             sb.append("ngmel"+this.hashCode()+".value = ").append(ngModelValue);
             sb.append("\n } \n }, 100); \n");

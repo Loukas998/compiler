@@ -33,9 +33,8 @@ public class AntlrToProgram extends AngularParserBaseVisitor<Program> {
             if (i == ctx.getChildCount() - 1) {
                 // the last child is EOF, we don't visit it
             } else {
-                if(this.semanticErrors.isEmpty()) {
                     program.addExpression(exprVisitor.visit(ctx.expression(i)));
-                }
+
             }
         }
         return program;

@@ -14,6 +14,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,36 +26,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
        {
-           ArrayList<SemError>semanticErrors = new ArrayList<>();
-            AngularParser parser = getParser("tests\\angular.txt");
-            ParseTree antlrAST = parser.prog();
-            AntlrToProgram progVisitor = new AntlrToProgram();
-            progVisitor.semanticErrors = semanticErrors;
-            Program prog = progVisitor.visit(antlrAST);
-            ExpressionProcessor ep = new ExpressionProcessor(prog.expressionList);
-            if(semanticErrors.isEmpty()) {
-                for (String evaluation : ep.getEvaluationResults()) {
-                    System.out.println(evaluation);
-
-                } // for printing AST
-
-                System.out.println(progVisitor.globalScope.print());
-                try{
-                    codeGen(prog);
-                    //cssGen(prog);
-                }
-                catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-            else{
-                for(int i = 0 ; i < semanticErrors.size();i++){
-                    System.out.println(semanticErrors.get(i).print());
-                    System.out.println();
-                }
-            }
-
-
+           File dir = new File("html");
+           if(!dir.exists()){
+               dir.mkdir();
+           }
+           programRun("tests\\angular.txt","html\\index.html");
         }
     }
 
@@ -71,11 +47,12 @@ public class Main {
             }
             return parser;
         }
-        public static void codeGen(Program program) throws IOException {
+        public static void codeGen(Program program,String outputPath) throws IOException {
         StringBuilder space = new StringBuilder("\t\t");
         StringBuilder htmlSpace = new StringBuilder("\t\t");
         try {
-            FileWriter fw = new FileWriter("GenCode.html");
+            outputPath +=".html";
+            FileWriter fw = new FileWriter(outputPath);
             codeGen("<!DOCTYPE html>",fw);
             codeGen("\n<html>",fw);
             codeGen("\n<head>",fw);
@@ -131,6 +108,36 @@ public class Main {
             }
             catch (IOException ex){
                 ex.printStackTrace();
+            }
+        }
+        public static void programRun(String fileName,String outputPath){
+            ArrayList<SemError>semanticErrors = new ArrayList<>();
+            AngularParser parser = getParser(fileName);
+            ParseTree antlrAST = parser.prog();
+            AntlrToProgram progVisitor = new AntlrToProgram();
+            progVisitor.semanticErrors = semanticErrors;
+            Program prog = progVisitor.visit(antlrAST);
+            ExpressionProcessor ep = new ExpressionProcessor(prog.expressionList);
+            if(semanticErrors.isEmpty()) {
+                for (String evaluation : ep.getEvaluationResults()) {
+                    System.out.println(evaluation);
+
+                } // for printing AST
+
+                System.out.println(progVisitor.globalScope.print());
+                try{
+                    codeGen(prog,outputPath);
+                    cssGen(prog);
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+            else{
+                for(int i = 0 ; i < semanticErrors.size();i++){
+                    System.out.println(semanticErrors.get(i).print());
+                    System.out.println();
+                }
             }
         }
     private  static void codeGen(String s,FileWriter fw) throws  IOException{

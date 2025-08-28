@@ -33,10 +33,15 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
             quotedAttribute.attributeName = ctx.ID().getText();
             line = ctx.ID().getSymbol().getLine();
             charPos = ctx.ID().getSymbol().getCharPositionInLine();
-        }else {
+        }else if(ctx.Class()!=null){
             quotedAttribute.attributeName = ctx.Class().getText();
             line = ctx.Class().getSymbol().getLine();
             charPos = ctx.Class().getSymbol().getCharPositionInLine();
+        }
+        else{
+            quotedAttribute.attributeName = ctx.TypeAlias().getText();
+            line = ctx.TypeAlias().getSymbol().getLine();
+            charPos = ctx.TypeAlias().getSymbol().getCharPositionInLine();
         }
         if(ctx.DoubleQuote()!=null) {
             quotedAttribute.attributeValue = ctx.DoubleQuote().getText();
@@ -153,7 +158,7 @@ public class AttributeVisitor extends AngularParserBaseVisitor<Attribute> {
     }
     @Override
     public NgModel visitNgModelAttribute(AngularParser.NgModelAttributeContext ctx) {
-        return new NgModel(ctx.DoubleQuote().getText());
+        return new NgModel(ctx.SingleQuote().getText());
     }
 
 }

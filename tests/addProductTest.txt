@@ -1,0 +1,45 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-add-product',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './add-product.component.html',
+  styleUrls: ['./add-product.component.css']
+})
+export class AddProductComponent {
+ let product = {
+    id: '',
+    name: '',
+    image: '',
+    details: '',
+  }
+  addProduct() {
+    const storedProducts = JSON.parse(localStorage.getItem('products') || '[]');
+    storedProducts.push({ ...this.product })
+    localStorage.setItem('products', JSON.stringify(storedProducts))
+    this.router.navigate(['/'])
+  }
+}
+
+<div class='form-container'>
+  <h2>Add Product</h2>
+
+  <label>Product number</label>
+  <input [(ngModel)]='product.id' type='text' />
+
+  <label>Prodect name</label>
+  <input [(ngModel)]='product.name' type='text' />
+
+  <label>Image link</label>
+  <input [(ngModel)]='product.image' type='text' />
+
+  <label>Description</label>
+  <input [(ngModel)]='product.details' type='text' />
+
+
+  <button (click)='addProduct()'>Add</button>
+</div>

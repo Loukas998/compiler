@@ -15,6 +15,7 @@ Imports:'imports';
 Standalone:'standalone';
 Router : 'Router'|'router';
 Get : 'get';
+QueryParams :'queryParams';
 //HTML
 HTML_COMMENT: '<!--' .*? '-->';
 
@@ -111,6 +112,7 @@ DecimalLiteral:
     | '.' [0-9] [0-9_]* ExponentPart?
     | DecimalIntegerLiteral ExponentPart?
 ;
+IntegerNumber : '0'|[1-9] [0-9_]*;
 BigDecimalIntegerLiteral : DecimalIntegerLiteral 'n';
 fragment DecimalIntegerLiteral: '0' | [1-9] [0-9_]*;
 fragment ExponentPart: [eE] [+-]? [0-9_]+;

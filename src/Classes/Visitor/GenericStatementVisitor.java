@@ -8,6 +8,7 @@ import Classes.CSS.Visitor.CssVisitor;
 import Classes.Errors.DuplicateValueError;
 import Classes.Errors.SemError;
 import Classes.GenericStatements.Assign;
+import Classes.GenericStatements.Functions.RouterFunctionCall;
 import Classes.GenericStatements.GenericStatement;
 import Classes.GenericStatements.IfStatements.ConditionalStatement;
 import Classes.GenericStatements.Return;
@@ -296,10 +297,10 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
     @Override
     public GenericStatement visitCssElementStatement(AngularParser.CssElementStatementContext ctx) {
         CssVisitor cssVisitor = new CssVisitor();
-        return cssVisitor.visit(ctx.cssElement());
+        return cssVisitor.visitCssElement(ctx.cssElement());
     }
     @Override
-    public GenericStatement visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx) {
+    public GenericStatement visitHtmlTagStatement(AngularParser.HtmlTagStatementContext ctx) {
         HtmlVisitor htmlVisitor=new HtmlVisitor();
         htmlVisitor.currentScope = this.currentScope;
         // htmlVisitor.currId = this.currId;
@@ -308,5 +309,26 @@ public class GenericStatementVisitor extends AngularParserBaseVisitor<GenericSta
         GenericStatement htmlValueType = htmlVisitor.visit(ctx.htmlTags());
 
         return htmlValueType;
+    }
+
+    @Override
+    public GenericStatement visitRouterCall(AngularParser.RouterCallContext ctx) {
+        return this.visitRouterFunctionCall(ctx.routerFunctionCall());
+    }
+
+    @Override
+    public GenericStatement visitRouterFunctionCall(AngularParser.RouterFunctionCallContext ctx) {
+        RouterFunctionCall routerFunctionCall = new RouterFunctionCall();
+        routerFunctionCall.basePath = ctx.SingleQuote().getText();
+        for(int i = 0;i<ctx.routerFunctionParams().size();i++){
+            routerFunctionCall.routePaths.add(ctx.routerFunctionParams(i).getChild(0).getText());
+        }
+        if(ctx.routerFunctionQueryParams()!=null && !ctx.routerFunctionQueryParams().isEmpty()) {
+            ValueVisitor valueVisitor = new ValueVisitor();
+            valueVisitor.currentScope = this.currentScope;
+            valueVisitor.semanticErrors = this.semanticErrors;
+            routerFunctionCall.queryParams = valueVisitor.visitJsonObject(ctx.routerFunctionQueryParams(0).jsonObject());
+        }
+        return routerFunctionCall;
     }
 }

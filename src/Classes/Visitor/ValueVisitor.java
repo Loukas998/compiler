@@ -231,7 +231,7 @@ public class ValueVisitor extends AngularParserBaseVisitor<ValueType>
 
     @Override
     public ValueType visitBracedValue(AngularParser.BracedValueContext ctx) {
-        return this.visit(ctx.value());
+        return new BracedValue(this.visit(ctx.value()));
     }
 
     @Override

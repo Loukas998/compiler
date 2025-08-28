@@ -25,9 +25,7 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         if(ctx.SingleQuote()!=null){
             selector.name=ctx.SingleQuote().getText();
         }
-        else{
-            selector.name=ctx.BackTickQuote().getText();
-        }
+
         Symbol selectSymbol = new Symbol();
         selectSymbol.scope = scope;
         selectSymbol.type = "Selector";
@@ -43,22 +41,12 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         for(int i = 0 ;i<ctx.SingleQuote().size();i++){
             if(styleList.paths.contains(ctx.SingleQuote(i).getText())){
                 semanticErrors.add(new DuplicateValueError(
-                        ctx.BackTickQuote(i).getText(),
-                        ctx.BackTickQuote(i).getSymbol().getLine(),
-                        ctx.BackTickQuote(i).getSymbol().getCharPositionInLine()));
-                continue;
-            }
-            styleList.add(ctx.SingleQuote(i).getText());
-        }
-        for(int i = 0 ;i<ctx.BackTickQuote().size();i++){
-            if(styleList.paths.contains(ctx.BackTickQuote(i).getText())){
-                semanticErrors.add(new DuplicateValueError(
                         ctx.SingleQuote(i).getText(),
                         ctx.SingleQuote(i).getSymbol().getLine(),
                         ctx.SingleQuote(i).getSymbol().getCharPositionInLine()));
                 continue;
             }
-            styleList.add(ctx.BackTickQuote(i).getText());
+            styleList.add(ctx.SingleQuote(i).getText());
         }
         for(int i = 0; i<styleList.paths.size();i++){
             Symbol stylePathSymbol = new Symbol();
@@ -77,18 +65,11 @@ public class ComponentInfoVisitor extends AngularParserBaseVisitor<ComponentInfo
         String newString;
         int line;
         int charPlace;
-        if(ctx.SingleQuote()!=null){
             templateUrl.path=(ctx.SingleQuote().getText());
             newString = templateUrl.path.replace("'","");
             line = ctx.SingleQuote().getSymbol().getLine();
             charPlace = ctx.SingleQuote().getSymbol().getCharPositionInLine();
-        }
-        else{
-            templateUrl.path=(ctx.BackTickQuote().getText());
-            newString = templateUrl.path.replace("`","");
-             line = ctx.BackTickQuote().getSymbol().getLine();
-            charPlace = ctx.BackTickQuote().getSymbol().getCharPositionInLine();
-        }
+
         File file = new File(newString);
         if(!file.exists()){
             semanticErrors.add(new FileError(line,charPlace));

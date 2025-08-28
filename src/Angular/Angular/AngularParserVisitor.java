@@ -271,6 +271,13 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportss(AngularParser.ImportssContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code RouterCall}
+	 * labeled alternative in {@link AngularParser#genericStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRouterCall(AngularParser.RouterCallContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code FunctionSummoning}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
@@ -341,12 +348,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogicalStatementGen(AngularParser.LogicalStatementGenContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code HtmlTagValue}
+	 * Visit a parse tree produced by the {@code HtmlTagStatement}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHtmlTagValue(AngularParser.HtmlTagValueContext ctx);
+	T visitHtmlTagStatement(AngularParser.HtmlTagStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code CssElementStatement}
 	 * labeled alternative in {@link AngularParser#genericStatement}.
@@ -409,6 +416,24 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionCall(AngularParser.FunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#routerFunctionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRouterFunctionCall(AngularParser.RouterFunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#routerFunctionParams}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRouterFunctionParams(AngularParser.RouterFunctionParamsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#routerFunctionQueryParams}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRouterFunctionQueryParams(AngularParser.RouterFunctionQueryParamsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#assignStatement}.
 	 * @param ctx the parse tree
