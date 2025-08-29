@@ -263,6 +263,7 @@ public class PairedTag extends HtmlTagValue{
         if(eventBindCount>0){
             sb.append("update_");
             sb.append(NgIfId);
+            sb.append("()\n");
         }
         sb.append("</script>");
         for(HtmlTagValue tagValue :htmlTags){
