@@ -1,4 +1,4 @@
-// Generated from C:/Users/LOQ/Documents/Github/compiler/src/Angular/AngularParser.g4 by ANTLR 4.13.2
+// Generated from D:/Java intellj/compiler-project/src/Angular/AngularParser.g4 by ANTLR 4.13.2
 package Angular;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
